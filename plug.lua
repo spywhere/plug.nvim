@@ -70,7 +70,6 @@ I.install = function ()
     'silent !curl -fLo ' .. P.plug_path .. ' --create-dirs ' .. P.plug_url
   )
 
-  P.auto('VimEnter', P.sync_install)
   return true
 end
 
@@ -488,8 +487,11 @@ X.auto_install = function (options)
     --   or skip all plugins if it's not installed
     if not ctx.is_installed and (not opts.plug or not I.install()) then
       -- TODO: report error
-      print('install failed')
-      return
+      return false
+    end
+
+    if opts.missing then
+      P.auto('VimEnter', P.sync_install)
     end
   end
 
@@ -531,8 +533,8 @@ X.auto_install = function (options)
           original_do(info)
         elseif type(original_do) == 'string' then
           assert(
-          has_prefix(original_do, ':'),
-          'passing "do" as command line is not supported here'
+            has_prefix(original_do, ':'),
+            'passing "do" as command line is not supported here'
           )
           vim.cmd(string.sub(original_do, 2))
         end
