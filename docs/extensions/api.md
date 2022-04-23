@@ -90,7 +90,8 @@ call, `plug.install` or `use` function)
 
 **Returns**:
 
-A new plugin setup, or `nil` to keep the current plugin setup
+A new plugin setup, returns `nil` to keep the current plugin setup or returns
+`false` to prevent the plugin from loading
 
 ### `plugin_collected`
 
@@ -103,7 +104,7 @@ after call `plug.ended` function
 
 **Returns**:
 
-A new list of plugins, or `nil` to keep the current list
+A new list of plugins, or returns `nil` to keep the current list
 
 ### `pre_setup`
 
@@ -140,7 +141,7 @@ installation setup
 
 **Returns**:
 
-A new plugin options, or `nil` to keep the current plugin options
+A new plugin options, or returns `nil` to keep the current plugin options
 
 ### `plugin_post`
 

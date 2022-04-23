@@ -30,7 +30,6 @@ require('plug').setup {}
 
 The extension will use the following events for its functionality
 
-### `plugin_post`
+### `plugin`
 
-Check the given variables and schedule a delayed check if variables are
-not matched.
+Check if the plugin is being skipped, if so prevent the plugin from loading

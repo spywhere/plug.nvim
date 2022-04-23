@@ -293,13 +293,7 @@ M.install = function (plugin, options)
   plugin_options.name = name
   plugin_options = P.dispatch('plugin', plugin_options) or plugin_options
 
-  local skip = false
-  if type(plugin_options.skip) == 'function' then
-    skip = plugin_options.skip()
-  elseif type(plugin_options.skip) == 'boolean' then
-    skip = plugin_options.skip
-  end
-  if skip then
+  if plugin_options == false then
     return
   end
 
@@ -571,6 +565,25 @@ X.setup = function ()
 
   return function (hook)
     hook('pre_setup', setup)
+  end
+end
+
+-- extension for supporting pre-loading setup
+X.skip = function ()
+  local function skip_plugin(ctx, plugin)
+    local skip = false
+    if type(plugin.skip) == 'function' then
+      skip = plugin.skip()
+    elseif type(plugin.skip) == 'boolean' then
+      skip = plugin.skip
+    end
+    if skip then
+      return false
+    end
+  end
+
+  return function (hook)
+    hook('plugin', skip_plugin)
   end
 end
 
