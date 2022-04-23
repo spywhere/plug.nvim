@@ -12,6 +12,7 @@ local P = { -- private
   plugs = {},
   lazy = {},
   hooks = {},
+  extensions = {},
   ext_context = {},
   lazy_delay = 100,
   lazy_interval = 10,
@@ -173,8 +174,10 @@ P.dispatch = function (event, ...)
   end
 end
 
-P.ext_dispatch = function (event, ...)
-  return P.dispatch(event..'.ext', ...)
+P.ext_dispatch = function (name)
+  return function (event, ...)
+    return P.dispatch(name .. '.' .. event, ...)
+  end
 end
 
 P.hook = function (event, listener)
@@ -254,7 +257,15 @@ M.begin = function (options)
 
   if opts.extensions then
     for _, extension in ipairs(opts.extensions) do
-      extension(P.hook, P.ext_dispatch)
+      if type(extension) == 'function' then
+        extension(P.hook)
+      elseif type(extension) == 'table' and extension.name then
+        local name = extension.name
+        if not P.extensions[name] then
+          P.extensions[name] = true
+          extension.entry(P.hook, P.ext_dispatch(name))
+        end
+      end
     end
   end
 end
