@@ -166,8 +166,8 @@ P.dispatch = function (event, ...)
     return
   end
 
-  for _, listener in ipairs(P.hooks[event]) do
-    local result = listener(P.ext_context, ...)
+  for _, handler in ipairs(P.hooks[event]) do
+    local result = handler(P.ext_context, ...)
     if result ~= nil then
       return result
     end
@@ -180,11 +180,11 @@ P.ext_dispatch = function (name)
   end
 end
 
-P.hook = function (event, listener)
+P.hook = function (event, handler)
   if not P.hooks[event] then
     P.hooks[event] = {}
   end
-  table.insert(P.hooks[event], listener)
+  table.insert(P.hooks[event], handler)
 end
 
 P.load = function (plugin)
