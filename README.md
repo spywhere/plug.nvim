@@ -14,6 +14,7 @@ manually or configured to be automatically install (default behaviour).
 * [Installation](#installation)
 * [Getting Started](#getting-started)
 * [Configurations](#configurations)
+* [Extensions](#extensions)
 * [Contributes](#contributes)
 * [License](#license)
 
@@ -44,10 +45,13 @@ Just like vim-plug!
 curl -fLo ~/.config/nvim/lua/plug.lua --create-dirs https://raw.githubusercontent.com/spywhere/plug.nvim/main/plug.lua
 ```
 
+For even more automatic, check out
+[how to automatic install plug.nvim](docs/auto-install.md).
+
 ## Getting Started
 
-plug.nvim can be configure in 3 ways, you can choose the one would suit your
-workflow best.
+plug.nvim gives you an ability to configure the plugin in 3 different ways so
+you can choose the one that suit your workflow best.
 
 ### Setup 1
 
@@ -70,6 +74,10 @@ require('plug').setup {
     ['do'] = ':Function'
   }
 }
+
+-- !! IMPORTANT !! Be sure to kept an empty string last to allow plug.nvim
+--   to set itself up!
+''
 ```
 
 ### Setup 2
@@ -153,7 +161,7 @@ However, the power of this plugin will reside in the extensions its included.
   -- extensions to be use, set to empty map to not using any
   extensions = {
     -- see Extensions section below for available extensions
-    --   and API references
+    --   and how to build one yourself!
     require('plug').extension.auto_install {}
   }
 }
@@ -161,20 +169,26 @@ However, the power of this plugin will reside in the extensions its included.
 
 ## Extensions
 
-_This section is still in progress_
-
 plug.nvim comes bundled with some set of extensions
 
-- `auto_install`: Automatic vim-plug installation and auto installation for
-missing plugins
-- `priority`: Add a support for plugin loading priority
-- `setup`: Add a support for plugin pre-loading setup
-- `needs`: Add a support for global variable requirements for plugin
-- `config`: Add a support for per-plugin configuration closure
-- `defer`: Add a support for per-plugin deferred configurations
+- [`auto_install`](docs/extensions/auto-install.md): Automatic vim-plug
+installation and auto installation for missing plugins
+- [`config`](docs/extensions/config.md): Add a support for per-plugin configuration closure
+- [`defer`](docs/extensions/defer.md): Add a support for per-plugin deferred configurations
+- [`needs`](docs/extensions/needs.md): Add a support for global variable requirements for plugin
+- [`priority`](docs/extensions/priority.md): Add a support for plugin loading priority
+- [`setup`](docs/extensions/setup.md): Add a support for plugin pre-loading setup
+- [`skip`](docs/extensions/skip.md): Add a support for conditionally plugin skipping
 
+Note that some extensions will dictate how plug.nvim will process the setup.
 You can refer to each extension configurations and setup by following a link
 of the extension.
+
+### Extension Authoring
+
+If you wish to implement your own extension, feel free to check out
+[how to build your own extension](docs/extensions/api.md). This should give
+you an overview of how extension works as well as what is available to you.
 
 ## Contributes
 
