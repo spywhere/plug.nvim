@@ -260,7 +260,7 @@ M.begin = function (options)
   end
 end
 
-M.install = function (plugin)
+M.install = function (plugin, options)
   local name = plugin
   local plugin_options = {}
 
