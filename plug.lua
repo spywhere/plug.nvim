@@ -213,7 +213,7 @@ P.post = function (plugin, is_lazy)
     vim.defer_fn(function () P.post(plugin, is_lazy) end, P.delay_post)
   end
 
-  P.dispatch('plugin_post', plugin, perform_post)
+  P.dispatch('plugin_post', plugin, is_lazy, perform_post)
 end
 
 P.schedule_lazy = function ()
@@ -378,105 +378,6 @@ X.__install_missing_plugins = function ()
   vim.cmd(P.sync_install)
 end
 
--- extension for supporting plugin loading priority
-X.priority = function ()
-  local function sort_priority(ctx, plugs)
-    table.sort(plugs, P.priority_sorter)
-    return plugs
-  end
-
-  return function (hook)
-    hook('plugin_collected', sort_priority)
-  end
-end
-
--- extension for supporting pre-loading setup
-X.setup = function ()
-  local function setup()
-    P.for_each(
-      function (plugin)
-        if type(plugin.setup) == 'function' then
-          plugin.setup()
-        end
-      end
-    )
-  end
-
-  return function (hook)
-    hook('pre_setup', setup)
-  end
-end
-
--- extension for requiring variables
-X.needs = function (options)
-  local opts = options or {}
-  vim.validate {
-    delay_post = { opts.delay_post, 'n', true }
-  }
-  local function ensure_needs(ctx, plugin, perform_post)
-    if plugin.needs then
-      local needs_fulfilled = true
-      for _, v in ipairs(plugin.needs) do
-        if vim.g[v] ~= 1 then
-          needs_fulfilled = false
-        end
-      end
-
-      if not needs_fulfilled then
-        vim.defer_fn(perform_post, opts.delay_post or P.delay_post)
-        return
-      end
-    end
-  end
-
-  return function (hook)
-    hook('plugin_post', ensure_needs)
-  end
-end
-
--- extension for per-plugin configurations
-X.config = function ()
-  local function configure_plugin(ctx, plugin)
-    if not plugin.config then
-      return
-    end
-
-    plugin.config({
-      installed = function ()
-        return I.is_plugin_installed(plugin.identifier)
-      end,
-      loaded = function ()
-        return I.is_plugin_loaded(plugin.identifier)
-      end
-    })
-  end
-
-  return function (hook)
-    hook('plugin_post', configure_plugin)
-  end
-end
-
--- extension for per-plugin deferred configurations
-X.defer = function (options)
-  local opts = options or {}
-  vim.validate {
-    defer_delay = { opts.defer_delay, 'n', true }
-  }
-  local function defer_plugin(ctx, plugin)
-    if plugin.delay then
-      vim.defer_fn(plugin.delay, opts.defer_delay or P.delay_post)
-    end
-
-    if plugin.defer then
-      vim.defer_fn(plugin.defer, 0)
-    end
-  end
-
-  return function (hook)
-    hook('plugin_post', defer_plugin)
-  end
-end
-
 -- extension for auto-install vim-plug and missing plugins
 X.auto_install = function (options)
   local opts = options or {}
@@ -554,10 +455,122 @@ X.auto_install = function (options)
     return options
   end
 
-  return function (hook, dispatch)
-    hook('setup', installation)
-    hook('plugin_options', inject_post_setup)
-    hook('done', post_installation(dispatch))
+  return {
+    name = 'auto_install',
+    entry = function (hook, dispatch)
+      hook('setup', installation)
+      hook('plugin_options', inject_post_setup)
+      hook('done', post_installation(dispatch))
+    end
+  }
+end
+
+-- extension for per-plugin configurations
+X.config = function ()
+  local function configure_plugin(ctx, plugin)
+    if type(plugin.config) ~= 'function' then
+      return
+    end
+
+    plugin.config()
+  end
+
+  return function (hook)
+    hook('plugin_post', configure_plugin)
+  end
+end
+
+-- extension for per-plugin deferred configurations
+X.defer = function (options)
+  local opts = options or {}
+  vim.validate {
+    defer_delay = { opts.defer_delay, 'n', true }
+  }
+  local function defer_plugin(ctx, plugin)
+    if type(plugin.defer) == 'function' then
+      vim.defer_fn(plugin.defer, 0)
+    end
+
+    if type(plugin.delay) == 'function' then
+      vim.defer_fn(plugin.delay, opts.defer_delay or P.delay_post)
+    end
+  end
+
+  return function (hook)
+    hook('plugin_post', defer_plugin)
+  end
+end
+
+-- extension for requiring variables
+X.needs = function (options)
+  local opts = options or {}
+  vim.validate {
+    delay_post = { opts.delay_post, 'n', true }
+  }
+
+  local function need_fulfilled(variables, set)
+    if not set then
+      return false
+    end
+    for k, v in pairs(set) do
+      if variables[k] ~= v then
+        return true
+      end
+    end
+    return false
+  end
+
+  local function ensure_needs(ctx, plugin, is_lazy, perform_post)
+    if not plugin.needs then
+      return
+    end
+
+    local sets = { 'g', 'b', 'w', 't', 'v', 'env' }
+    for _, set in pairs(sets) do
+      if need_fulfilled(vim[set], plugin.needs[set]) then
+        vim.defer_fn(perform_post, opts.delay_post or P.delay_post)
+        return true
+      end
+    end
+  end
+
+  return function (hook)
+    hook('plugin_post', ensure_needs)
+  end
+end
+
+P.priority_sorter = function (plugin_a, plugin_b)
+  local a_priority = plugin_a.priority or 0
+  local b_priority = plugin_b.priority or 0
+  return a_priority < b_priority
+end
+
+-- extension for supporting plugin loading priority
+X.priority = function ()
+  local function sort_priority(ctx, plugs)
+    table.sort(plugs, P.priority_sorter)
+    return plugs
+  end
+
+  return function (hook)
+    hook('plugin_collected', sort_priority)
+  end
+end
+
+-- extension for supporting pre-loading setup
+X.setup = function ()
+  local function setup()
+    P.for_each(
+      function (plugin)
+        if type(plugin.setup) == 'function' then
+          plugin.setup()
+        end
+      end
+    )
+  end
+
+  return function (hook)
+    hook('pre_setup', setup)
   end
 end
 
