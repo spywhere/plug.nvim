@@ -188,10 +188,9 @@ end
 P.load = function (plugin)
   local options = plugin.options or {}
 
-  if plugin.lazy or options.lazy then
+  if plugin.lazy then
     options.on = {}
     table.insert(P.lazy, plugin)
-    options.lazy = nil
   end
 
   local perform_post = function ()
