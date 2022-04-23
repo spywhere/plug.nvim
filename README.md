@@ -181,14 +181,26 @@ of the extension.
 During the development, you can use the following command to automatically
 setup a working configurations to test the plugin...
 
-```
+```sh
 make testrun
 ```
 
 or
 
-```
+```sh
 nvim -u tests/init.lua
+```
+
+To test automatic installation, use
+
+```sh
+make testrun-auto
+```
+
+or
+
+```sh
+nvim -u tests/auto.lua
 ```
 
 ## License

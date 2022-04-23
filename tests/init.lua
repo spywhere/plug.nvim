@@ -5,7 +5,6 @@ plug.setup {
   plugin_dir = vim.fn.getcwd() .. '/plugged',
   extensions = {
     plug.extension.auto_install {},
-    plug.extension.priority {},
     plug.extension.config {}
   }
 }
