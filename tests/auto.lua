@@ -22,6 +22,8 @@ plug.setup {
     plug.extension.config {}
   }
 }
+-- enable self-upgrade
+'spywhere/plug.nvim'
 'preservim/nerdcommenter'
 {
   'spywhere/tmux.nvim',

@@ -16,7 +16,7 @@ local P = { -- private
   hooks = {},
   extensions = {},
   ext_context = {},
-  inject_cmds = true,
+  inject_cmds = false,
   lazy_delay = 100,
   lazy_interval = 10,
   delay_post = 5
@@ -252,6 +252,7 @@ P.setup_functions = function ()
   local functions = {
     PlugUpgrade = function ()
       print('Downloading the latest version of plug.nvim')
+      vim.cmd('redraw')
 
       local tmp = vim.fn.tempname()
       local new_file = tmp .. '/plug.lua'
@@ -290,16 +291,12 @@ M.begin = function (options)
 
   vim.validate {
     plugin_dir = { opts.plugin_dir, 's', true },
-    inject_commands = { opts.inject_commands, 'b', true },
     lazy_delay = { opts.lazy_delay, 'n', true },
     lazy_interval = { opts.lazy_interval, 'n', true },
     delay_post = { opts.delay_post, 'n', true },
     extensions = { opts.extensions, 't', true }
   }
 
-  if opts.inject_commands then
-    P.inject_cmds = opts.inject_commands
-  end
   P.plugin_dir = opts.plugin_dir
   if opts.lazy_delay then
     P.lazy_delay = opts.lazy_delay
@@ -343,9 +340,12 @@ M.install = function (plugin, options)
     end
   end
 
-  -- TODO: Idea
-  --   detect if plugin name is 'junegunn/vim-plug' then
-  --   perform a vim-plug upgrade if needed
+  -- if plugin is this plugin, then inject upgrade function
+  if name == 'spywhere/plug.nvim' then
+    P.inject_cmds = true
+    return
+  end
+
   plugin_options.name = name
   plugin_options = P.dispatch('plugin', plugin_options) or plugin_options
 
