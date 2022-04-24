@@ -197,6 +197,27 @@ However, the power of this plugin will reside in the extensions its included.
 }
 ```
 
+## Upgrade
+
+To upgrade plug.nvim, you need to have to setup this plugin as one of your
+list of plugins.
+
+```lua
+require('plug').setup {}
+
+-- name must be exact, but could be in any position
+--   any plugin option will be ignored
+'spywhere/plug.nvim'
+```
+
+Once you have the plugin setup, plug.nvim will create a command abbreviation
+for `:PlugUpgrade`. So when you run `:PlugUpgrade`, it will perform both
+plug.nvim and vim-plug upgrade automatically.
+
+To manually upgrade only plug.nvim, use `:call PlugUpgrade()` instead.
+
+To manually upgrade only vim-plug, use `: PlugUpgrade` instead.
+
 ## Extensions
 
 plug.nvim comes bundled with some set of extensions
