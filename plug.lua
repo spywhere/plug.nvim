@@ -7,6 +7,8 @@ local X = {} -- extensions
 local P = { -- private
   plug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim',
   plug_path = config_home .. '/autoload/plug.vim',
+  plug_nvim_url = 'https://github.com/spywhere/plug.nvim.git',
+  plug_nvim_path = config_home .. '/lua/plug.lua',
   sync_install = 'PlugInstall --sync | q',
   plugin_dir = nil, -- use vim-plug default
   plugs = {},
@@ -14,6 +16,7 @@ local P = { -- private
   hooks = {},
   extensions = {},
   ext_context = {},
+  inject_cmds = true,
   lazy_delay = 100,
   lazy_interval = 10,
   delay_post = 5
@@ -90,12 +93,6 @@ I.is_plugin_loaded = function (name)
   return vim.fn.stridx(vim.o.rtp, plugin_path) >= 0
 end
 
-P.priority_sorter = function (plugin_a, plugin_b)
-  local a_priority = plugin_a.priority or 0
-  local b_priority = plugin_b.priority or 0
-  return a_priority < b_priority
-end
-
 P.for_each = function (fn)
   for _, plugin in ipairs(P.plugs) do
     fn(plugin)
@@ -160,6 +157,24 @@ P.fn = function (fn_signature, fn_ref)
   vim.api.nvim_exec(table.concat(definition, '\n'), false)
   return name
 end
+
+P.inject_command = function (cmd, expr)
+  local expression = {
+    'cnoreabbrev',
+    cmd,
+    '<c-r>=(getcmdtype()==\':\'',
+    '&&',
+    'getcmdpos()==1',
+    '?',
+    string.format('\'%s \\| %s\'', expr, cmd),
+    ':',
+    string.format('\'%s\'', cmd),
+    ')<cr>'
+  }
+
+  vim.api.nvim_exec(table.concat(expression, ' '), false)
+end
+
 
 P.dispatch = function (event, ...)
   if not P.hooks[event] then
@@ -233,17 +248,58 @@ P.schedule_lazy = function ()
   P.lazy = {}
 end
 
+P.setup_functions = function ()
+  local functions = {
+    PlugUpgrade = function ()
+      print('Downloading the latest version of plug.nvim')
+
+      local tmp = vim.fn.tempname()
+      local new_file = tmp .. '/plug.lua'
+
+      local output = vim.fn.system({
+        'git', 'clone', '--depth', '1',
+        P.plug_nvim_url, tmp,
+        [true] = vim.types.array
+      })
+      if vim.v.shell_error ~= 0 then
+        print('Error upgrading plug.nvim:', output)
+        return
+      end
+
+      if vim.fn.readfile(P.plug_nvim_path) == vim.fn.readfile(new_file) then
+        print('plug.nvim is already up-to-date')
+      else
+        vim.fn.rename(P.plug_nvim_path, P.plug_nvim_path .. '.old')
+        vim.fn.rename(new_file, P.plug_nvim_path)
+        print('plug.nvim has been upgraded')
+      end
+    end
+  }
+
+  for name, fn in pairs(functions) do
+    P.fn({ name = name }, fn)
+
+    if P.inject_cmds then
+      P.inject_command(name, string.format('call %s()', name))
+    end
+  end
+end
+
 M.begin = function (options)
   local opts = options or {}
 
   vim.validate {
     plugin_dir = { opts.plugin_dir, 's', true },
+    inject_commands = { opts.inject_commands, 'b', true },
     lazy_delay = { opts.lazy_delay, 'n', true },
     lazy_interval = { opts.lazy_interval, 'n', true },
     delay_post = { opts.delay_post, 'n', true },
     extensions = { opts.extensions, 't', true }
   }
 
+  if opts.inject_commands then
+    P.inject_cmds = opts.inject_commands
+  end
   P.plugin_dir = opts.plugin_dir
   if opts.lazy_delay then
     P.lazy_delay = opts.lazy_delay
@@ -325,6 +381,9 @@ M.ended = function ()
   if next(P.lazy) then
     vim.defer_fn(P.schedule_lazy(), P.lazy_delay)
   end
+
+  P.setup_functions()
+
   P.dispatch('done')
 
   P.plugs = {}
