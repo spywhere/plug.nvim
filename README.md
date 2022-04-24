@@ -27,10 +27,12 @@ So with some built-in configurations, you could achieve...
 
 - vim-plug automatic installation
 - Automatic installation of missing plugins
-- Plugin loading priority
 - Per-plugin configuration closure
-- Defers setup
 - Variable requirements
+- Plugin loading priority
+- Defers setup
+- Conditionally load a plugin
+- [And more...](#extensions)
 
 ## Installation
 
