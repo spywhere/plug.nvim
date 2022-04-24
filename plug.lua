@@ -249,6 +249,10 @@ P.schedule_lazy = function ()
 end
 
 P.setup_functions = function ()
+  local sha256 = function (path)
+    return vim.fn.sha256(table.concat(vim.fn.readfile(path), '\n'))
+  end
+
   local functions = {
     PlugUpgrade = function ()
       print('Downloading the latest version of plug.nvim')
@@ -267,7 +271,7 @@ P.setup_functions = function ()
         return
       end
 
-      if vim.fn.readfile(P.plug_nvim_path) == vim.fn.readfile(new_file) then
+      if sha256(P.plug_nvim_path) == sha256(new_file) then
         print('plug.nvim is already up-to-date')
       else
         vim.fn.rename(P.plug_nvim_path, P.plug_nvim_path .. '.old')
