@@ -172,7 +172,7 @@ A table containing a plugin setup
 {
   -- a name of plugin passed from the `setup`, `plug.install` or `use` function
   name = '',
-  -- a map of plugin options that will be passed to vim-plug
+  -- a table of plugin options that will be passed to vim-plug
   options = nil,
   -- any other key that the user might set during setup
 }

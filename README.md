@@ -66,7 +66,7 @@ require('plug').setup {
 
 'https://github.com/user/repo.git'
 
--- to install a plugin with options, use map instead
+-- to install a plugin with options, use table instead
 {
   'user/repo',
   options = {
@@ -95,7 +95,7 @@ plug.install 'user/repo'
 
 plug.install 'https://github.com/user/repo.git'
 
--- to install a plugin with options, use map instead
+-- to install a plugin with options, use table instead
 plug.install {
   'user/repo',
   options = {
@@ -128,7 +128,7 @@ plug.setup(
 
     use 'https://github.com/user/repo.git'
 
-    -- to install a plugin with options, use map instead
+    -- to install a plugin with options, use table instead
     use {
       'user/repo',
       options = {
@@ -147,7 +147,7 @@ However, the power of this plugin will reside in the extensions its included.
 
 ```lua
 -- depends on how you pick your setup, you can just pass the configurations
--- map to the setup / begin call
+--   table to the setup / begin call
 {
   -- plugin installation directory, this will be passed to vim-plug begin
   --   call. Default to the vim-plug default location.
@@ -158,7 +158,7 @@ However, the power of this plugin will reside in the extensions its included.
   lazy_interval = 10,
   -- a delay in milliseconds before performing a post installation setup
   delay_post = 5,
-  -- extensions to be use, set to empty map to not using any
+  -- extensions to be use, set to empty table to not using any
   extensions = {
     -- see Extensions section below for available extensions
     --   and how to build one yourself!
