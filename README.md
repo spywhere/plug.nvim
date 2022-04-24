@@ -6,7 +6,7 @@ An extensible plugin manager wrap on top of
 [vim-plug](https://github.com/junegunn/vim-plug) in pure lua.
 
 Thus plugin is not a plugin manager, so vim-plug will either need to install
-manually or configured to be automatically install (default behaviour).
+manually or configured to be automatically install.
 
 ## Table Of Contents
 
@@ -190,7 +190,9 @@ However, the power of this plugin will reside in the extensions its included.
   extensions = {
     -- see Extensions section below for available extensions
     --   and how to build one yourself!
-    require('plug').extension.auto_install {}
+
+    -- To automatically install vim-plug and missing plugins, use
+    -- require('plug').extension.auto_install {}
   }
 }
 ```

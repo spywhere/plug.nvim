@@ -20,11 +20,17 @@ if vim.fn.filereadable(vim.fn.expand(plug_path)) == 0 then
 end
 
 -- your plugin setup can go here
+local plug = require('plug')
 
--- require('plug')
--- ...
+plug.setup {
+  extensions = {
+    -- also perform automatic installation for vim-plug and missing plugins
+    plug.extension.auto_install {}
+  }
+}
+
+-- your plugins go here
 ```
 
-This will automatically download plug.nvim to the correct location. And if
-you configured plug.nvim to also perform an automatic installation of
-vim-plug, it will also performing those installation for you as well.
+This will automatically download plug.nvim to the correct location. And it
+will also performing a plugin installation for you as well.
