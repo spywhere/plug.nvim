@@ -30,6 +30,8 @@ plug.setup {
 }
 
 -- your plugins go here
+
+''
 ```
 
 This will automatically download plug.nvim to the correct location. And it
