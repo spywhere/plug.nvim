@@ -70,6 +70,9 @@ local my_extension = function (options)
 end
 ```
 
+If there are more than one extension being setup that have the same name,
+only the first extension will get loaded.
+
 Be sure to take a look into [Hook Setup](#hook-setup) and
 [Event Dispatch](#event-dispatch) section below for more details
 
@@ -77,7 +80,10 @@ Be sure to take a look into [Hook Setup](#hook-setup) and
 
 During the setup process, plug.nvim will dispatch its own events to the
 handlers (setup using a hook). Here are a list of events it produced on
-its own
+its own.
+
+**Note** that returns any non-nil value in any event will stop the next
+extension from handling the event.
 
 ### `plugin`
 
@@ -196,6 +202,9 @@ This function will takes 2 parameters as follows
 - `handler`: An event handler, which takes 'event context' (see
 [Event Context](#event-context) below)as a first argument and the rest are
 event parameters
+
+Please see a note on event handling with multiple extensions in
+[Events](#events) section above
 
 ## Event Context
 
