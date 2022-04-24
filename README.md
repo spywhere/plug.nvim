@@ -69,6 +69,8 @@ require('plug').setup {
 -- to install a plugin with options, use table instead
 {
   'user/repo',
+  -- set to `true`, to lazily load this plugin
+  lazy = true,
   options = {
     -- vim-plug options for the plugin go here
     ['do'] = ':Function'
@@ -104,6 +106,18 @@ plug.install {
   }
 }
 
+-- or use a regular function call with 2 arguments
+plugin.install(
+  'user/repo', {
+    -- set to `true`, to lazily load this plugin
+    lazy = true,
+    options = {
+      -- vim-plug options for the plugin go here
+      ['do'] = ':Function'
+    }
+  }
+)
+
 -- 'end' is a reserved word in lua, so use 'ended' instead
 plug.ended()
 ```
@@ -136,6 +150,18 @@ plug.setup(
         ['do'] = ':Function'
       }
     }
+
+    -- or use a regular function call with 2 arguments
+    use(
+      'user/repo', {
+        -- set to `true`, to lazily load this plugin
+        lazy = true,
+        options = {
+          -- vim-plug options for the plugin go here
+          ['do'] = ':Function'
+        }
+      }
+    )
   end
 )
 ```

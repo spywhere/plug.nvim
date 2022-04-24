@@ -172,6 +172,8 @@ A table containing a plugin setup
 {
   -- a name of plugin passed from the `setup`, `plug.install` or `use` function
   name = '',
+  -- a boolean value to indicated if this plugin will be lazy loaded
+  lazy = false,
   -- a table of plugin options that will be passed to vim-plug
   options = nil,
   -- any other key that the user might set during setup
