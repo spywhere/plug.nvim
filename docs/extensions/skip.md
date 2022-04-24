@@ -21,9 +21,11 @@ require('plug').setup {}
   'repo/user',
   -- a boolean value to indicate whether a plugin will be skipped or not
   skip = false,
-  -- or it could be a function that turn a boolean value
+  -- or it could be a function that returns a boolean value
   skip = function () return false end
 }
+
+''
 ```
 
 ## Event Handling

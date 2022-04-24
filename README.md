@@ -30,7 +30,7 @@ So with some built-in configurations, you could achieve...
 - Plugin loading priority
 - Per-plugin configuration closure
 - Defers setup
-- Global variable requirements
+- Variable requirements
 
 ## Installation
 

@@ -27,6 +27,8 @@ require('plug').setup {}
     -- ...
   end
 }
+
+''
 ```
 
 ## Event Handling

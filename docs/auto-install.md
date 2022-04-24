@@ -25,6 +25,6 @@ end
 -- ...
 ```
 
-This will automatically download the plug.nvim to the correct location. And if
+This will automatically download plug.nvim to the correct location. And if
 you configured plug.nvim to also perform an automatic installation of
 vim-plug, it will also performing those installation for you as well.

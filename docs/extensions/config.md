@@ -20,6 +20,8 @@ require('plug').setup {}
     -- plugin configurations go here
   end
 }
+
+''
 ```
 
 ## Event Handling

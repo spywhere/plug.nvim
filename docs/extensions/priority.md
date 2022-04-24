@@ -18,6 +18,8 @@ require('plug').setup {}
   -- a loading priority of the plugin
   priority = 0
 }
+
+''
 ```
 
 ## Event Handling
