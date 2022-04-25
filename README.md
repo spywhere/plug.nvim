@@ -5,8 +5,8 @@ _This plugin still under development_
 An extensible plugin manager wrap on top of
 [vim-plug](https://github.com/junegunn/vim-plug) in pure lua.
 
-Thus plugin is not a plugin manager, so vim-plug will either need to install
-manually or configured to be automatically install.
+Thus this plugin is not a plugin manager, so vim-plug will either need to
+install manually or configured to be automatically install.
 
 ## Table Of Contents
 
@@ -14,6 +14,7 @@ manually or configured to be automatically install.
 * [Installation](#installation)
 * [Getting Started](#getting-started)
 * [Configurations](#configurations)
+* [Upgrade](#upgrade)
 * [Extensions](#extensions)
 * [Contributes](#contributes)
 * [License](#license)
@@ -55,7 +56,7 @@ For even more automatic, check out
 plug.nvim gives you an ability to configure the plugin in 3 different ways so
 you can choose the one that suit your workflow best.
 
-### Setup 1
+### Setup 1 - Recommended Way
 
 ```lua
 require('plug').setup {
@@ -84,7 +85,7 @@ require('plug').setup {
 ''
 ```
 
-### Setup 2
+### Setup 2 - vim-plug Way
 
 ```lua
 local plug = require('plug')
@@ -124,7 +125,7 @@ plugin.install(
 plug.ended()
 ```
 
-### Setup 3
+### Setup 3 - packer.nvim Way
 
 ```lua
 local plug = require('plug')
@@ -208,6 +209,8 @@ require('plug').setup {}
 -- name must be exact, but could be in any position
 --   any plugin option will be ignored
 'spywhere/plug.nvim'
+
+''
 ```
 
 Once you have the plugin setup, plug.nvim will create a command abbreviation
