@@ -255,6 +255,15 @@ P.setup_functions = function ()
 
   local functions = {
     PlugUpgrade = function ()
+      if vim.fn.filereadable(vim.fn.expand(P.plug_nvim_path)) == 0 then
+        -- plug.nvim is loaded but not found, assumming it's on development
+        --   environment
+        print(
+          'plug.nvim cannot be found on default location, skipping upgrade'
+        )
+        return
+      end
+
       print('Downloading the latest version of plug.nvim')
       vim.cmd('redraw')
 
