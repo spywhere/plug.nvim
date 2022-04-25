@@ -1,4 +1,4 @@
-# Auto install plug.nvim
+# Automatically install plug.nvim
 
 To automatically setup plug.nvim without a need to manually download the file,
 simply add the following snippet to your `init.lua` file.

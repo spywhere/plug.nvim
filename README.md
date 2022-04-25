@@ -49,7 +49,8 @@ curl -fLo ~/.config/nvim/lua/plug.lua --create-dirs https://raw.githubuserconten
 ```
 
 For even more automatic, check out
-[how to automatic install plug.nvim](docs/auto-install.md).
+[how to automatic install plug.nvim](docs/auto-install.md) right from your
+`init.lua` file.
 
 ## Getting Started
 
