@@ -36,3 +36,6 @@ plug.setup {
 
 This will automatically download plug.nvim to the correct location. And it
 will also performing a plugin installation for you as well.
+
+For more options on how plug.nvim install vim-plug and missing plugins, see
+[auto_install](extensions/auto-install.md) extension documentation.
