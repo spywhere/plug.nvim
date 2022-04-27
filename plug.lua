@@ -179,18 +179,29 @@ P.inject_command = function (cmd, expr)
   vim.api.nvim_exec(table.concat(expression, ' '), false)
 end
 
-
-P.dispatch = function (event, ...)
+P.raw_dispatch = function (event, keep_false, value, ...)
   if not P.hooks[event] then
-    return
+    return value
   end
 
+  local new_value = value
   for _, handler in ipairs(P.hooks[event]) do
-    local result = handler(P.ext_context, ...)
-    if result ~= nil then
-      return result
+    local result = handler(P.ext_context, new_value, ...)
+    if result == false then
+      if keep_false then
+        return false
+      else
+        return new_value
+      end
+    elseif result ~= nil then
+      new_value = result
     end
   end
+  return new_value
+end
+
+P.dispatch = function (event, ...)
+  return P.raw_dispatch(event, false, ...)
 end
 
 P.ext_dispatch = function (name)
@@ -211,6 +222,7 @@ P.load = function (plugin)
 
   if plugin.lazy then
     options.on = {}
+    options.lazy = nil
     table.insert(P.lazy, plugin)
   else
     table.insert(P.plugs, plugin_options)
@@ -219,7 +231,7 @@ P.load = function (plugin)
   local perform_post = function ()
     vim.defer_fn(function () P.post(plugin, false) end, P.delay_post)
   end
-  options = P.dispatch('plugin_options', options, perform_post) or options
+  options = P.dispatch('plugin_options', options, perform_post)
 
   options[true] = vim.types.dictionary
   I.plug(plugin.name, options)
@@ -366,7 +378,7 @@ M.install = function (plugin, options)
   end
 
   plugin_options.name = name
-  plugin_options = P.dispatch('plugin', plugin_options) or plugin_options
+  plugin_options = P.raw_dispatch('plugin', true, plugin_options)
 
   if plugin_options == false then
     return
@@ -377,13 +389,13 @@ M.install = function (plugin, options)
 end
 
 M.ended = function ()
-  P.plugs = P.dispatch('plugin_collected', P.plugs) or P.plugs
+  P.plugs = P.dispatch('plugin_collected', P.plugs)
 
   -- process pre-setup
   --   perform before vim-plug installation to allow custom function to
   --   dictate how vim-plug should behave
   P.dispatch('pre_setup', P.plugs)
-  if P.dispatch('setup', P.plugs) == false then
+  if P.raw_dispatch('setup', true, P.plugs) == false then
     return
   end
 

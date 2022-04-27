@@ -82,7 +82,7 @@ During the setup process, plug.nvim will dispatch its own events to the
 handlers (setup using a hook). Here are a list of events it produced on
 its own.
 
-**Note** that returns any non-nil value in any event will stop the next
+**Note** that returns `false` value in any event will stop the next
 extension from handling the event.
 
 ### `plugin`
