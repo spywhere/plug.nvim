@@ -93,8 +93,12 @@ I.is_plugin_loaded = function (name)
   return vim.fn.stridx(vim.o.rtp, plugin_path) >= 0
 end
 
-P.for_each = function (fn)
-  for _, plugin in ipairs(P.plugs) do
+P.for_each = function (fn, mutable)
+  local plugs = P.plugs
+  if mutable then
+    P.plugs = {}
+  end
+  for _, plugin in ipairs(plugs) do
     fn(plugin)
   end
 end
@@ -208,6 +212,8 @@ P.load = function (plugin)
   if plugin.lazy then
     options.on = {}
     table.insert(P.lazy, plugin)
+  else
+    table.insert(P.plugs, plugin_options)
   end
 
   local perform_post = function ()
@@ -386,7 +392,7 @@ M.ended = function ()
   else
     I.begin()
   end
-  P.for_each(P.load)
+  P.for_each(P.load, true)
   I.ended()
 
   P.for_each(P.post)
