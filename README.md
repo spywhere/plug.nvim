@@ -201,8 +201,8 @@ However, the power of this plugin will reside in the extensions its included.
 
 ## Upgrade
 
-To upgrade plug.nvim, you need to have to setup this plugin as one of your
-list of plugins.
+To upgrade plug.nvim, you need to setup this plugin as one of your list
+of plugins.
 
 ```lua
 require('plug').setup {}
