@@ -241,8 +241,18 @@ However, the power of this plugin will reside in the extensions its included.
 
 ## Upgrade
 
-To upgrade plug.nvim, you need to setup this plugin as one of your list
-of plugins.
+To manually upgrade only plug.nvim, use `:call PlugUpgrade()`.
+
+To manually upgrade only vim-plug, use `:PlugUpgrade`.
+
+### vim-plug Injection
+
+plug.nvim can inject itself into vim-plug upgrade process, this is to allow
+plug.nvim to perform an upgrade to both plug.nvim and vim-plug in a single
+step.
+
+To let plug.nvim inject the upgrade, you need to setup plug.nvim as one of
+your plugin list.
 
 ```lua
 require('plug').setup {}
@@ -258,9 +268,7 @@ Once you have the plugin setup, plug.nvim will create a command abbreviation
 for `:PlugUpgrade`. So when you run `:PlugUpgrade`, it will perform both
 plug.nvim and vim-plug upgrade automatically.
 
-To manually upgrade only plug.nvim, use `:call PlugUpgrade()` instead.
-
-To manually upgrade only vim-plug, use `: PlugUpgrade` instead.
+To manually upgrade only vim-plug in this case, use `: PlugUpgrade`.
 
 ## Extensions
 
