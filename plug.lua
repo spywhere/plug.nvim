@@ -16,6 +16,7 @@ local P = { -- private
   hooks = {},
   extensions = {},
   ext_context = {},
+  use_api = true,
   inject_cmds = false,
   lazy_delay = 100,
   lazy_interval = 10,
@@ -177,6 +178,10 @@ P.inject_command = function (cmd, expr)
   }
 
   vim.api.nvim_exec(table.concat(expression, ' '), false)
+end
+
+P.has_hook = function (event)
+  return P.hooks[event] and next(P.hooks[event])
 end
 
 P.raw_dispatch = function (event, keep_false, value, ...)
@@ -352,6 +357,10 @@ M.begin = function (options)
       end
     end
   end
+
+  if not next(P.plugs) then
+    P.use_api = false
+  end
 end
 
 M.install = function (plugin, options)
@@ -378,10 +387,12 @@ M.install = function (plugin, options)
   end
 
   plugin_options.name = name
-  plugin_options = P.raw_dispatch('plugin', true, plugin_options)
+  if not P.use_api then
+    plugin_options = P.raw_dispatch('plugin', true, plugin_options)
 
-  if plugin_options == false then
-    return
+    if plugin_options == false then
+      return
+    end
   end
 
   plugin_options.identifier = vim.fn.fnamemodify(name, ':t:s?\\.git$??')
@@ -389,6 +400,17 @@ M.install = function (plugin, options)
 end
 
 M.ended = function ()
+  if P.use_api then
+    P.for_each(function (plugin)
+      local new_plugin = P.raw_dispatch('plugin', true, plugin)
+
+      if new_plugin == false then
+        return
+      end
+
+      table.insert(P.plugs, new_plugin)
+    end, true)
+  end
   P.plugs = P.dispatch('plugin_collected', P.plugs)
 
   -- process pre-setup
@@ -422,6 +444,12 @@ end
 
 M.setup = function (opts, fn)
   local is_fn = type(opts) == 'function'
+
+  if not is_fn and next(P.plugs) then
+    M.begin(opts)
+    return M.ended()
+  end
+
   if is_fn or type(fn) == 'function' then
     M.begin(not is_fn and opts or nil)
 

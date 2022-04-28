@@ -170,6 +170,46 @@ plug.setup(
 )
 ```
 
+### Setup 4 - API Way
+
+```lua
+local plug = require('plug')
+
+-- these `plug.install` calls can be performed from anywhere
+
+-- a simple installation of a plugin
+--   the format is exact to that in vim-plug
+plug.install 'user/repo'
+
+plug.install 'https://github.com/user/repo.git'
+
+-- to install a plugin with options, use table instead
+plug.install {
+  'user/repo',
+  options = {
+    -- vim-plug options for the plugin go here
+    ['do'] = ':Function'
+  }
+}
+
+-- or use a regular function call with 2 arguments
+plugin.install(
+  'user/repo', {
+    -- set to `true`, to lazily load this plugin
+    lazy = true,
+    options = {
+      -- vim-plug options for the plugin go here
+      ['do'] = ':Function'
+    }
+  }
+)
+
+-- then at the very last step, call `plug.setup`
+plug.setup {
+  -- plug.nvim configurations go here
+}
+```
+
 ## Configurations
 
 There are little to none configurations available for the plugin itself.

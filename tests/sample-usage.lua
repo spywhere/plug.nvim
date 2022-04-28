@@ -33,3 +33,14 @@ plug.setup(function (use)
     }
   }
 end)
+print('------ #4 ------')
+plug.install 'preservim/nerdcommenter'
+plug.install {
+  'spywhere/tmux.nvim',
+  config = function ()
+    print('start')
+    require('tmux').start()
+  end
+}
+
+plug.setup {}
