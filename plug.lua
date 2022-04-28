@@ -432,7 +432,7 @@ M.ended = function ()
   P.for_each(P.post)
 
   if next(P.lazy) then
-    vim.defer_fn(P.schedule_lazy(), P.lazy_delay)
+    vim.defer_fn(P.schedule_lazy, P.lazy_delay)
   end
 
   P.setup_functions()
