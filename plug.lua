@@ -94,7 +94,7 @@ I.is_plugin_loaded = function (name)
 end
 
 P.for_each = function (fn, mutable)
-  local plugs = P.plugs
+  local plugs = vim.tbl_extend('force', {}, P.plugs)
   if mutable then
     P.plugs = {}
   end
@@ -225,7 +225,7 @@ P.load = function (plugin)
     options.lazy = nil
     table.insert(P.lazy, plugin)
   else
-    table.insert(P.plugs, plugin_options)
+    table.insert(P.plugs, plugin)
   end
 
   local perform_post = function ()
