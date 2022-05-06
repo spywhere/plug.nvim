@@ -144,6 +144,7 @@ Produced when plug.nvim try to setup a plugin through vim-plug
 - `options`: a plugin option (see [Options](#options) type below)
 - `perform_post`: a function that upon called will perform a post
 installation setup
+- `plugin`: a plugin (see [Plugin](#plugin) type below)
 
 **Returns**:
 

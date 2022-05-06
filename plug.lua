@@ -236,7 +236,7 @@ P.load = function (plugin)
   local perform_post = function ()
     vim.defer_fn(function () P.post(plugin, false) end, P.delay_post)
   end
-  options = P.dispatch('plugin_options', options, perform_post)
+  options = P.dispatch('plugin_options', options, perform_post, plugin)
 
   options[true] = vim.types.dictionary
   I.plug(plugin.name, options)
@@ -536,7 +536,7 @@ X.auto_install = function (options)
     return string.find(string, prefix, 1, true) == 1
   end
 
-  local function inject_post_setup(ctx, options, perform_post)
+  local function inject_post_setup(ctx, options, perform_post, plugin)
     local original_do = options['do']
 
     options['do'] = vim.funcref(P.fn(
