@@ -571,7 +571,11 @@ X.auto_install = function (options)
     name = 'auto_install',
     entry = function (hook, dispatch)
       hook('setup', installation)
-      hook('plugin_options', inject_post_setup)
+
+      if opts.missing then
+        hook('plugin_options', inject_post_setup)
+      end
+
       hook('done', post_installation(dispatch))
     end
   }
