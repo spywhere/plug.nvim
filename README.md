@@ -35,6 +35,8 @@ So with some built-in configurations, you could achieve...
 
 ## Installation
 
+Requires neovim v0.5.1 or later
+
 Simply download
 [plug.lua](https://raw.githubusercontent.com/spywhere/plug.nvim/main/plug.lua)
 and put it in `stdpath('config') .. '/lua/plug.lua'`.

@@ -400,6 +400,14 @@ M.install = function (plugin, options)
 end
 
 M.ended = function ()
+  if vim.fn.has('nvim') == 0 then
+    print('plug.nvim only supported in neovim')
+    return
+  elseif vim.fn.has('nvim-0.5.1') == 0 then
+    print('plug.nvim requires neovim v0.5.1 or later')
+    return
+  end
+
   if P.use_api then
     P.for_each(function (plugin)
       local new_plugin = P.raw_dispatch('plugin', true, plugin)
