@@ -1,7 +1,5 @@
 # plug.nvim
 
-_This plugin still under development_
-
 An extensible plugin manager wrap on top of
 [vim-plug](https://github.com/junegunn/vim-plug) in pure lua.
 

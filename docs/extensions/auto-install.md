@@ -3,6 +3,10 @@
 This extension will automatically install vim-plug and any missing plugins
 during neovim start up
 
+**Note:** due to how this extension injecting the plugin `do` options,
+setting automatic install missing plugins will disallow the command line
+command in the `do` options
+
 ## Configurations
 
 ```lua

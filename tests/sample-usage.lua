@@ -6,7 +6,7 @@ plug.setup {}
 'user/repo'
 {
   'user/repo2',
-  option = {
+  options = {
     ['do'] = ':function'
   }
 }
@@ -17,7 +17,7 @@ plug.begin {}
 plug.install 'user/repo'
 plug.install {
   'user/repo2',
-  option = {
+  options = {
     ['do'] = ':function'
   }
 }
@@ -28,7 +28,7 @@ plug.setup(function (use)
   use 'user/repo'
   use {
     'user/repo2',
-    option = {
+    options = {
       ['do'] = ':function'
     }
   }
