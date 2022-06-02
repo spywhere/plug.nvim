@@ -307,22 +307,22 @@ setup a working configurations to test the plugin...
 make testrun
 ```
 
-or
-
-```sh
-nvim -u tests/init.lua
-```
-
 To test automatic installation, use
 
 ```sh
 make testrun-auto
 ```
 
-or
+To preview the code generation, use
 
 ```sh
-nvim -u tests/auto.lua
+make preview
+```
+
+To manually generate the output code, use
+
+```sh
+make compile
 ```
 
 ## License
