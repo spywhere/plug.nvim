@@ -403,8 +403,8 @@ M.ended = function ()
   if vim.fn.has('nvim') == 0 then
     print('plug.nvim only supported in neovim')
     return
-  elseif vim.fn.has('nvim-0.5.1') == 0 then
-    print('plug.nvim requires neovim v0.5.1 or later')
+  elseif vim.fn.has('nvim-0.7.0') == 0 then
+    print('plug.nvim requires neovim v0.7.0 or later')
     return
   end
 

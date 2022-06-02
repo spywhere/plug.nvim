@@ -35,7 +35,12 @@ So with some built-in configurations, you could achieve...
 
 ## Installation
 
-Requires neovim v0.5.1 or later
+Requires neovim v0.7.0 or later.
+
+If you wish to use plug.nvim with older neovim version (v0.5.1 up to v0.6.1),
+check out [nvim-0.5.1](https://github.com/spywhere/plug.nvim/tree/nvim-0.5.1)
+branch. Do note that nvim-0.5.1 branch is for migration purpose only so the
+code will not be maintained.
 
 Simply download
 [plug.lua](https://raw.githubusercontent.com/spywhere/plug.nvim/main/plug.lua)
