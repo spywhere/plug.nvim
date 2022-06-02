@@ -104,16 +104,11 @@ P.for_each = function (fn, mutable)
   end
 end
 
-P.auto = function (event, expression)
-  vim.api.nvim_exec(table.concat({
-    'augroup __plug_nvim__',
-    'autocmd!',
-    string.format(
-      'autocmd %s * %s',
-      event, expression
-    ),
-    'augroup end'
-  }, '\n'), false)
+P.auto = function (event, func)
+  vim.api.nvim_create_autocmd(event, {
+    group = vim.api.nvim_create_augroup('__plug_nvim__', {}),
+    callback = func
+  })
 end
 
 P.call_for_fn = function (func, args)
@@ -530,7 +525,7 @@ X.auto_install = function (options)
   local function post_installation(dispatch)
     return function (ctx)
       if opts.missing then
-        P.auto('VimEnter', 'lua require("plug").extension.__install_missing_plugins()')
+        P.auto('VimEnter', X.__install_missing_plugins)
       end
       if ctx.is_installed then
         dispatch('has_installed')
