@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Generate plug.lua
         run: |
-          make compile
+          make --no-print-directory compile
       - uses: EndBug/add-and-commit@v9
         with:
           add: 'plug.lua'
