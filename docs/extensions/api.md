@@ -2,7 +2,8 @@
 
 This document will guide you through various section of how extension works
 
-Be sure to check out built-in extensions for some example usages
+Be sure to check out [built-in extensions](../../extensions) for some example
+usages
 
 ## Basic Extension Structure
 
