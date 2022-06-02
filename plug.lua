@@ -479,7 +479,7 @@ M.setup = function (opts, fn)
   end)
 end
 
-X.__install_missing_plugins = function ()
+P.install_missing_plugins = function ()
   local is_plugin_missing = function (plugin)
     return vim.fn.isdirectory(plugin.dir) == 0
   end
@@ -525,7 +525,7 @@ X.auto_install = function (options)
   local function post_installation(dispatch)
     return function (ctx)
       if opts.missing then
-        P.auto('VimEnter', X.__install_missing_plugins)
+        P.auto('VimEnter', P.install_missing_plugins)
       end
       if ctx.is_installed then
         dispatch('has_installed')
