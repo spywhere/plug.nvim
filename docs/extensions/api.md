@@ -2,6 +2,8 @@
 
 This document will guide you through various section of how extension works
 
+Be sure to check out built-in extensions for some example usages
+
 ## Basic Extension Structure
 
 An extension is simply a function that takes options from the user, then
@@ -201,7 +203,7 @@ This function will takes 2 parameters as follows
 
 - `event`: An event name to be handled by the extension
 - `handler`: An event handler, which takes 'event context' (see
-[Event Context](#event-context) below)as a first argument and the rest are
+[Event Context](#event-context) below) as a first argument and the rest are
 event parameters
 
 Please see a note on event handling with multiple extensions in

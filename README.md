@@ -54,7 +54,7 @@ For even more automatic, check out
 
 ## Getting Started
 
-plug.nvim gives you an ability to configure the plugin in 3 different ways so
+plug.nvim gives you an ability to configure the plugin in 4 different ways so
 you can choose the one that suit your workflow best.
 
 ### Setup 1 - Recommended Way
