@@ -48,15 +48,16 @@ M.install = function (...)
     return
   end
 
+  local definitions = { definition }
   if not P.use_api then
-    definition = P.raw_dispatch('plugin', true, definition)
+    definitions = P.raw_dispatch('plugin', true, definitions, P.to_plugin)
 
-    if definition == false then
+    if definitions == false then
       return
     end
   end
 
-  table.insert(P.plugs, definition)
+  P.plugs = vim.list_extend(P.plugs, definitions)
 end
 
 M.ended = function ()
@@ -69,14 +70,16 @@ M.ended = function ()
   end
 
   if P.use_api then
-    P.for_each(function (plugin)
-      local new_plugin = P.raw_dispatch('plugin', true, plugin)
+    P.for_each(function (definition)
+      local definitions = P.raw_dispatch(
+        'plugin', true, { definition }, P.to_plugin
+      )
 
-      if new_plugin == false then
+      if definitions == false then
         return
       end
 
-      table.insert(P.plugs, new_plugin)
+      P.plugs = vim.list_extend(P.plugs, definitions)
     end, true)
   end
   P.plugs = P.dispatch('plugin_collected', P.plugs)

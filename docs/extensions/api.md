@@ -95,12 +95,15 @@ call, `plug.install` or `use` function)
 
 **Parameters**:
 
-- `plugin`: a plugin definition (see [Plugin Definition](#plugin-definition)
-type below)
+- `plugins`: a list of plugin definitions (see
+[Plugin Definition](#plugin-definition) type below). In this event, it will
+always contain 1 plugin
+- `to_plugin`: a function that upon called will create a plugin definition,
+given a plugin setup (same structure as what is used in `plug.install`)
 
 **Returns**:
 
-A new plugin definition, returns `nil` to keep the current plugin definition
+New plugin definitions, returns `nil` to keep the current plugin definitions
 or returns `false` to prevent the plugin from loading
 
 ### `plugin_collected`
