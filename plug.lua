@@ -96,30 +96,15 @@ M.begin = function (options)
   end
 end
 
-M.install = function (plugin, options)
-  local name = plugin
-  local definition = {}
-
-  if type(name) == 'string' then
-    definition.options = options
-  else
-    definition = {}
-    for k, v in pairs(name) do
-      if type(k) == 'string' then
-        definition[k] = v
-      else
-        name = v
-      end
-    end
-  end
+M.install = function (...)
+  local definition = P.to_plugin(...)
 
   -- if plugin is this plugin, then inject upgrade function
-  if name == 'spywhere/plug.nvim' then
+  if definition.name == 'spywhere/plug.nvim' then
     P.inject_cmds = true
     return
   end
 
-  definition.name = name
   if not P.use_api then
     definition = P.raw_dispatch('plugin', true, definition)
 
@@ -128,7 +113,6 @@ M.install = function (plugin, options)
     end
   end
 
-  definition.identifier = vim.fn.fnamemodify(name, ':t:s?\\.git$??')
   table.insert(P.plugs, definition)
 end
 
@@ -481,6 +465,28 @@ P.setup_functions = function ()
       P.inject_command(name, string.format('call %s()', name))
     end
   end
+end
+
+P.to_plugin = function (plugin, options)
+  local name = plugin
+  local definition = {}
+
+  if type(name) == 'string' then
+    definition.options = options
+  else
+    definition = {}
+    for k, v in pairs(name) do
+      if type(k) == 'string' then
+        definition[k] = v
+      else
+        name = v
+      end
+    end
+  end
+
+  definition.name = name
+  definition.identifier = vim.fn.fnamemodify(name, ':t:s?\\.git$??')
+  return definition
 end
 
 -- extension for supporting pre-loading setup
