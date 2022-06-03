@@ -46,7 +46,7 @@ could simply return a function that takes a 'hook' function
 ```lua
 local my_extension = function (options)
   return function (hook)
-    -- your plugin code and hook setup goes here
+    -- your extension code and hook setup goes here
   end
 end
 ```
@@ -67,7 +67,7 @@ local my_extension = function (options)
     name = 'my_extension',
     -- your extension entry point, takes 'hook' and 'dispatch' function
     entry = function (hook, dispatch)
-      -- your plugin code, hook setup and event dispatch goes here
+      -- your extension code, hook setup and event dispatch goes here
     end
   }
 end
@@ -95,21 +95,23 @@ call, `plug.install` or `use` function)
 
 **Parameters**:
 
-- `plugin`: a plugin (see [Plugin](#plugin) type below)
+- `plugin`: a plugin definition (see [Plugin Definition](#plugin-definition)
+type below)
 
 **Returns**:
 
-A new plugin setup, returns `nil` to keep the current plugin setup or returns
-`false` to prevent the plugin from loading
+A new plugin definition, returns `nil` to keep the current plugin definition
+or returns `false` to prevent the plugin from loading
 
 ### `plugin_collected`
 
-Produced when all plugins setup has been collected, typically immediately
+Produced when all plugin definitions has been collected, typically immediately
 after call `plug.ended` function
 
 **Parameters**:
 
-- `plugins`: a list of plugins (see [Plugin](#plugin) type below)
+- `plugins`: a list of plugin definitions (see
+[Plugin Definition](#plugin-definition) type below)
 
 **Returns**:
 
@@ -121,7 +123,8 @@ Produced right after `plugin_collected` event
 
 **Parameters**:
 
-- `plugins`: a list of plugin (see [Plugin](#plugin) type below)
+- `plugins`: a list of plugin definitions (see
+[Plugin Definition](#plugin-definition) type below)
 
 **Returns**: _none_
 
@@ -131,7 +134,8 @@ Produced right after `pre_setup` event
 
 **Parameters**:
 
-- `plugins`: a list of plugin (see [Plugin](#plugin) type below)
+- `plugins`: a list of plugin definitions (see
+[Plugin Definition](#plugin-definition) type below)
 
 **Returns**:
 
@@ -144,14 +148,15 @@ Produced when plug.nvim try to setup a plugin through vim-plug
 
 **Parameters**:
 
-- `options`: a plugin option (see [Options](#options) type below)
+- `options`: plugin options (see [Options](#options) type below)
 - `perform_post`: a function that upon called will perform a post
 installation setup
-- `plugin`: a plugin (see [Plugin](#plugin) type below)
+- `plugin`: a plugin definition (see [Plugin Definition](#plugin-definition)
+type below)
 
 **Returns**:
 
-A new plugin options, or returns `nil` to keep the current plugin options
+New plugin options, or returns `nil` to keep the current plugin options
 
 ### `plugin_post`
 
@@ -159,7 +164,8 @@ Produced when a plugin has been loaded or lazy loaded
 
 **Parameters**:
 
-- `plugin`: a plugin (see [Plugin](#plugin) type below)
+- `plugin`: a plugin definition (see [Plugin Definition](#plugin-definition)
+type below)
 - `is_lazy`: a boolean indicated if a plugin has been lazy loaded
 - `perform_post`: a function that upon called will perform a post
 installation setup
@@ -174,9 +180,9 @@ Produced when plug.nvim has setup all plugins
 
 ## Types
 
-### Plugin
+### Plugin Definition
 
-A table containing a plugin setup
+A table containing a plugin definition
 
 ```lua
 {
@@ -213,7 +219,7 @@ Please see a note on event handling with multiple extensions in
 ## Event Context
 
 Event context is simply a shared object to be used by the extension. This
-context object will be persist across life cycle of the plugin, so it is
+context object will be persist across life cycle of the extension, so it is
 a best place to store any state you might need for later use
 
 ## Event Dispatch
@@ -222,6 +228,6 @@ With `dispatch` function available, your extension can notify another
 extension for certain events that might occurred by your extension.
 
 Please note that event dispatched from your extension will always prefixed
-with an extension name. So if your plugin named `my_extension` and dispatch
+with an extension name. So if your extension named `my_extension` and dispatch
 `my_event` event, the handler on another extension should handle the event
 named `my_extension.my_event`.

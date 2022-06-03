@@ -41,15 +41,15 @@ end
 
 M.install = function (plugin, options)
   local name = plugin
-  local plugin_options = {}
+  local definition = {}
 
   if type(name) == 'string' then
-    plugin_options.options = options
+    definition.options = options
   else
-    plugin_options = {}
+    definition = {}
     for k, v in pairs(name) do
       if type(k) == 'string' then
-        plugin_options[k] = v
+        definition[k] = v
       else
         name = v
       end
@@ -62,17 +62,17 @@ M.install = function (plugin, options)
     return
   end
 
-  plugin_options.name = name
+  definition.name = name
   if not P.use_api then
-    plugin_options = P.raw_dispatch('plugin', true, plugin_options)
+    definition = P.raw_dispatch('plugin', true, definition)
 
-    if plugin_options == false then
+    if definition == false then
       return
     end
   end
 
-  plugin_options.identifier = vim.fn.fnamemodify(name, ':t:s?\\.git$??')
-  table.insert(P.plugs, plugin_options)
+  definition.identifier = vim.fn.fnamemodify(name, ':t:s?\\.git$??')
+  table.insert(P.plugs, definition)
 end
 
 M.ended = function ()
