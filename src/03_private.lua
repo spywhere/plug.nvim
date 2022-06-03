@@ -220,3 +220,25 @@ P.setup_functions = function ()
     end
   end
 end
+
+P.to_plugin = function (plugin, options)
+  local name = plugin
+  local definition = {}
+
+  if type(name) == 'string' then
+    definition.options = options
+  else
+    definition = {}
+    for k, v in pairs(name) do
+      if type(k) == 'string' then
+        definition[k] = v
+      else
+        name = v
+      end
+    end
+  end
+
+  definition.name = name
+  definition.identifier = vim.fn.fnamemodify(name, ':t:s?\\.git$??')
+  return definition
+end
