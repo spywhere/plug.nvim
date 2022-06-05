@@ -1,5 +1,5 @@
-SOURCES:=$(wildcard src/*.lua)
-EXTENSIONS:=$(wildcard extensions/*.lua)
+SOURCES:=$(sort $(wildcard src/*.lua))
+EXTENSIONS:=$(sort $(wildcard extensions/*.lua))
 OUTPUT:=plug.lua
 
 .PHONY: %.lua plug.lua src/00_header.lua src/99_footer.lua
