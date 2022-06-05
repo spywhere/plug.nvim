@@ -55,155 +55,6 @@ i.generator = function (fn, default)
   end)(default)
 end
 
-M.begin = function (options)
-  local opts = options or {}
-
-  vim.validate {
-    plugin_dir = { opts.plugin_dir, 's', true },
-    lazy_delay = { opts.lazy_delay, 'n', true },
-    lazy_interval = { opts.lazy_interval, 'n', true },
-    delay_post = { opts.delay_post, 'n', true },
-    extensions = { opts.extensions, 't', true }
-  }
-
-  P.plugin_dir = opts.plugin_dir
-  if opts.lazy_delay then
-    P.lazy_delay = opts.lazy_delay
-  end
-  if opts.lazy_interval then
-    P.lazy_interval = opts.lazy_interval
-  end
-  if opts.delay_post then
-    P.delay_post = opts.delay_post
-  end
-
-  if opts.extensions then
-    for _, extension in ipairs(opts.extensions) do
-      if type(extension) == 'function' then
-        extension(P.hook)
-      elseif type(extension) == 'table' and extension.name then
-        local name = extension.name
-        if not P.extensions[name] then
-          P.extensions[name] = true
-          extension.entry(P.hook, P.ext_dispatch(name))
-        end
-      end
-    end
-  end
-
-  if not next(P.plugs) then
-    P.use_api = false
-  end
-end
-
-M.install = function (...)
-  local definition = P.to_plugin(...)
-
-  -- if plugin is this plugin, then inject upgrade function
-  if definition.name == 'spywhere/plug.nvim' then
-    P.inject_cmds = true
-    return
-  end
-
-  local definitions = { definition }
-  if not P.use_api then
-    definitions = P.raw_dispatch('plugin', true, definitions, P.to_plugin)
-
-    if definitions == false then
-      return
-    end
-  end
-
-  P.plugs = vim.list_extend(P.plugs, definitions)
-end
-
-M.ended = function ()
-  if vim.fn.has('nvim') == 0 then
-    print('plug.nvim only supported in neovim')
-    return
-  elseif vim.fn.has('nvim-0.7.0') == 0 then
-    print('plug.nvim requires neovim v0.7.0 or later')
-    return
-  end
-
-  if P.use_api then
-    P.for_each(function (definition)
-      local definitions = P.raw_dispatch(
-        'plugin', true, { definition }, P.to_plugin
-      )
-
-      if definitions == false then
-        return
-      end
-
-      P.plugs = vim.list_extend(P.plugs, definitions)
-    end, true)
-  end
-  P.plugs = P.dispatch('plugin_collected', P.plugs)
-
-  -- process pre-setup
-  --   perform before vim-plug installation to allow custom function to
-  --   dictate how vim-plug should behave
-  P.dispatch('pre_setup', P.plugs)
-  if P.raw_dispatch('setup', true, P.plugs) == false then
-    return
-  end
-
-  if P.plugin_dir then
-    I.begin(P.plugin_dir)
-  else
-    I.begin()
-  end
-  P.for_each(P.load, true)
-  I.ended()
-
-  P.for_each(P.post)
-
-  if next(P.lazy) then
-    vim.defer_fn(P.schedule_lazy, P.lazy_delay)
-  end
-
-  P.setup_functions()
-
-  P.dispatch('done')
-
-  P.plugs = {}
-end
-
-M.setup = function (opts, fn)
-  local is_fn = type(opts) == 'function'
-
-  if not is_fn and next(P.plugs) then
-    M.begin(opts)
-    return M.ended()
-  end
-
-  if is_fn or type(fn) == 'function' then
-    M.begin(not is_fn and opts or nil)
-
-    if is_fn then
-      opts(M.install)
-    else
-      fn(M.install)
-    end
-
-    return M.ended()
-  end
-
-  M.begin(opts)
-  return i.generator(function (next)
-    return function (plugin)
-      if plugin == nil or plugin == '' or #plugin == 0 then
-        return M.ended()
-      end
-
-      M.install(plugin)
-
-      return next(plugins)
-    end
-  end)
-end
-
 local plug = function (name)
   return function (...)
     return vim.fn['plug#'..name](...)
@@ -492,75 +343,153 @@ P.to_plugin = function (plugin, options)
   return definition
 end
 
--- extension for supporting pre-loading setup
-X.setup = function ()
-  local function setup()
-    P.for_each(
-      function (plugin)
-        if type(plugin.setup) == 'function' then
-          plugin.setup()
+M.begin = function (options)
+  local opts = options or {}
+
+  vim.validate {
+    plugin_dir = { opts.plugin_dir, 's', true },
+    lazy_delay = { opts.lazy_delay, 'n', true },
+    lazy_interval = { opts.lazy_interval, 'n', true },
+    delay_post = { opts.delay_post, 'n', true },
+    extensions = { opts.extensions, 't', true }
+  }
+
+  P.plugin_dir = opts.plugin_dir
+  if opts.lazy_delay then
+    P.lazy_delay = opts.lazy_delay
+  end
+  if opts.lazy_interval then
+    P.lazy_interval = opts.lazy_interval
+  end
+  if opts.delay_post then
+    P.delay_post = opts.delay_post
+  end
+
+  if opts.extensions then
+    for _, extension in ipairs(opts.extensions) do
+      if type(extension) == 'function' then
+        extension(P.hook)
+      elseif type(extension) == 'table' and extension.name then
+        local name = extension.name
+        if not P.extensions[name] then
+          P.extensions[name] = true
+          extension.entry(P.hook, P.ext_dispatch(name))
         end
       end
-    )
-  end
-
-  return function (hook)
-    hook('pre_setup', setup)
-  end
-end
-
--- extension for per-plugin deferred configurations
-X.defer = function (options)
-  local opts = options or {}
-  vim.validate {
-    defer_delay = { opts.defer_delay, 'n', true }
-  }
-  local function defer_plugin(ctx, plugin)
-    if type(plugin.defer) == 'function' then
-      vim.defer_fn(plugin.defer, 0)
-    end
-
-    if type(plugin.delay) == 'function' then
-      vim.defer_fn(plugin.delay, opts.defer_delay or P.delay_post)
     end
   end
 
-  return function (hook)
-    hook('plugin_post', defer_plugin)
+  if not next(P.plugs) then
+    P.use_api = false
   end
 end
 
-P.priority_sorter = function (plugin_a, plugin_b)
-  local a_priority = plugin_a.priority or 0
-  local b_priority = plugin_b.priority or 0
-  return a_priority < b_priority
-end
+M.install = function (...)
+  local definition = P.to_plugin(...)
 
--- extension for supporting plugin loading priority
-X.priority = function ()
-  local function sort_priority(ctx, plugs)
-    table.sort(plugs, P.priority_sorter)
-    return plugs
+  -- if plugin is this plugin, then inject upgrade function
+  if definition.name == 'spywhere/plug.nvim' then
+    P.inject_cmds = true
+    return
   end
 
-  return function (hook)
-    hook('plugin_collected', sort_priority)
-  end
-end
+  local definitions = { definition }
+  if not P.use_api then
+    definitions = P.raw_dispatch('plugin', true, definitions, P.to_plugin)
 
--- extension for per-plugin configurations
-X.config = function ()
-  local function configure_plugin(ctx, plugin)
-    if type(plugin.config) ~= 'function' then
+    if definitions == false then
       return
     end
-
-    plugin.config()
   end
 
-  return function (hook)
-    hook('plugin_post', configure_plugin)
+  P.plugs = vim.list_extend(P.plugs, definitions)
+end
+
+M.ended = function ()
+  if vim.fn.has('nvim') == 0 then
+    print('plug.nvim only supported in neovim')
+    return
+  elseif vim.fn.has('nvim-0.7.0') == 0 then
+    print('plug.nvim requires neovim v0.7.0 or later')
+    return
   end
+
+  if P.use_api then
+    P.for_each(function (definition)
+      local definitions = P.raw_dispatch(
+        'plugin', true, { definition }, P.to_plugin
+      )
+
+      if definitions == false then
+        return
+      end
+
+      P.plugs = vim.list_extend(P.plugs, definitions)
+    end, true)
+  end
+  P.plugs = P.dispatch('plugin_collected', P.plugs)
+
+  -- process pre-setup
+  --   perform before vim-plug installation to allow custom function to
+  --   dictate how vim-plug should behave
+  P.dispatch('pre_setup', P.plugs)
+  if P.raw_dispatch('setup', true, P.plugs) == false then
+    return
+  end
+
+  if P.plugin_dir then
+    I.begin(P.plugin_dir)
+  else
+    I.begin()
+  end
+  P.for_each(P.load, true)
+  I.ended()
+
+  P.for_each(P.post)
+
+  if next(P.lazy) then
+    vim.defer_fn(P.schedule_lazy, P.lazy_delay)
+  end
+
+  P.setup_functions()
+
+  P.dispatch('done')
+
+  P.plugs = {}
+end
+
+M.setup = function (opts, fn)
+  local is_fn = type(opts) == 'function'
+
+  if not is_fn and next(P.plugs) then
+    M.begin(opts)
+    return M.ended()
+  end
+
+  if is_fn or type(fn) == 'function' then
+    M.begin(not is_fn and opts or nil)
+
+    if is_fn then
+      opts(M.install)
+    else
+      fn(M.install)
+    end
+
+    return M.ended()
+  end
+
+  M.begin(opts)
+  return i.generator(function (next)
+    return function (plugin)
+      if plugin == nil or plugin == '' or #plugin == 0 then
+        return M.ended()
+      end
+
+      M.install(plugin)
+
+      return next(plugins)
+    end
+  end)
 end
 
 P.install_missing_plugins = function ()
@@ -668,22 +597,39 @@ X.auto_install = function (options)
   }
 end
 
--- extension for supporting pre-loading setup
-X.skip = function ()
-  local function skip_plugin(ctx, plugin)
-    local skip = false
-    if type(plugin.skip) == 'function' then
-      skip = plugin.skip()
-    elseif type(plugin.skip) == 'boolean' then
-      skip = plugin.skip
+-- extension for per-plugin configurations
+X.config = function ()
+  local function configure_plugin(ctx, plugin)
+    if type(plugin.config) ~= 'function' then
+      return
     end
-    if skip then
-      return false
+
+    plugin.config()
+  end
+
+  return function (hook)
+    hook('plugin_post', configure_plugin)
+  end
+end
+
+-- extension for per-plugin deferred configurations
+X.defer = function (options)
+  local opts = options or {}
+  vim.validate {
+    defer_delay = { opts.defer_delay, 'n', true }
+  }
+  local function defer_plugin(ctx, plugin)
+    if type(plugin.defer) == 'function' then
+      vim.defer_fn(plugin.defer, 0)
+    end
+
+    if type(plugin.delay) == 'function' then
+      vim.defer_fn(plugin.delay, opts.defer_delay or P.delay_post)
     end
   end
 
   return function (hook)
-    hook('plugin', skip_plugin)
+    hook('plugin_post', defer_plugin)
   end
 end
 
@@ -722,6 +668,60 @@ X.needs = function (options)
 
   return function (hook)
     hook('plugin_post', ensure_needs)
+  end
+end
+
+P.priority_sorter = function (plugin_a, plugin_b)
+  local a_priority = plugin_a.priority or 0
+  local b_priority = plugin_b.priority or 0
+  return a_priority < b_priority
+end
+
+-- extension for supporting plugin loading priority
+X.priority = function ()
+  local function sort_priority(ctx, plugs)
+    table.sort(plugs, P.priority_sorter)
+    return plugs
+  end
+
+  return function (hook)
+    hook('plugin_collected', sort_priority)
+  end
+end
+
+-- extension for supporting pre-loading setup
+X.setup = function ()
+  local function setup()
+    P.for_each(
+      function (plugin)
+        if type(plugin.setup) == 'function' then
+          plugin.setup()
+        end
+      end
+    )
+  end
+
+  return function (hook)
+    hook('pre_setup', setup)
+  end
+end
+
+-- extension for supporting pre-loading setup
+X.skip = function ()
+  local function skip_plugin(ctx, plugin)
+    local skip = false
+    if type(plugin.skip) == 'function' then
+      skip = plugin.skip()
+    elseif type(plugin.skip) == 'boolean' then
+      skip = plugin.skip
+    end
+    if skip then
+      return false
+    end
+  end
+
+  return function (hook)
+    hook('plugin', skip_plugin)
   end
 end
 
