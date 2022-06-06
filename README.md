@@ -246,7 +246,7 @@ However, the power of this plugin will reside in the extensions its included.
 
 ## Upgrade
 
-To manually upgrade only plug.nvim, use `:call PlugUpgrade()`.
+To manually upgrade only plug.nvim, use `:lua PlugUpgrade()`.
 
 To manually upgrade only vim-plug, use `:PlugUpgrade`.
 
