@@ -313,10 +313,10 @@ P.setup_functions = function ()
   }
 
   for name, fn in pairs(functions) do
-    P.fn({ name = name }, fn)
+    _G[name] = fn
 
     if P.inject_cmds then
-      P.inject_command(name, string.format('call %s()', name))
+      P.inject_command(name, string.format('lua %s()', name))
     end
   end
 end
