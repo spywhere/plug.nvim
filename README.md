@@ -116,7 +116,7 @@ plug.install {
 }
 
 -- or use a regular function call with 2 arguments
-plugin.install(
+plug.install(
   'user/repo', {
     -- set to `true`, to lazily load this plugin
     lazy = true,
@@ -198,7 +198,7 @@ plug.install {
 }
 
 -- or use a regular function call with 2 arguments
-plugin.install(
+plug.install(
   'user/repo', {
     -- set to `true`, to lazily load this plugin
     lazy = true,
