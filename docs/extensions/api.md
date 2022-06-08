@@ -97,8 +97,19 @@ call, `plug.install` or `use` function)
 
 - `plugin`: a plugin definition (see [Plugin Definition](#plugin-definition)
 type below)
-- `to_plugin`: a function that upon called will create a plugin definition,
-given a plugin setup (same structure as what is used in `plug.install`)
+- `install_plugin`: a function that upon called will setup another plugin.
+This function takes 2 parameters...
+  - `mutator` (optional): a function that will mutate a plugin definition
+before setup. This function takes 2 parameters...
+    - `plugin`: a plugin definition (see
+[Plugin Definition](#plugin-definition) type below)
+    - `containment`: a table containing...
+      - `plugin`: a plugin definition (see
+[Plugin Definition](#plugin-definition) type below)
+      - `hold`: a boolean value indicated if a containment plugin has been
+processed by an extension earlier
+  - `plugin`: a plugin definition (see [Plugin Definition](#plugin-definition)
+type below)
 
 **Returns**:
 

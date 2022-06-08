@@ -248,7 +248,7 @@ P.plugin_mutator = function (plugin)
     plugin = plugin
   }
 
-  plugin = P.raw_dispatch('plugin', true, plugin)
+  plugin = P.raw_dispatch('plugin', true, plugin, P.hold_plugin)
 
   if plugin == false then
     return
@@ -265,11 +265,51 @@ P.add_plugin = function (plugin, mutator)
     new_plugin = mutator(plugin)
   end
 
-  if new_plugin and containment == nil then
+  if type(containment) == 'table' then
+    new_plugin = containment.mutator(
+      plugin, {
+        plugin = containment.plugin,
+        hold = containment.index and true or false
+      }
+    )
+
+    if not new_plugin then
+      return
+    end
+
+    if containment.index then
+      P.plugs[containment.index] = new_plugin
+    else
+      table.insert(P.plugs, new_plugin)
+    end
+  elseif new_plugin and containment == nil then
     table.insert(P.plugs, new_plugin)
   else
     return
   end
 
   P.plugs_container[plugin.name] = true
+end
+
+P.hold_plugin = function (mutator, ...)
+  local plugin
+  if type(mutator) == 'function' then
+    plugin = P.to_plugin(...)
+  else
+    plugin = P.to_plugin(mutator, ...)
+    mutator = function (v) return v end
+  end
+
+  local containment = P.plugs_container[plugin.name]
+  if containment then
+    P.plugs_container[plugin.name].mutator = mutator
+  end
+  P.add_plugin(plugin)
+  if not containment then
+    P.plugs_container[plugin.name] = {
+      plugin = plugin,
+      index = #(P.plugs),
+      mutator = mutator
+    }
+  end
 end
