@@ -26,7 +26,7 @@ require('plug').extension.needs {
 require('plug').setup {}
 
 {
-  'repo/user',
+  'user/repo',
   -- a table containing variables and its value to be check against
   needs = {
     -- support the following variable scopes

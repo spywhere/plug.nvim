@@ -14,7 +14,7 @@ require('plug').extension.priority {}
 require('plug').setup {}
 
 {
-  'repo/user',
+  'user/repo',
   -- a loading priority of the plugin
   priority = 0
 }

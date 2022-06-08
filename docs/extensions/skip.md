@@ -18,7 +18,7 @@ require('plug').extension.skip {}
 require('plug').setup {}
 
 {
-  'repo/user',
+  'user/repo',
   -- a boolean value to indicate whether a plugin will be skipped or not
   skip = false,
   -- or it could be a function that returns a boolean value

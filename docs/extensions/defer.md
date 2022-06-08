@@ -17,7 +17,7 @@ require('plug').extension.defer {
 require('plug').setup {}
 
 {
-  'repo/user',
+  'user/repo',
   -- a closure to be perform last once a plugin is loaded
   defer = function ()
     -- ...

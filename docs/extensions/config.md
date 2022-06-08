@@ -14,7 +14,7 @@ require('plug').extension.config {}
 require('plug').setup {}
 
 {
-  'repo/user',
+  'user/repo',
   -- a configuration closure to be perform once a plugin is loaded
   config = function ()
     -- plugin configurations go here

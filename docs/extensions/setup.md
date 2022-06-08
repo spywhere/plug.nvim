@@ -15,7 +15,7 @@ require('plug').extension.setup {}
 require('plug').setup {}
 
 {
-  'repo/user',
+  'user/repo',
   -- a closure to be perform before a plugin is going to be loaded
   setup = function ()
     -- ...
