@@ -95,9 +95,8 @@ call, `plug.install` or `use` function)
 
 **Parameters**:
 
-- `plugins`: a list of plugin definitions (see
-[Plugin Definition](#plugin-definition) type below). In this event, it will
-always contain 1 plugin
+- `plugin`: a plugin definition (see [Plugin Definition](#plugin-definition)
+type below)
 - `to_plugin`: a function that upon called will create a plugin definition,
 given a plugin setup (same structure as what is used in `plug.install`)
 
