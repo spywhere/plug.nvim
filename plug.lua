@@ -15,6 +15,7 @@ local P = { -- private
   plug_nvim_path = config_home .. '/lua/plug.lua',
   sync_install = 'PlugInstall --sync | q',
   plugin_dir = nil, -- use vim-plug default
+  plugs_container = {},
   plugs = {},
   lazy = {},
   hooks = {},
@@ -343,6 +344,77 @@ P.to_plugin = function (plugin, options)
   return definition
 end
 
+P.plugin_mutator = function (plugin)
+  P.plugs_container[plugin.name] = {
+    plugin = plugin
+  }
+
+  plugin = P.raw_dispatch('plugin', true, plugin, P.hold_plugin)
+
+  if plugin == false then
+    return
+  end
+
+  return plugin
+end
+
+P.add_plugin = function (plugin, mutator)
+  local containment = P.plugs_container[plugin.name]
+
+  local new_plugin = plugin
+  if mutator then
+    new_plugin = mutator(plugin)
+  end
+
+  if type(containment) == 'table' then
+    new_plugin = containment.mutator(
+      plugin, {
+        plugin = containment.plugin,
+        hold = containment.index and true or false
+      }
+    )
+
+    if not new_plugin then
+      return
+    end
+
+    if containment.index then
+      P.plugs[containment.index] = new_plugin
+    else
+      table.insert(P.plugs, new_plugin)
+    end
+  elseif new_plugin and containment == nil then
+    table.insert(P.plugs, new_plugin)
+  else
+    return
+  end
+
+  P.plugs_container[plugin.name] = true
+end
+
+P.hold_plugin = function (mutator, ...)
+  local plugin
+  if type(mutator) == 'function' then
+    plugin = P.to_plugin(...)
+  else
+    plugin = P.to_plugin(mutator, ...)
+    mutator = function (v) return v end
+  end
+
+  local containment = P.plugs_container[plugin.name]
+  if containment then
+    P.plugs_container[plugin.name].mutator = mutator
+  end
+  P.add_plugin(plugin)
+  if not containment then
+    P.plugs_container[plugin.name] = {
+      plugin = plugin,
+      index = #(P.plugs),
+      mutator = mutator
+    }
+  end
+end
+
 M.begin = function (options)
   local opts = options or {}
 
@@ -393,16 +465,7 @@ M.install = function (...)
     return
   end
 
-  local definitions = { definition }
-  if not P.use_api then
-    definitions = P.raw_dispatch('plugin', true, definitions, P.to_plugin)
-
-    if definitions == false then
-      return
-    end
-  end
-
-  P.plugs = vim.list_extend(P.plugs, definitions)
+  P.add_plugin(definition, not P.use_api and P.plugin_mutator or nil)
 end
 
 M.ended = function ()
@@ -415,18 +478,9 @@ M.ended = function ()
   end
 
   if P.use_api then
-    P.for_each(function (definition)
-      local definitions = P.raw_dispatch(
-        'plugin', true, { definition }, P.to_plugin
-      )
-
-      if definitions == false then
-        return
-      end
-
-      P.plugs = vim.list_extend(P.plugs, definitions)
-    end, true)
+    P.for_each(function (p) P.add_plugin(p, P.plugin_mutator) end, true)
   end
+  P.plugs_container = {}
   P.plugs = P.dispatch('plugin_collected', P.plugs)
 
   -- process pre-setup
@@ -689,6 +743,38 @@ X.priority = function ()
   end
 end
 
+-- extension for supporting plugin requirements
+X.requires = function ()
+  local function require_mutator(plugin, containment)
+    plugin = vim.tbl_deep_extend('force', plugin, containment.plugin)
+
+    if plugin.optional then
+      plugin.optional = nil
+    end
+
+    return plugin
+  end
+
+  local function require_plugins(ctx, plugin, install_plugin)
+    if plugin.optional then
+      return false
+    end
+
+    local requires = plugin.requires or {}
+    if type(requires) ~= 'table' then
+      requires = { requires }
+    end
+
+    for _, req in ipairs(requires) do
+      install_plugin(require_mutator, req)
+    end
+  end
+
+  return function (hook)
+    hook('plugin', require_plugins)
+  end
+end
+
 -- extension for supporting pre-loading setup
 X.setup = function ()
   local function setup()
@@ -708,8 +794,7 @@ end
 
 -- extension for supporting pre-loading setup
 X.skip = function ()
-  local function skip_plugin(ctx, plugins)
-    local plugin = plugins[1]
+  local function skip_plugin(ctx, plugin)
     local skip = false
     if type(plugin.skip) == 'function' then
       skip = plugin.skip()
