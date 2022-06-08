@@ -478,6 +478,7 @@ M.ended = function ()
   end
 
   if P.use_api then
+    P.plugs_container = {}
     P.for_each(function (p) P.add_plugin(p, P.plugin_mutator) end, true)
   end
   P.plugs_container = {}
