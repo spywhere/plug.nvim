@@ -48,16 +48,7 @@ M.install = function (...)
     return
   end
 
-  local definitions = { definition }
-  if not P.use_api then
-    definitions = P.raw_dispatch('plugin', true, definitions, P.to_plugin)
-
-    if definitions == false then
-      return
-    end
-  end
-
-  P.plugs = vim.list_extend(P.plugs, definitions)
+  P.add_plugin(definition, not P.use_api and P.plugin_mutator or nil)
 end
 
 M.ended = function ()
@@ -70,18 +61,9 @@ M.ended = function ()
   end
 
   if P.use_api then
-    P.for_each(function (definition)
-      local definitions = P.raw_dispatch(
-        'plugin', true, { definition }, P.to_plugin
-      )
-
-      if definitions == false then
-        return
-      end
-
-      P.plugs = vim.list_extend(P.plugs, definitions)
-    end, true)
+    P.for_each(function (p) P.add_plugin(p, P.plugin_mutator) end, true)
   end
+  P.plugs_container = {}
   P.plugs = P.dispatch('plugin_collected', P.plugs)
 
   -- process pre-setup

@@ -1,7 +1,6 @@
 -- extension for supporting pre-loading setup
 X.skip = function ()
-  local function skip_plugin(ctx, plugins)
-    local plugin = plugins[1]
+  local function skip_plugin(ctx, plugin)
     local skip = false
     if type(plugin.skip) == 'function' then
       skip = plugin.skip()

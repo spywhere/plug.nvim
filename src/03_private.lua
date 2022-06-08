@@ -242,3 +242,34 @@ P.to_plugin = function (plugin, options)
   definition.identifier = vim.fn.fnamemodify(name, ':t:s?\\.git$??')
   return definition
 end
+
+P.plugin_mutator = function (plugin)
+  P.plugs_container[plugin.name] = {
+    plugin = plugin
+  }
+
+  plugin = P.raw_dispatch('plugin', true, plugin)
+
+  if plugin == false then
+    return
+  end
+
+  return plugin
+end
+
+P.add_plugin = function (plugin, mutator)
+  local containment = P.plugs_container[plugin.name]
+
+  local new_plugin = plugin
+  if mutator then
+    new_plugin = mutator(plugin)
+  end
+
+  if new_plugin and containment == nil then
+    table.insert(P.plugs, new_plugin)
+  else
+    return
+  end
+
+  P.plugs_container[plugin.name] = true
+end

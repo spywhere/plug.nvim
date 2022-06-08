@@ -11,6 +11,7 @@ local P = { -- private
   plug_nvim_path = config_home .. '/lua/plug.lua',
   sync_install = 'PlugInstall --sync | q',
   plugin_dir = nil, -- use vim-plug default
+  plugs_container = {},
   plugs = {},
   lazy = {},
   hooks = {},
