@@ -284,7 +284,7 @@ installation and auto installation for missing plugins
 - [`config`](docs/extensions/config.md): Add a support for per-plugin configuration closure
 - [`defer`](docs/extensions/defer.md): Add a support for per-plugin deferred configurations
 - [`needs`](docs/extensions/needs.md): Add a support for global variable requirements for plugin
-- [`priority`](docs/extensions/priority.md): Add a support for plugin loading priority
+- [`priority`](docs/extensions/priority.md): Add a support for plugin loading priority and sequencing
 - [`requires`](docs/extensions/requiers.md): Add a support for plugin requirements
 - [`setup`](docs/extensions/setup.md): Add a support for plugin pre-loading setup
 - [`skip`](docs/extensions/skip.md): Add a support for conditionally plugin skipping
