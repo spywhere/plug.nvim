@@ -1,6 +1,7 @@
 # Priority Extension
 
-This extension will allow you to configure a plugin loading priority
+This extension will allow you to configure a plugin loading priority and
+plugin sequencing
 
 ## Configurations
 
@@ -77,7 +78,7 @@ require('plug').setup {}
 
 - Prioritization will happens before plugin sequencing
 - This extension only perform plugin prioritization for loading sequence. It
-is not guarantee the loading requirements. In the following example, `plug2`
+is not guarantee the loading requirements. In the following example, `plugin2`
 will guarantee to load after `plugin1` regardless if `plugin1` is loaded or
 not
 
