@@ -67,7 +67,6 @@ require('plug').setup {}
 }
 
 {
-  -- default priority is 0, so this plugin will load first
   'other-user/other-repo'
 }
 
