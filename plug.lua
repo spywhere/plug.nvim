@@ -366,7 +366,7 @@ P.add_plugin = function (plugin, mutator)
     new_plugin = mutator(plugin)
   end
 
-  if type(containment) == 'table' then
+  if containment and containment.mutator then
     new_plugin = containment.mutator(
       plugin, {
         plugin = containment.plugin,
@@ -383,13 +383,15 @@ P.add_plugin = function (plugin, mutator)
     else
       table.insert(P.plugs, new_plugin)
     end
-  elseif new_plugin and containment == nil then
+  elseif new_plugin and not containment then
     table.insert(P.plugs, new_plugin)
   else
     return
   end
 
-  P.plugs_container[plugin.name] = true
+  P.plugs_container[plugin.name] = {
+    plugin = new_plugin
+  }
 end
 
 P.hold_plugin = function (mutator, ...)
