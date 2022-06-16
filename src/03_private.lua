@@ -170,52 +170,56 @@ P.schedule_lazy = function ()
   P.lazy = {}
 end
 
-P.setup_functions = function ()
-  local sha256 = function (path)
-    return vim.fn.sha256(table.concat(vim.fn.readfile(path), '\n'))
-  end
-
-  local functions = {
-    PlugUpgrade = function ()
-      if vim.fn.filereadable(vim.fn.expand(P.plug_nvim_path)) == 0 then
-        -- plug.nvim is loaded but not found, assumming it's on development
-        --   environment
-        print(
-          'plug.nvim cannot be found on default location, skipping upgrade'
-        )
-        return
-      end
-
-      print('Downloading the latest version of plug.nvim')
-      vim.cmd('redraw')
-
-      local tmp = vim.fn.tempname()
-      local new_file = tmp .. '/plug.lua'
-
-      local output = vim.fn.system({
-        'git', 'clone', '--depth', '1',
-        P.plug_nvim_url, tmp,
-        [true] = vim.types.array
-      })
-      if vim.v.shell_error ~= 0 then
-        print('Error upgrading plug.nvim:', output)
-        return
-      end
-
-      if sha256(P.plug_nvim_path) == sha256(new_file) then
-        print('plug.nvim is already up-to-date')
-      else
-        vim.fn.rename(P.plug_nvim_path, P.plug_nvim_path .. '.old')
-        vim.fn.rename(new_file, P.plug_nvim_path)
-        print('plug.nvim has been upgraded')
-      end
+P.functions = {
+  PlugUpgrade = function ()
+    if vim.fn.filereadable(vim.fn.expand(P.plug_nvim_path)) == 0 then
+      -- plug.nvim is loaded but not found, assumming it's on development
+      --   environment
+      print(
+        'plug.nvim cannot be found on default location, skipping upgrade'
+      )
+      return
     end
-  }
 
-  for name, fn in pairs(functions) do
+    print('Downloading the latest version of plug.nvim')
+    vim.cmd('redraw')
+
+    local tmp = vim.fn.tempname()
+    local new_file = tmp .. '/plug.lua'
+
+    local output = vim.fn.system({
+      'git', 'clone', '--depth', '1',
+      P.plug_nvim_url, tmp,
+      [true] = vim.types.array
+    })
+    if vim.v.shell_error ~= 0 then
+      print('Error upgrading plug.nvim:', output)
+      return
+    end
+
+    local sha256 = function (path)
+      return vim.fn.sha256(table.concat(vim.fn.readfile(path), '\n'))
+    end
+
+    if sha256(P.plug_nvim_path) == sha256(new_file) then
+      print('plug.nvim is already up-to-date')
+    else
+      vim.fn.rename(P.plug_nvim_path, P.plug_nvim_path .. '.old')
+      vim.fn.rename(new_file, P.plug_nvim_path)
+      print('plug.nvim has been upgraded')
+    end
+  end
+}
+
+P.setup_functions = function ()
+  for name, fn in pairs(P.functions) do
     _G[name] = fn
+  end
+end
 
-    if P.inject_cmds then
+P.setup_injections = function ()
+  if P.inject_cmds then
+    for name, _ in pairs(P.functions) do
       P.inject_command(name, string.format('lua %s()', name))
     end
   end

@@ -60,6 +60,8 @@ M.ended = function ()
     return
   end
 
+  P.setup_functions()
+
   if P.use_api then
     P.plugs_container = {}
     P.for_each(function (p) P.add_plugin(p, P.plugin_mutator) end, true)
@@ -89,7 +91,7 @@ M.ended = function ()
     vim.defer_fn(P.schedule_lazy, P.lazy_delay)
   end
 
-  P.setup_functions()
+  P.setup_injections()
 
   P.dispatch('done')
 
