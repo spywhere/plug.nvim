@@ -85,6 +85,10 @@ M.ended = function ()
   P.for_each(P.load, true)
   I.ended()
 
+  if P.raw_dispatch('post_setup', true, P.plugs) == false then
+    return
+  end
+
   P.for_each(P.post)
 
   if next(P.lazy) then

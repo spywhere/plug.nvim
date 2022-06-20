@@ -153,7 +153,7 @@ Produced right after `pre_setup` event
 **Returns**:
 
 Any value will be discarded, or returns `false` to prevent plug.nvim to
-process with the installation of all plugins
+proceed with the installation of all plugins
 
 ### `plugin_options`
 
@@ -171,6 +171,21 @@ type below)
 
 New plugin options, or returns `nil` to keep the current plugin options
 
+### `post_setup`
+
+Produced when plug.nvim has setup all plugins
+
+**Parameters**:
+
+- `plugins`: a list of plugin definitions (see
+[Plugin Definition](#plugin-definition) type below)
+
+**Returns**:
+
+Any value will be discarded, or returns `false` to prevent plug.nvim to
+proceed with plugin configurations (note that plugins are still loaded but
+not get configured in this step)
+
 ### `plugin_post`
 
 Produced when a plugin has been loaded or lazy loaded
@@ -187,7 +202,7 @@ installation setup
 
 ### `done`
 
-Produced when plug.nvim has setup all plugins
+Produced when plug.nvim has complete its plugin setups and configurations
 
 **Parameters**: _none_
 
