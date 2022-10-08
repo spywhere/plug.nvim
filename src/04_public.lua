@@ -131,7 +131,7 @@ M.setup = function (opts, fn)
 
       M.install(plugin)
 
-      return next(plugins)
+      return next()
     end
   end)
 end

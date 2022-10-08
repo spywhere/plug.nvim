@@ -1,3 +1,8 @@
+P.print = function (format, ...)
+  vim.cmd('redraw')
+  vim.notify(string.format(format, ...), vim.log.levels.INFO)
+end
+
 P.for_each = function (fn, mutable)
   local plugs = vim.tbl_extend('force', {}, P.plugs)
   if mutable then
@@ -175,14 +180,13 @@ P.functions = {
     if vim.fn.filereadable(vim.fn.expand(P.plug_nvim_path)) == 0 then
       -- plug.nvim is loaded but not found, assumming it's on development
       --   environment
-      print(
+      P.print(
         'plug.nvim cannot be found on default location, skipping upgrade'
       )
       return
     end
 
-    print('Downloading the latest version of plug.nvim')
-    vim.cmd('redraw')
+    P.print('Downloading the latest version of plug.nvim')
 
     local tmp = vim.fn.tempname()
     local new_file = tmp .. '/plug.lua'
@@ -193,7 +197,7 @@ P.functions = {
       [true] = vim.types.array
     })
     if vim.v.shell_error ~= 0 then
-      print('Error upgrading plug.nvim:', output)
+      P.print('Error upgrading plug.nvim: %s', output)
       return
     end
 
@@ -202,11 +206,11 @@ P.functions = {
     end
 
     if sha256(P.plug_nvim_path) == sha256(new_file) then
-      print('plug.nvim is already up-to-date')
+      P.print('plug.nvim is already up-to-date')
     else
       vim.fn.rename(P.plug_nvim_path, P.plug_nvim_path .. '.old')
       vim.fn.rename(new_file, P.plug_nvim_path)
-      print('plug.nvim has been upgraded')
+      P.print('plug.nvim has been upgraded')
     end
   end
 }
