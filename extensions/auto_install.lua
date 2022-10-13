@@ -61,31 +61,26 @@ X.auto_install = function (options)
   local function inject_post_setup(ctx, options, perform_post, plugin)
     local original_do = options['do']
 
-    options['do'] = vim.funcref(P.fn(
-      {
-        'info'
-      },
-      function (info)
-        -- post install
-        if info.status == 'installed' then
-          perform_post()
-          if plugin.post_install then
-            vim.defer_fn(plugin.post_install, opts.post_install_delay)
-          end
-        end
-
-        -- perform original action
-        if type(original_do) == 'userdata' or type(original_do) == 'function' then
-          original_do(info)
-        elseif type(original_do) == 'string' then
-          assert(
-            has_prefix(original_do, ':'),
-            'passing "do" as command line is not supported here'
-          )
-          vim.cmd(string.sub(original_do, 2))
+    options['do'] = function (info)
+      -- post install
+      if info.status == 'installed' then
+        perform_post()
+        if plugin.post_install then
+          vim.defer_fn(plugin.post_install, opts.post_install_delay)
         end
       end
-    ))
+
+      -- perform original action
+      if type(original_do) == 'userdata' or type(original_do) == 'function' then
+        original_do(info)
+      elseif type(original_do) == 'string' then
+        assert(
+          has_prefix(original_do, ':'),
+          'passing "do" as command line is not supported here'
+        )
+        vim.cmd(string.sub(original_do, 2))
+      end
+    end
     return options
   end
 

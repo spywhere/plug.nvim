@@ -1,4 +1,3 @@
-__plug_nvim_fns = {}
 local config_home = vim.fn.stdpath('config')
 local i = {} -- internal
 local I = {} -- vim-plug internal

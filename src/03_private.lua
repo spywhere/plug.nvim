@@ -20,53 +20,6 @@ P.auto = function (event, func)
   })
 end
 
-P.call_for_fn = function (func, args)
-  local call = { 'v:lua' }
-  local index = i.increment()
-  __plug_nvim_fns['_' .. index] = func
-  local arguments = table.concat(i.wrap(args) or {}, ',')
-  table.insert(call, '__plug_nvim_fns._' .. index .. '(' .. arguments .. ')')
-  return table.concat(call, '.')
-end
-
-P.fn = function (fn_signature, fn_ref)
-  local func = fn_ref
-  local signature = fn_signature or {}
-  if type(signature) == 'function' then
-    func = signature
-    signature = {}
-  end
-  local name = signature.name or string.format(
-    '__plug_nvim_fn_%s',
-    i.increment()
-  )
-  assert(type(name) == 'string', 'function name must be a string')
-  assert(
-    func,
-    'callback function is required for function \'' .. name .. '\''
-  )
-  assert(
-    type(func) == 'function',
-    'callback function must be a function for function \'' .. name .. '\''
-  )
-
-  local params = {}
-  local args = {}
-  for k, v in pairs(signature) do
-    if type(k) == 'number' and type(v) == 'string' then
-      table.insert(params, v)
-      table.insert(args, 'a:' .. v)
-    end
-  end
-  local definition = {
-    'function! ' .. name .. '(' .. table.concat(params, ',') ..')',
-    'return ' .. P.call_for_fn(func, args),
-    'endfunction'
-  }
-  vim.api.nvim_exec(table.concat(definition, '\n'), false)
-  return name
-end
-
 P.inject_command = function (cmd, expr)
   local expression = {
     'cnoreabbrev',

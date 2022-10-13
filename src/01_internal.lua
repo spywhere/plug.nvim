@@ -1,19 +1,3 @@
-i.increment = (function ()
-  local i = 0
-  return function ()
-    i = i + 1
-    return i
-  end
-end)()
-
-i.wrap = function (value)
-  if type(value) == 'table' then
-    return value
-  else
-    return { value }
-  end
-end
-
 i.recurse = function (fn)
   return (function (next) return next(next) end)(fn)
 end
