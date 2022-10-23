@@ -1,14 +1,14 @@
 # plug.nvim
 
-An extensible plugin manager wrap on top of
-[vim-plug](https://github.com/junegunn/vim-plug) in pure lua.
+An extensible layer for plugin managers in pure lua.
 
-Thus this plugin is not a plugin manager, so vim-plug will either need to
-install manually or configured to be automatically install.
+Thus this plugin is not a plugin manager, so a plugin manager backend will
+either need to install manually or configured to be automatically install.
 
 ## Table Of Contents
 
 * [Features](#features)
+* [Supported Backends](#supported-backends)
 * [Installation](#installation)
 * [Getting Started](#getting-started)
 * [Configurations](#configurations)
@@ -19,12 +19,12 @@ install manually or configured to be automatically install.
 
 ## Features
 
-This plugin will behave with the exact same set of features as vim-plug.
+This plugin will behave with the exact same set of its backend plugin manager.
 Only with the ability to extends its behaviour.
 
 So with some built-in configurations, you could achieve...
 
-- vim-plug automatic installation
+- Plugin manager automatic installation
 - Automatic installation of missing plugins
 - Per-plugin configuration closure
 - Plugin and variable requirements
@@ -32,6 +32,10 @@ So with some built-in configurations, you could achieve...
 - Defers setup
 - Conditionally install a plugin
 - [And more...](#extensions)
+
+## Supported Backends
+
+- [vim-plug](https://github.com/junegunn/vim-plug)
 
 ## Installation
 
@@ -47,7 +51,6 @@ Simply download
 and put it in `stdpath('config') .. '/lua/plug.lua'`.
 
 Alternatively, you could automate the process by running one command.
-Just like vim-plug!
 
 ```sh
 curl -fLo ~/.config/nvim/lua/plug.lua --create-dirs https://raw.githubusercontent.com/spywhere/plug.nvim/main/plug.lua
@@ -70,7 +73,7 @@ require('plug').setup {
 }
 
 -- a simple installation of a plugin
---   the format is exact to that in vim-plug
+--   the format is exact to that in its plugin manager backend
 'user/repo'
 
 'https://github.com/user/repo.git'
@@ -81,7 +84,7 @@ require('plug').setup {
   -- set to `true`, to lazily load this plugin
   lazy = true,
   options = {
-    -- vim-plug options for the plugin go here
+    -- plugin manager options for the plugin go here
     ['do'] = ':Function'
   }
 }
@@ -104,7 +107,7 @@ plug.begin {
 }
 
 -- a simple installation of a plugin
---   the format is exact to that in vim-plug
+--   the format is exact to that in its plugin manager backend
 Plug 'user/repo'
 
 -- or can use plug.install() directly without a helper
@@ -115,7 +118,7 @@ Plug 'https://github.com/user/repo.git'
 Plug {
   'user/repo',
   options = {
-    -- vim-plug options for the plugin go here
+    -- plugin manager options for the plugin go here
     ['do'] = ':Function'
   }
 }
@@ -126,7 +129,7 @@ Plug(
     -- set to `true`, to lazily load this plugin
     lazy = true,
     options = {
-      -- vim-plug options for the plugin go here
+    -- plugin manager options for the plugin go here
       ['do'] = ':Function'
     }
   }
@@ -151,7 +154,7 @@ plug.setup(
   },
   function (use)
     -- a simple installation of a plugin
-    --   the format is exact to that in vim-plug
+    --   the format is exact to that in its plugin manager backend
     use 'user/repo'
 
     use 'https://github.com/user/repo.git'
@@ -160,7 +163,7 @@ plug.setup(
     use {
       'user/repo',
       options = {
-        -- vim-plug options for the plugin go here
+        -- plugin manager options for the plugin go here
         ['do'] = ':Function'
       }
     }
@@ -171,7 +174,7 @@ plug.setup(
         -- set to `true`, to lazily load this plugin
         lazy = true,
         options = {
-          -- vim-plug options for the plugin go here
+          -- plugin manager options for the plugin go here
           ['do'] = ':Function'
         }
       }
@@ -188,7 +191,7 @@ local plug = require('plug')
 -- these `plug.install` calls can be performed from anywhere
 
 -- a simple installation of a plugin
---   the format is exact to that in vim-plug
+--   the format is exact to that in its plugin manager backend
 plug.install 'user/repo'
 
 plug.install 'https://github.com/user/repo.git'
@@ -197,7 +200,7 @@ plug.install 'https://github.com/user/repo.git'
 plug.install {
   'user/repo',
   options = {
-    -- vim-plug options for the plugin go here
+    -- plugin manager options for the plugin go here
     ['do'] = ':Function'
   }
 }
@@ -208,7 +211,7 @@ plug.install(
     -- set to `true`, to lazily load this plugin
     lazy = true,
     options = {
-      -- vim-plug options for the plugin go here
+      -- plugin manager options for the plugin go here
       ['do'] = ':Function'
     }
   }
@@ -229,8 +232,9 @@ However, the power of this plugin will reside in the extensions its included.
 -- depends on how you pick your setup, you can just pass the configurations
 --   table to the setup / begin call
 {
-  -- plugin installation directory, this will be passed to vim-plug begin
-  --   call. Default to the vim-plug default location.
+  -- plugin installation directory, this will be passed to relevant plugin
+  --   directory configuration option for the backend. Default to the default
+  --   location of the plugin manager backend.
   plugin_dir = nil,
   -- a delay in milliseconds before loading a lazy loaded plugins
   lazy_delay = 100,
@@ -243,7 +247,7 @@ However, the power of this plugin will reside in the extensions its included.
     -- see Extensions section below for available extensions
     --   and how to build one yourself!
 
-    -- To automatically install vim-plug and missing plugins, use
+    -- To automatically install plugin manager and missing plugins, use
     -- require('plug').extension.auto_install {}
   }
 }
@@ -253,7 +257,7 @@ However, the power of this plugin will reside in the extensions its included.
 
 To manually upgrade only plug.nvim, use `:lua PlugUpgrade()`.
 
-To manually upgrade only vim-plug, use `:PlugUpgrade`.
+To manually upgrade only, refers to the plugin manager documentations.
 
 ### vim-plug Injection
 
