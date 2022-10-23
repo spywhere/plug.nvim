@@ -95,6 +95,9 @@ require('plug').setup {
 
 ```lua
 local plug = require('plug')
+-- pass a reference to a variable so it resemble more
+--   like a vim-plug
+local Plug = plug.install
 
 plug.begin {
   -- plug.nvim configurations go here
@@ -102,12 +105,14 @@ plug.begin {
 
 -- a simple installation of a plugin
 --   the format is exact to that in vim-plug
-plug.install 'user/repo'
+Plug 'user/repo'
 
-plug.install 'https://github.com/user/repo.git'
+-- or can use plug.install() directly without a helper
+--   function needed
+Plug 'https://github.com/user/repo.git'
 
 -- to install a plugin with options, use table instead
-plug.install {
+Plug {
   'user/repo',
   options = {
     -- vim-plug options for the plugin go here
@@ -116,7 +121,7 @@ plug.install {
 }
 
 -- or use a regular function call with 2 arguments
-plug.install(
+Plug(
   'user/repo', {
     -- set to `true`, to lazily load this plugin
     lazy = true,
