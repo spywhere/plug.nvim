@@ -2,6 +2,7 @@ M.begin = function (options)
   local opts = options or {}
 
   vim.validate {
+    backend = { opts.backend, 's', true },
     plugin_dir = { opts.plugin_dir, 's', true },
     lazy_delay = { opts.lazy_delay, 'n', true },
     lazy_interval = { opts.lazy_interval, 'n', true },
@@ -9,7 +10,10 @@ M.begin = function (options)
     extensions = { opts.extensions, 't', true }
   }
 
-  P.plugin_dir = opts.plugin_dir
+  B = (B[opts.backend] or B['vim-plug']) {
+    plugin_dir = opts.plugin_dir
+  }
+
   if opts.lazy_delay then
     P.lazy_delay = opts.lazy_delay
   end
@@ -21,14 +25,17 @@ M.begin = function (options)
   end
 
   if opts.extensions then
+    local context = {
+      backend = B.name
+    }
     for _, extension in ipairs(opts.extensions) do
       if type(extension) == 'function' then
-        extension(P.hook)
+        extension(P.hook, context)
       elseif type(extension) == 'table' and extension.name then
         local name = extension.name
         if not P.extensions[name] then
           P.extensions[name] = true
-          extension.entry(P.hook, P.ext_dispatch(name))
+          extension.entry(P.hook, P.ext_dispatch(name), context)
         end
       end
     end
@@ -77,13 +84,9 @@ M.ended = function ()
     return
   end
 
-  if P.plugin_dir then
-    I.begin(P.plugin_dir)
-  else
-    I.begin()
-  end
+  B.pre_setup()
   P.for_each(P.load, true)
-  I.ended()
+  B.post_setup()
 
   if P.raw_dispatch('post_setup', true, P.plugs) == false then
     return

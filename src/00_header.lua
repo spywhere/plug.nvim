@@ -1,6 +1,6 @@
 local config_home = vim.fn.stdpath('config')
 local i = {} -- internal
-local I = {} -- vim-plug internal
+local B = {} -- backends
 local M = {} -- public
 local X = {} -- extensions
 local P = { -- private

@@ -1,10 +1,12 @@
 SOURCES:=$(sort $(wildcard src/*.lua))
+BACKENDS:=$(sort $(wildcard backends/*.lua))
 EXTENSIONS:=$(sort $(wildcard extensions/*.lua))
 OUTPUT:=plug.lua
 
 .PHONY: %.lua plug.lua src/00_header.lua src/99_footer.lua
 
 $(SOURCES): %.lua
+$(BACKENDS): %.lua
 $(EXTENSIONS): %.lua
 
 %.lua:
@@ -23,7 +25,7 @@ footer:
 	@echo
 	@cat src/99_$@.lua
 
-preview: header $(SOURCES) $(EXTENSIONS) footer
+preview: header $(SOURCES) $(BACKENDS) $(EXTENSIONS) footer
 
 compile:
 	@$(MAKE) preview > $(OUTPUT)

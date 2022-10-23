@@ -82,8 +82,10 @@ end
 P.load = function (plugin)
   local options = plugin.options or {}
 
-  if plugin.lazy then
-    options.on = {}
+  if plugin.lazy and B.lazy then
+    if B.lazy.setup then
+      B.lazy.setup(plugin, options)
+    end
     options.lazy = nil
     table.insert(P.lazy, plugin)
   else
@@ -95,15 +97,10 @@ P.load = function (plugin)
   end
   options = P.dispatch('plugin_options', options, perform_post, plugin)
 
-  options[true] = vim.types.dictionary
-  I.plug(plugin.name, options)
+  B.setup(plugin.name, options)
 end
 
 P.post = function (plugin, is_lazy)
-  if not I.is_plugin_installed(plugin.identifier) then
-    return
-  end
-
   local perform_post = function ()
     vim.defer_fn(function () P.post(plugin, is_lazy) end, P.delay_post)
   end
@@ -114,15 +111,19 @@ end
 P.schedule_lazy = function ()
   local delay = 0
 
-  for _, plugin in ipairs(P.lazy) do
-    vim.defer_fn(function ()
-      I.load(plugin.identifier)
-
+  if B.lazy then
+    for _, plugin in ipairs(P.lazy) do
       vim.defer_fn(function ()
-        P.post(plugin, true)
-      end, P.delay_post)
-    end, delay)
-    delay = delay + P.lazy_interval
+        if B.lazy.load then
+          B.lazy.load(plugin.identifier)
+        end
+
+        vim.defer_fn(function ()
+          P.post(plugin, true)
+        end, P.delay_post)
+      end, delay)
+      delay = delay + P.lazy_interval
+    end
   end
 
   P.lazy = {}

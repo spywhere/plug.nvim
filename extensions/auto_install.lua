@@ -114,11 +114,11 @@ X.auto_install = function (options)
   })
 
   local function installation(ctx)
-    ctx.is_installed = I.is_installed()
+    ctx.is_installed = B.is_installed()
 
     -- attempt to install vim-plug automatically,
     --   or skip all plugins if it's not installed
-    if not ctx.is_installed and (not opts.plug or not I.install()) then
+    if not ctx.is_installed and (not opts.plug or not B.install()) then
       -- TODO: report error
       return false
     end
