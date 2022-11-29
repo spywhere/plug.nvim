@@ -113,26 +113,28 @@ X.auto_install = function (options)
     post_install_delay = 100
   })
 
-  local function installation(ctx)
-    ctx.is_installed = B.is_installed()
+  local function installation(support_missing)
+    return function (ctx)
+      ctx.is_installed = B.is_installed()
 
-    -- attempt to install vim-plug automatically,
-    --   or skip all plugins if it's not installed
-    if not ctx.is_installed and (not opts.plug or not B.install()) then
-      -- TODO: report error
-      return false
-    end
+      -- attempt to install vim-plug automatically,
+      --   or skip all plugins if it's not installed
+      if not ctx.is_installed and (not opts.plug or not B.install()) then
+        -- TODO: report error
+        return false
+      end
 
-    if opts.missing then
-      P.auto('VimEnter', function ()
-        vim.cmd(P.sync_install)
-      end)
+      if support_missing then
+        P.auto('VimEnter', function ()
+          vim.cmd(P.sync_install)
+        end)
+      end
     end
   end
 
-  local function post_installation(dispatch)
+  local function post_installation(dispatch, support_missing)
     return function (ctx)
-      if opts.missing then
+      if support_missing then
         P.auto('VimEnter', P.install_missing_plugins)
       end
       if ctx.is_installed then
@@ -212,14 +214,15 @@ X.auto_install = function (options)
 
   return {
     name = 'auto_install',
-    entry = function (hook, dispatch)
-      hook('setup', installation)
+    entry = function (hook, dispatch, ctx)
+      local support_missing = opts.missing and ctx.backend == 'vim-plug'
+      hook('setup', installation(support_missing))
 
-      if opts.missing then
+      if support_missing then
         hook('plugin_options', inject_post_setup)
       end
 
-      hook('done', post_installation(dispatch))
+      hook('done', post_installation(dispatch, support_missing))
     end
   }
 end

@@ -1,6 +1,9 @@
 B['vim-plug'] = function (ctx)
+  local config = vim.fn.stdpath('config')
   local M = {
-    name = 'vim-plug'
+    name = 'vim-plug',
+    plug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim',
+    plug_path = config .. '/autoload/plug.vim',
   }
 
   local plug = function (name)
@@ -10,7 +13,7 @@ B['vim-plug'] = function (ctx)
   end
 
   M.is_installed = function ()
-    return vim.fn.filereadable(vim.fn.expand(P.plug_path)) ~= 0
+    return vim.fn.filereadable(vim.fn.expand(M.plug_path)) ~= 0
   end
 
   M.install = function ()
@@ -20,7 +23,7 @@ B['vim-plug'] = function (ctx)
     end
 
     vim.cmd(
-      'silent !curl -fLo ' .. P.plug_path .. ' --create-dirs ' .. P.plug_url
+      'silent !curl -fLo ' .. M.plug_path .. ' --create-dirs ' .. M.plug_url
     )
 
     return true
