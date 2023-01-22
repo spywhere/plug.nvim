@@ -140,6 +140,15 @@ P.functions = {
       return
     end
 
+    if vim.fn.filereadable(vim.fn.expand(P.old_plug_nvim_path)) ~= 0 then
+      -- plug.nvim is found on old location, mark it as old
+      P.print(
+        'plug.nvim has adopt packages (see \':h packages\'), ' ..
+        'updating the previous installation as old'
+      )
+      vim.fn.rename(P.old_plug_nvim_path, P.old_plug_nvim_path .. '.old')
+    end
+
     P.print('Downloading the latest version of plug.nvim')
 
     local tmp = vim.fn.tempname()

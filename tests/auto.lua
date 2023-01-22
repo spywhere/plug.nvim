@@ -1,5 +1,5 @@
-local config_home = vim.fn.stdpath('config')
-local plug_path = config_home .. '/lua/plug.lua'
+local pack_site = vim.fn.stdpath('data') .. '/site/pack'
+local plug_path = pack_site .. '/plug/start/plug.nvim/lua/plug.lua'
 local plug_url = 'https://raw.githubusercontent.com/spywhere/plug.nvim/main/plug.lua'
 
 if vim.fn.filereadable(vim.fn.expand(plug_path)) == 0 then

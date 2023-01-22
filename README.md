@@ -53,7 +53,7 @@ and put it in `stdpath('config') .. '/lua/plug.lua'`.
 Alternatively, you could automate the process by running one command.
 
 ```sh
-curl -fLo ~/.config/nvim/lua/plug.lua --create-dirs https://raw.githubusercontent.com/spywhere/plug.nvim/main/plug.lua
+curl -fLo ~/.local/share/nvim/site/pack/plug/start/plug.nvim/lua/plug.lua --create-dirs https://raw.githubusercontent.com/spywhere/plug.nvim/main/plug.lua
 ```
 
 For even more automatic, check out
