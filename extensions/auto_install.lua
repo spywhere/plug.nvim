@@ -1,15 +1,17 @@
-P.install_missing_plugins = function ()
-  local is_plugin_missing = function (plugin)
-    return vim.fn.isdirectory(plugin.dir) == 0
-  end
+P.install_missing_plugins = function (fn)
+  return function ()
+    local is_plugin_missing = function (plugin)
+      return vim.fn.isdirectory(plugin.dir) == 0
+    end
 
-  local plugins = vim.tbl_values(vim.g.plugs)
-  local missing_plugins = vim.tbl_filter(is_plugin_missing, plugins)
-  if not next(missing_plugins) then
-    return
-  end
+    local plugins = vim.tbl_values(vim.g.plugs)
+    local missing_plugins = vim.tbl_filter(is_plugin_missing, plugins)
+    if not next(missing_plugins) then
+      return
+    end
 
-  vim.cmd(P.sync_install)
+    fn()
+  end
 end
 
 P.execute_shell = function (command, callback)
@@ -113,7 +115,13 @@ X.auto_install = function (options)
     post_install_delay = 100
   })
 
-  local function installation(support_missing)
+  local function sync_install(command)
+    return function ()
+      vim.cmd(command)
+    end
+  end
+
+  local function installation(command)
     return function (ctx)
       ctx.is_installed = B.is_installed()
 
@@ -124,18 +132,16 @@ X.auto_install = function (options)
         return false
       end
 
-      if support_missing then
-        P.auto('VimEnter', function ()
-          vim.cmd(P.sync_install)
-        end)
+      if command then
+        P.auto('VimEnter', sync_install(command))
       end
     end
   end
 
   local function post_installation(dispatch, support_missing)
     return function (ctx)
-      if support_missing then
-        P.auto('VimEnter', P.install_missing_plugins)
+      if command then
+        P.auto('VimEnter', P.install_missing_plugins(sync_install(command)))
       end
       if ctx.is_installed then
         dispatch('has_installed')
@@ -215,14 +221,18 @@ X.auto_install = function (options)
   return {
     name = 'auto_install',
     entry = function (hook, dispatch, ctx)
-      local support_missing = opts.missing and ctx.backend == 'vim-plug'
-      hook('setup', installation(support_missing))
+      local install_command
+
+      if opts.missing and ctx.backend == 'vim-plug' then
+        install_command = ctx.sync_install
+      end
+      hook('setup', installation(install_command))
 
       if support_missing then
         hook('plugin_options', inject_post_setup)
       end
 
-      hook('done', post_installation(dispatch, support_missing))
+      hook('done', post_installation(dispatch, install_command))
     end
   }
 end

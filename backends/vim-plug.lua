@@ -3,6 +3,9 @@ B['vim-plug'] = function (ctx)
   local M = {
     plug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim',
     plug_path = config .. '/autoload/plug.vim',
+    context = {
+      sync_install = 'PlugInstall --sync | q'
+    }
   }
 
   local plug = function (name)

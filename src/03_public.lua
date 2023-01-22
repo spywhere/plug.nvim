@@ -23,9 +23,8 @@ M.begin = function (options)
   end
 
   if opts.extensions then
-    local context = {
-      backend = B.name
-    }
+    local context = B.context or {}
+    context.backend = B.name
     for _, extension in ipairs(opts.extensions) do
       if type(extension) == 'function' then
         extension(P.hook, context)
