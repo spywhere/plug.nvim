@@ -10,9 +10,9 @@ M.begin = function (options)
     extensions = { opts.extensions, 't', true }
   }
 
-  B = (B[opts.backend] or B['vim-plug']) {
+  B = B(opts.backend, {
     plugin_dir = opts.plugin_dir
-  }
+  })
 
   if opts.lazy_delay then
     P.lazy_delay = opts.lazy_delay

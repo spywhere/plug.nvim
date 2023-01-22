@@ -1,6 +1,17 @@
 local config_home = vim.fn.stdpath('config')
 local i = {} -- internal
-local B = {} -- backends
+local B = setmetatable({}, { -- backends
+  __call = function (self, name, context)
+    return (rawget(self, name) or rawget(self, 'vim-plug'))(context)
+  end,
+  __newindex = function (self, name, value)
+    rawset(self, name, function (...)
+      local backend = value(...)
+      backend.name = name
+      return backend
+    end)
+  end
+})
 local M = {} -- public
 local X = {} -- extensions
 local P = { -- private

@@ -1,7 +1,6 @@
 B['packer.nvim'] = function (ctx)
   local M = {
-    name = 'packer.nvim',
-    packer_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim',
+    packer_path = vim.fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim',
     packer_url = 'https://github.com/wbthomason/packer.nvim'
   }
 

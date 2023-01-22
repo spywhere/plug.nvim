@@ -1,7 +1,6 @@
 B['vim-plug'] = function (ctx)
   local config = vim.fn.stdpath('config')
   local M = {
-    name = 'vim-plug',
     plug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim',
     plug_path = config .. '/autoload/plug.vim',
   }
