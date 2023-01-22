@@ -3,16 +3,14 @@ M.begin = function (options)
 
   vim.validate {
     backend = { opts.backend, 's', true },
-    plugin_dir = { opts.plugin_dir, 's', true },
+    plugin_dir = { opts.plugin_dir, 's', true }, -- deprecated
     lazy_delay = { opts.lazy_delay, 'n', true },
     lazy_interval = { opts.lazy_interval, 'n', true },
     delay_post = { opts.delay_post, 'n', true },
     extensions = { opts.extensions, 't', true }
   }
 
-  B = B(opts.backend, {
-    plugin_dir = opts.plugin_dir
-  })
+  B = B(opts.backend, opts.options or opts.plugin_dir)
 
   if opts.lazy_delay then
     P.lazy_delay = opts.lazy_delay

@@ -35,7 +35,14 @@ So with some built-in configurations, you could achieve...
 
 ## Supported Backends
 
-- [vim-plug](https://github.com/junegunn/vim-plug)
+With plug.nvim flexible design, you can switch your plugin manager backend to
+your liking. You can even adopt a new fancy plugin manager by simply switch
+the backend[^1], making plugin manager migration much less painful.
+
+- [vim-plug](https://github.com/junegunn/vim-plug) (Default)
+- [packer.nvim](https://github.com/wbthomason/packer.nvim)
+
+[^1]: Any plugin `options` that are set will required a manual migration
 
 ## Installation
 
@@ -232,10 +239,13 @@ However, the power of this plugin will reside in the extensions its included.
 -- depends on how you pick your setup, you can just pass the configurations
 --   table to the setup / begin call
 {
-  -- plugin installation directory, this will be passed to relevant plugin
-  --   directory configuration option for the backend. Default to the default
-  --   location of the plugin manager backend.
-  plugin_dir = nil,
+  -- a plugin manager backend, see the supported backends above
+  backend = 'vim-plug',
+  -- options to be passed to the plugin manager backend
+    -- for vim-plug, it will be use for `plug#begin()`
+    -- for packer.nvim, it will be use for `packer.init()`. A default options
+    --   will have `display.non_interactive` set to `true`
+  options = nil,
   -- a delay in milliseconds before loading a lazy loaded plugins
   lazy_delay = 100,
   -- a delay in milliseconds between each lazy loaded plugin

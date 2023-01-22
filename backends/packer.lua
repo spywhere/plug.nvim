@@ -34,12 +34,11 @@ B['packer.nvim'] = function (ctx)
     vim.cmd('packadd packer.nvim')
 
     local packer = require('packer')
-    packer.init {
-      package_root = ctx.plugin_dir,
+    packer.init(vim.tbl_deep_extend('force', {
       display = {
         non_interactive = true
       }
-    }
+    }, ctx or {}))
     packer.reset()
     return packer
   end

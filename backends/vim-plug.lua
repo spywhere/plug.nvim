@@ -36,8 +36,8 @@ B['vim-plug'] = function (ctx)
   }
 
   M.pre_setup = function ()
-    if ctx.plugin_dir then
-      return plug'begin'(ctx.plugin_dir)
+    if ctx then
+      return plug'begin'(ctx)
     else
       return plug'begin'()
     end

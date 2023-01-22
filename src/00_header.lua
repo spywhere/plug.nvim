@@ -20,7 +20,6 @@ local P = { -- private
   old_plug_nvim_path = config_home .. '/lua/plug.lua',
   plug_nvim_path = pack_site .. '/plug/start/plug.nvim/lua/plug.lua',
   sync_install = 'PlugInstall --sync | q',
-  plugin_dir = nil, -- use vim-plug default
   plugs_container = {},
   plugs = {},
   lazy = {},

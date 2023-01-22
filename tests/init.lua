@@ -2,7 +2,7 @@ vim.opt.runtimepath:append(vim.fn.getcwd())
 local plug = require('plug')
 
 plug.setup {
-  plugin_dir = vim.fn.getcwd() .. '/plugged',
+  options = vim.fn.getcwd() .. '/plugged',
   extensions = {
     plug.extension.auto_install {},
     plug.extension.config {}
