@@ -154,11 +154,20 @@ P.functions = {
     local tmp = vim.fn.tempname()
     local new_file = tmp .. '/plug.lua'
 
-    local output = vim.fn.system({
-      'git', 'clone', '--depth', '1',
-      P.plug_nvim_url, tmp,
-      [true] = vim.types.array
-    })
+    local clone_cmd = {
+      'git', 'clone', '--depth', '1'
+    }
+
+    if P.plug_nvim_branch then
+      table.insert(clone_cmd, '--branch')
+      table.insert(clone_cmd, P.plug_nvim_branch)
+    end
+
+    table.insert(clone_cmd, P.plug_nvim_url)
+    table.insert(clone_cmd, tmp)
+    clone_cmd[true] = vim.types.array
+
+    local output = vim.fn.system(clone_cmd)
     if vim.v.shell_error ~= 0 then
       P.print('Error upgrading plug.nvim: %s', output)
       return

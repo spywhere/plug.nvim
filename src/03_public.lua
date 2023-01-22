@@ -7,7 +7,9 @@ M.begin = function (options)
     lazy_delay = { opts.lazy_delay, 'n', true },
     lazy_interval = { opts.lazy_interval, 'n', true },
     delay_post = { opts.delay_post, 'n', true },
-    extensions = { opts.extensions, 't', true }
+    extensions = { opts.extensions, 't', true },
+
+    update_branch = { opts.update_branch, 's', true }
   }
 
   B = B(opts.backend, opts.options or opts.plugin_dir)
@@ -40,6 +42,10 @@ M.begin = function (options)
 
   if not next(P.plugs) then
     P.use_api = false
+  end
+
+  if opts.update_branch then
+    P.plug_nvim_branch = opts.update_branch
   end
 end
 

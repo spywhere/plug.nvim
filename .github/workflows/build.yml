@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - packer
 
 jobs:
   build:
