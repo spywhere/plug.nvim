@@ -124,7 +124,9 @@ X.auto_install = function (options)
     end
 
     if opts.missing then
-      P.auto('VimEnter', P.sync_install)
+      P.auto('VimEnter', function ()
+        vim.cmd(P.sync_install)
+      end)
     end
   end
 
