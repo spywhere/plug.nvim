@@ -157,7 +157,7 @@ proceed with the installation of all plugins
 
 ### `plugin_options`
 
-Produced when plug.nvim try to setup a plugin through vim-plug
+Produced when plug.nvim try to setup a plugin through plugin manager
 
 **Parameters**:
 
@@ -218,7 +218,7 @@ A table containing a plugin definition
   name = '',
   -- a boolean value to indicated if this plugin will be lazy loaded
   lazy = false,
-  -- a table of plugin options that will be passed to vim-plug
+  -- a table of plugin options that will be passed to plugin manager
   options = nil,
   -- any other key that the user might set during setup
 }
@@ -226,8 +226,10 @@ A table containing a plugin definition
 
 ### Options
 
-A table containing a plugin options, see
-[`Plug` options](https://github.com/junegunn/vim-plug#plug-options)
+A table containing a plugin options to be passed to plugin manager, see
+
+- [vim-plug `Plug` options](https://github.com/junegunn/vim-plug#plug-options)
+- [packer.nvim `use` options](https://github.com/wbthomason/packer.nvim#specifying-plugins)
 
 ## Hook Setup
 

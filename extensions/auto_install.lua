@@ -114,7 +114,7 @@ P.execute_shell = function (command, callback)
   end
 end
 
--- extension for auto-install vim-plug and missing plugins
+-- extension for auto-install plugin manager and missing plugins
 X.auto_install = function (options)
   local opts = options or {}
   vim.validate {

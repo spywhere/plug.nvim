@@ -309,7 +309,7 @@ To manually upgrade only vim-plug in this case, use `: PlugUpgrade`.
 
 plug.nvim comes bundled with some set of extensions
 
-- [`auto_install`](docs/extensions/auto-install.md): Automatic vim-plug
+- [`auto_install`](docs/extensions/auto-install.md): Automatic plugin manager
 installation and auto installation for missing plugins
 - [`config`](docs/extensions/config.md): Add a support for per-plugin configuration closure
 - [`defer`](docs/extensions/defer.md): Add a support for per-plugin deferred configurations

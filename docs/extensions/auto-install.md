@@ -1,13 +1,13 @@
 # Auto Install Extension
 
-This extension will automatically install vim-plug and any missing plugins
-during neovim start up
+This extension will automatically install plugin manager and any missing
+plugins during neovim start up
 
 ## Configurations
 
 ```lua
 require('plug').extension.auto_install {
-  -- automatically install vim-plug
+  -- automatically install plugin manager
   plug = true,
   -- automatically install missing plugins (this will also install plugins
   --   automatically on the first install)
@@ -24,9 +24,9 @@ The extension will use the following events for its functionality
 
 ### `setup`
 
-Check and attempt to install vim-plug automatically. If vim-plug cannot be
-found or installed, the extension will signal plug.nvim to stop processing
-all plugin setup.
+Check and attempt to install plugin manager automatically. If plugin manager
+cannot be found or installed, the extension will signal plug.nvim to stop
+processing all plugin setup.
 
 ### `plugin_options`
 
@@ -45,14 +45,14 @@ The extension will dispatch the following events during the process.
 
 ### `auto_install.first_install`
 
-Produced when vim-plug has been installed for the first time. Run once all
+Produced when plugin manager has been installed for the first time. Run once all
 plugin setup is done.
 
 **Parameters:** _none_
 
 ### `auto_install.has_installed`
 
-Produced when vim-plug has already installed. Run once all plugin setup is
+Produced when plugin manager has already installed. Run once all plugin setup is
 done.
 
 **Parameters:** _none_

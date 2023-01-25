@@ -87,8 +87,8 @@ M.ended = function ()
   P.plugs = P.dispatch('plugin_collected', P.plugs)
 
   -- process pre-setup
-  --   perform before vim-plug installation to allow custom function to
-  --   dictate how vim-plug should behave
+  --   perform before plugin manager installation to allow custom function to
+  --   dictate how plugin manager should behave
   P.dispatch('pre_setup', P.plugs)
   if P.raw_dispatch('setup', true, P.plugs) == false then
     return
