@@ -4,6 +4,11 @@ This extension will allow you to specified plugin requirements for a plugin
 
 **Note** that nested requirements are not yet supported
 
+## Compatibility
+
+- vim-plug: Polyfilled
+- packer.nvim: Proxy to `requires`
+
 ## Configurations
 
 ```lua

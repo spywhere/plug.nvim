@@ -3,6 +3,11 @@
 This extension will allow you to configure your plugin before it going to be
 loaded using a closure
 
+## Compatibility
+
+- vim-plug: Polyfilled
+- packer.nvim: Proxy to `setup`
+
 ## Configurations
 
 ```lua

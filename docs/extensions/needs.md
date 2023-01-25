@@ -10,6 +10,11 @@ its behaviour
 **Note** that this extension should go first in order to prevent other
 extensions to load a plugin
 
+## Compatibility
+
+- vim-plug: Polyfilled
+- packer.nvim: Polyfilled, Untested
+
 ## Configurations
 
 ```lua

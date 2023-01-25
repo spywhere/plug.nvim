@@ -3,6 +3,11 @@
 This extension will allow you to configure a plugin loading priority and
 plugin sequencing
 
+## Compatibility
+
+- vim-plug: Polyfilled
+- packer.nvim: Polyfilled
+
 ## Configurations
 
 ```lua

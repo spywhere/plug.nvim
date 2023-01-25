@@ -3,6 +3,11 @@
 This extension will automatically install plugin manager and any missing
 plugins during neovim start up
 
+## Compatibility
+
+- vim-plug: Polyfilled
+- packer.nvim: Polyfilled
+
 ## Configurations
 
 ```lua

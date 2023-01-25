@@ -323,6 +323,18 @@ Note that some extensions will dictate how plug.nvim will process the setup.
 You can refer to each extension configurations and setup by following a link
 of the extension.
 
+## Extension Compatibility
+
+Each built-in extensions will have its compatibility matrix to indicate the
+compatibility with each backends. The following are the explanation of each
+compatibility meaning
+
+- Proxy to `name`: The extension will simply used the value as-is. Similar to
+how the plugin will be configured natively
+- Polyfilled: The extension will make a workaround in order to support such
+feature for the plugin manager
+- Untested: The feature might work for certain backends, required some testing
+
 ### Extension Authoring
 
 If you wish to implement your own extension, feel free to check out
