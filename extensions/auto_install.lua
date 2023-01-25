@@ -125,15 +125,23 @@ X.auto_install = function (options)
     return function (ctx)
       ctx.is_installed = B.is_installed()
 
-      -- attempt to install vim-plug automatically,
-      --   or skip all plugins if it's not installed
-      if not ctx.is_installed and (not opts.plug or not B.install()) then
-        -- TODO: report error
-        return false
+      if ctx.is_installed then
+        -- already installed, do nothing
+        return
       end
 
-      if command then
-        P.auto('VimEnter', sync_install(command))
+      -- attempt to install vim-plug automatically,
+      local install_status = opts.plug and B.install()
+
+      if install_status then
+        -- install plugins for first installation
+        if command then
+          P.auto('VimEnter', sync_install(command))
+        end
+      else
+        -- installation skipped or failed
+        -- TODO: report error
+        return false
       end
     end
   end
