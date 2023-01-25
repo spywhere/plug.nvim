@@ -252,7 +252,7 @@ X.auto_install = function (options)
       end
       hook('setup', installation(install_context))
 
-      if support_missing then
+      if install_context then
         hook('plugin_options', inject_post_setup)
       end
 
