@@ -119,11 +119,13 @@ X.auto_install = function (options)
   local opts = options or {}
   vim.validate {
     plug = { opts.plug, 'b', true },
+    manager = { opts.manager, 'b', true },
     missing = { opts.missing, 'b', true },
     post_install_delay = { opts.post_install_delay, 'n', true }
   }
   opts = vim.tbl_extend('keep', opts, {
     plug = true,
+    manager = true,
     missing = true,
     post_install_delay = 100
   })
@@ -138,7 +140,7 @@ X.auto_install = function (options)
       end
 
       -- attempt to install plugin manager automatically,
-      local install_status = opts.plug and B.install()
+      local install_status = (opts.manager or opts.plug) and B.install()
 
       if install_status then
         -- install plugins for first installation

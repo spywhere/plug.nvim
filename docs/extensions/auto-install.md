@@ -13,7 +13,7 @@ plugins during neovim start up
 ```lua
 require('plug').extension.auto_install {
   -- automatically install plugin manager
-  plug = true,
+  manager = true,
   -- automatically install missing plugins (this will also install plugins
   --   automatically on the first install)
   missing = true,
