@@ -16,13 +16,7 @@ end
 
 P.install_missing_plugins = function (install_context)
   return function ()
-    local is_plugin_missing = function (plugin)
-      return vim.fn.isdirectory(plugin.dir) == 0
-    end
-
-    local plugins = vim.tbl_values(vim.g.plugs)
-    local missing_plugins = vim.tbl_filter(is_plugin_missing, plugins)
-    if not next(missing_plugins) then
+    if not install_context.has_missing_plugins() then
       return
     end
 
@@ -161,7 +155,7 @@ X.auto_install = function (options)
 
   local function post_installation(dispatch, install_context)
     return function (ctx)
-      if install_context then
+      if install_context and install_context.has_missing_plugins then
         P.auto(
           'VimEnter',
           P.install_missing_plugins(install_context)

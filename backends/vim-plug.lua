@@ -15,7 +15,13 @@ B['vim-plug'] = function (ctx)
   end
 
   M.context.has_missing_plugins = function ()
-    return false
+    local is_plugin_missing = function (plugin)
+      return vim.fn.isdirectory(plugin.dir) == 0
+    end
+
+    local plugins = vim.tbl_values(vim.g.plugs)
+    local missing_plugins = vim.tbl_filter(is_plugin_missing, plugins)
+    return next(missing_plugins)
   end
 
   M.is_installed = function ()
