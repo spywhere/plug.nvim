@@ -1,10 +1,31 @@
 B['packer.nvim'] = function (ctx)
+  local handlers = {}
   local M = {
     packer_path = vim.fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim',
     packer_url = 'https://github.com/wbthomason/packer.nvim',
     context = {
       install_command = function ()
         require('packer').sync()
+      end,
+      setup_handler = function (ext, name)
+        if handlers[ext .. '.' .. name] then
+          return
+        end
+
+        require('packer').set_handler(name, function (_, plugin, value)
+          local call = string.format(
+            'require(\'plug\').extension.%s[\'%s\'](\'%s\')',
+            ext, value, name
+          )
+
+          if type(plugin.config) == 'table' then
+            table.insert(plugin.config, call)
+          else
+            plugin.config = { call }
+          end
+        end)
+
+        handlers[ext .. '.' .. name] = true
       end
     }
   }
