@@ -255,8 +255,7 @@ However, the power of this plugin will reside in the extensions its included.
   backend = 'vim-plug',
   -- options to be passed to the plugin manager backend
     -- for vim-plug, it will be use for `plug#begin()`
-    -- for packer.nvim, it will be use for `packer.init()`. A default options
-    --   will have `display.non_interactive` set to `true`
+    -- for packer.nvim, it will be use for `packer.init()`
   options = nil,
   -- a delay in milliseconds before loading a lazy loaded plugins
   lazy_delay = 100,
