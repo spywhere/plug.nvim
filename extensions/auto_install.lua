@@ -247,12 +247,12 @@ X.auto_install = function (options)
     entry = function (hook, dispatch, ctx)
       local install_context
 
-      if opts.missing and ctx.backend == 'vim-plug' then
+      if opts.missing then
         install_context = ctx
       end
       hook('setup', installation(install_context))
 
-      if install_context then
+      if install_context and ctx.backend == 'vim-plug' then
         hook('plugin_options', inject_post_setup)
       end
 
