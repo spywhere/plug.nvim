@@ -3,7 +3,15 @@ local pack_site = vim.fn.stdpath('data') .. '/site/pack'
 local i = {} -- internal
 local B = setmetatable({}, { -- backends
   __call = function (self, name, context)
-    return (rawget(self, name) or rawget(self, 'vim-plug'))(context)
+    -- fallback to vim-plug will soon be deprecated
+    --   upcoming version should explicitly required backend name
+    local backend = rawget(self, name or 'vim-plug')
+
+    if not backend then
+      return backend
+    end
+
+    return backend(context)
   end,
   __newindex = function (self, name, value)
     rawset(self, name, function (...)

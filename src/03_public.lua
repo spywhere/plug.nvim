@@ -14,6 +14,11 @@ M.begin = function (options)
 
   B = B(opts.backend, opts.options or opts.plugin_dir)
 
+  if not B then
+    P.print('Unsupported backend: %s', opts.backend)
+    return
+  end
+
   if opts.lazy_delay then
     P.lazy_delay = opts.lazy_delay
   end
@@ -62,11 +67,13 @@ M.install = function (...)
 end
 
 M.ended = function ()
-  if vim.fn.has('nvim') == 0 then
-    print('plug.nvim only supported in neovim')
+  if not B then
+    return
+  elseif vim.fn.has('nvim') == 0 then
+    P.print('plug.nvim only supported in neovim')
     return
   elseif vim.fn.has('nvim-0.7.0') == 0 then
-    print('plug.nvim requires neovim v0.7.0 or later')
+    P.print('plug.nvim requires neovim v0.7.0 or later')
     return
   end
 
