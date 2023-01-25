@@ -94,9 +94,13 @@ M.ended = function ()
     return
   end
 
-  B.pre_setup()
+  if B.pre_setup then
+    B.pre_setup()
+  end
   P.for_each(P.load, true)
-  B.post_setup()
+  if B.post_setup then
+    B.post_setup()
+  end
 
   if P.raw_dispatch('post_setup', true, P.plugs) == false then
     return
