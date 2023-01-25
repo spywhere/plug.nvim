@@ -1,14 +1,17 @@
 B['packer.nvim'] = function (ctx)
   local M = {
     packer_path = vim.fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim',
-    packer_url = 'https://github.com/wbthomason/packer.nvim'
+    packer_url = 'https://github.com/wbthomason/packer.nvim',
+    context = {
+      install_command = function ()
+        require('packer').sync()
+      end
+    }
   }
 
   M.is_installed = function ()
     return vim.fn.empty(vim.fn.glob(M.packer_path)) == 0
   end
-
-  local first_install = M.is_installed()
 
   M.install = function ()
     -- git is not found
@@ -46,12 +49,6 @@ B['packer.nvim'] = function (ctx)
   M.setup = function (name, options)
     options[1] = name
     require('packer').use(options)
-  end
-
-  M.post_setup = function ()
-    if not first_install then
-      require('packer').sync()
-    end
   end
 
   return M
