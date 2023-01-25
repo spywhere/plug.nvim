@@ -4,7 +4,7 @@ B['vim-plug'] = function (ctx)
     plug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim',
     plug_path = config .. '/autoload/plug.vim',
     context = {
-      sync_install = 'PlugInstall --sync | q'
+      install_command = 'PlugInstall --sync | q'
     }
   }
 
@@ -12,6 +12,10 @@ B['vim-plug'] = function (ctx)
     return function (...)
       return vim.fn['plug#'..name](...)
     end
+  end
+
+  M.context.has_missing_plugins = function ()
+    return false
   end
 
   M.is_installed = function ()
