@@ -27,7 +27,9 @@ P.install_missing_plugins = function (install_context)
     end
 
     local fn = P.run_install_plugins(install_context, false)
-    fn and fn()
+    if fn then
+      fn()
+    end
   end
 end
 
