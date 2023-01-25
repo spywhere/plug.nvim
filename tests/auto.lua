@@ -9,8 +9,10 @@ if vim.fn.filereadable(vim.fn.expand(plug_path)) == 0 then
     return
   end
   vim.cmd(
-  'silent !curl -fLo ' .. plug_path .. ' --create-dirs ' .. plug_url
+    'silent !curl -fLo ' .. plug_path .. ' --create-dirs ' .. plug_url
   )
+
+  vim.cmd('packadd! plug.nvim')
 end
 
 local plug = require('plug')

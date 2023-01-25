@@ -22,7 +22,13 @@ if vim.fn.filereadable(vim.fn.expand(plug_path)) == 0 then
   vim.cmd(
     'silent !curl -fLo ' .. plug_path .. ' --create-dirs ' .. plug_url
   )
+  -- only required if you have plug.nvim configured as 'start'
+  --   since with 'opt' you would have to do the same every time as below
+  vim.cmd('packadd! plug.nvim')
 end
+
+-- required if you have plug.nvim configured as 'opt'
+-- vim.cmd('packadd! plug.nvim')
 
 -- your plugin setup can go here
 local plug = require('plug')

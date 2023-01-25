@@ -55,7 +55,7 @@ code will not be maintained.
 
 Simply download
 [plug.lua](https://raw.githubusercontent.com/spywhere/plug.nvim/main/plug.lua)
-and put it in `stdpath('config') .. '/lua/plug.lua'`.
+and put it in `stdpath('data') .. '/site/pack/plug/start/plug.nvim/lua/plug.lua'`.
 
 Alternatively, you could automate the process by running one command.
 
@@ -75,6 +75,9 @@ you can choose the one that suit your workflow best.
 ### Setup 1 - Recommended Way
 
 ```lua
+-- required if you have plug.nvim configured as 'opt'
+-- vim.cmd('packadd! plug.nvim')
+
 require('plug').setup {
   -- plug.nvim configurations go here
 }
@@ -104,6 +107,9 @@ require('plug').setup {
 ### Setup 2 - vim-plug Way
 
 ```lua
+-- required if you have plug.nvim configured as 'opt'
+-- vim.cmd('packadd! plug.nvim')
+
 local plug = require('plug')
 -- pass a reference to a variable so it resemble more
 --   like a vim-plug
@@ -149,6 +155,9 @@ plug.ended()
 ### Setup 3 - packer.nvim Way
 
 ```lua
+-- required if you have plug.nvim configured as 'opt'
+-- vim.cmd('packadd! plug.nvim')
+
 local plug = require('plug')
 
 -- use the following if you want to use the default configurations
@@ -193,6 +202,9 @@ plug.setup(
 ### Setup 4 - API Way
 
 ```lua
+-- required if you have plug.nvim configured as 'opt'
+-- vim.cmd('packadd! plug.nvim')
+
 local plug = require('plug')
 
 -- these `plug.install` calls can be performed from anywhere
