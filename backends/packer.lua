@@ -60,6 +60,11 @@ B['packer.nvim'] = function (ctx)
     local packer = require('packer')
     packer.init(ctx)
     packer.reset()
+
+    M.setup('wbthomason/packer.nvim', {
+      opt = true
+    })
+
     return packer
   end
 
