@@ -17,7 +17,7 @@ X.skip = function ()
       return
     end
 
-    options.disable = skip_plugin(_, plugin)
+    options.disable = skip_plugin(_, plugin) == false
   end
 
   return function (hook, ctx)
