@@ -7,8 +7,9 @@ B['packer.nvim'] = function (ctx)
       install_command = function ()
         require('packer').sync()
       end,
-      setup_handler = function (ext, name)
-        if handlers[ext .. '.' .. name] then
+      setup_handler = function (ext, name, kind)
+        local keyname = ext .. '.' .. name .. '.' .. (kind or 'config')
+        if handlers[keyname] then
           return
         end
 
@@ -18,14 +19,18 @@ B['packer.nvim'] = function (ctx)
             ext, value, name
           )
 
-          if type(plugin.config) == 'table' then
-            table.insert(plugin.config, call)
+          if not kind or kind == 'config' then
+            if type(plugin.config) == 'table' then
+              table.insert(plugin.config, call)
+            else
+              plugin.config = { call }
+            end
           else
-            plugin.config = { call }
+            plugin[kind] = call
           end
         end)
 
-        handlers[ext .. '.' .. name] = true
+        handlers[keyname] = true
       end
     }
   }

@@ -12,7 +12,19 @@ X.skip = function ()
     end
   end
 
-  return function (hook)
-    hook('plugin', skip_plugin)
+  local function to_options(_, options, _, plugin)
+    if plugin.skip == nil then
+      return
+    end
+
+    options.disable = skip_plugin(_, plugin)
+  end
+
+  return function (hook, ctx)
+    if ctx.backend == 'vim-plug' then
+      hook('plugin', skip_plugin)
+    elseif ctx.backend == 'packer.nvim' then
+      hook('plugin_options', to_options)
+    end
   end
 end

@@ -25,7 +25,19 @@ X.requires = function ()
     end
   end
 
-  return function (hook)
-    hook('plugin', require_plugins)
+  local function to_options(_, options, _, plugin)
+    if not plugin.requires then
+      return
+    end
+
+    options.requires = plugin.requires
+  end
+
+  return function (hook, ctx)
+    if ctx.backend == 'vim-plug' then
+      hook('plugin', require_plugins)
+    elseif ctx.backend == 'packer.nvim' then
+      hook('plugin_options', to_options)
+    end
   end
 end
