@@ -41,11 +41,12 @@ going to behave
 ### Extension that handle events
 
 If your extension only handle on specific events, your extension function
-could simply return a function that takes a 'hook' function
+could simply return a function that takes a 'hook' function and a backend
+'context'
 
 ```lua
 local my_extension = function (options)
-  return function (hook)
+  return function (hook, context)
     -- your extension code and hook setup goes here
   end
 end
@@ -66,7 +67,8 @@ local my_extension = function (options)
     -- your extension name (snake_case is preferred here)
     name = 'my_extension',
     -- your extension entry point, takes 'hook' and 'dispatch' function
-    entry = function (hook, dispatch)
+    --   as well as a backend 'context'
+    entry = function (hook, dispatch, context)
       -- your extension code, hook setup and event dispatch goes here
     end
   }
@@ -245,6 +247,11 @@ event parameters
 
 Please see a note on event handling with multiple extensions in
 [Events](#events) section above
+
+## Backend Context
+
+Backend context is simply an object set by the backend itself. All backend
+will have `backend` key to indicate which backend currently being used
 
 ## Event Context
 
