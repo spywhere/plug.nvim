@@ -34,6 +34,7 @@ end
 local plug = require('plug')
 
 plug.setup {
+  backend = '...',  -- your preferred backend goes here
   extensions = {
     -- also perform automatic installation for plugin manager and missing plugins
     plug.extension.auto_install {}
