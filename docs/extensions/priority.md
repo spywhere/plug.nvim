@@ -7,6 +7,7 @@ plugin sequencing
 
 - vim-plug: Polyfilled
 - packer.nvim: Polyfilled
+- lazy.nvim: Polyfilled
 
 ## Configurations
 

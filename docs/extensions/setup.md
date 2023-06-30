@@ -7,6 +7,7 @@ loaded using a closure
 
 - vim-plug: Polyfilled
 - packer.nvim: Proxy to `setup`
+- lazy.nvim: Proxy to `init`
 
 ## Configurations
 

@@ -14,6 +14,7 @@ extensions to load a plugin
 
 - vim-plug: Polyfilled
 - packer.nvim: Polyfilled, Untested
+- lazy.nvim: Polyfilled, Untested
 
 ## Configurations
 

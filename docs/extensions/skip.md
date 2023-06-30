@@ -10,6 +10,7 @@ extensions to load a plugin
 
 - vim-plug: Polyfilled
 - packer.nvim: Proxy to `disable`
+- lazy.nvim: Proxy to `enabled`
 
 ## Configurations
 

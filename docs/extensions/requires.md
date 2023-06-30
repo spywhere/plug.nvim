@@ -8,6 +8,7 @@ This extension will allow you to specified plugin requirements for a plugin
 
 - vim-plug: Polyfilled
 - packer.nvim: Proxy to `requires`
+- lazy.nvim: Proxy to `dependencies`
 
 ## Configurations
 

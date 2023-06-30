@@ -6,6 +6,7 @@ This extension will allow you to configure your plugin using a closure
 
 - vim-plug: Polyfilled
 - packer.nvim: Proxy to `config`
+- lazy.nvim: Proxy to `config`
 
 ## Configurations
 

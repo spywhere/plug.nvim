@@ -12,19 +12,23 @@ X.skip = function ()
     end
   end
 
-  local function to_options(_, options, _, plugin)
-    if plugin.skip == nil then
-      return
-    end
+  local function proxy_to_options(name, match)
+    return function (_, options, _, plugin)
+      if plugin.skip == nil then
+        return
+      end
 
-    options.disable = skip_plugin(_, plugin) == false
+      options[name] = skip_plugin(_, plugin) == match
+    end
   end
 
   return function (hook, ctx)
     if ctx.backend == 'vim-plug' then
       hook('plugin', skip_plugin)
     elseif ctx.backend == 'packer.nvim' then
-      hook('plugin_options', to_options)
+      hook('plugin_options', proxy_to_options('disable', false))
+    elseif ctx.backend == 'lazy.nvim' then
+      hook('plugin_options', proxy_to_options('enabled', true))
     end
   end
 end
