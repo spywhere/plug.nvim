@@ -2,8 +2,9 @@ M.begin = function (options)
   local opts = options or {}
 
   vim.validate {
+    -- current version will fail the validation for unsupported backend
+    --   upcoming version should explicitly required backend name
     backend = { opts.backend, 's', true },
-    plugin_dir = { opts.plugin_dir, 's', true }, -- deprecated
     lazy_delay = { opts.lazy_delay, 'n', true },
     lazy_interval = { opts.lazy_interval, 'n', true },
     delay_post = { opts.delay_post, 'n', true },
@@ -12,10 +13,10 @@ M.begin = function (options)
     update_branch = { opts.update_branch, 's', true }
   }
 
-  B = B(opts.backend, opts.options or opts.plugin_dir)
+  B = B(opts.backend, opts.options)
 
   if not B then
-    P.print('Unsupported backend: %s', opts.backend)
+    P.print('plug.nvim: Unsupported backend: %s', opts.backend)
     return
   end
 

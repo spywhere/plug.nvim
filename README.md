@@ -8,6 +8,7 @@ either need to install manually or configured to be automatically install.
 ## Table Of Contents
 
 * [Features](#features)
+* [Breaking Changes](#breaking-changes)
 * [Supported Backends](#supported-backends)
 * [Installation](#installation)
 * [Getting Started](#getting-started)
@@ -33,13 +34,30 @@ So with some built-in configurations, you could achieve...
 - Conditionally install a plugin
 - [And more...](#extensions)
 
+## Breaking Changes
+
+### 2023-07-01
+
+- (requirement) `backend`: backend is no longer an optional nor  
+opinionated by default
+- (deprecated) `plugin_dir`: backend specific configurations are now named  
+as `options`. For `vim-plug` backend, simply rename `plugin_dir` to  
+`options` should set a plugin directory correctly.
+
+### Prior updates
+
+- Latest version before supporting multiple backend, check out  
+[vim-plug](https://github.com/spywhere/plug.nvim/tree/vim-plug)
+- Latest version supporting neovim v0.5.1, check out  
+[nvim-0.5.1](https://github.com/spywhere/plug.nvim/tree/nvim-0.5.1)
+
 ## Supported Backends
 
 With plug.nvim flexible design, you can switch your plugin manager backend to
 your liking. You can even adopt a new fancy plugin manager by simply switch
 the backend[^1], making plugin manager migration much less painful.
 
-- [vim-plug](https://github.com/junegunn/vim-plug) (Default)
+- [vim-plug](https://github.com/junegunn/vim-plug)
 - [packer.nvim](https://github.com/wbthomason/packer.nvim)
 
 [^1]: Any plugin `options` that are set will required a manual migration
@@ -79,7 +97,8 @@ you can choose the one that suit your workflow best.
 -- vim.cmd('packadd! plug.nvim')
 
 require('plug').setup {
-  -- plug.nvim configurations go here
+  backend = '...',  -- your preferred backend goes here
+  -- the rest of plug.nvim configurations can go here
 }
 
 -- a simple installation of a plugin
@@ -116,7 +135,8 @@ local plug = require('plug')
 local Plug = plug.install
 
 plug.begin {
-  -- plug.nvim configurations go here
+  backend = '...',  -- your preferred backend goes here
+  -- the rest of plug.nvim configurations can go here
 }
 
 -- a simple installation of a plugin
@@ -166,7 +186,8 @@ local plug = require('plug')
 --   end)
 plug.setup(
   {
-    -- plug.nvim configurations go here
+    backend = '...',  -- your preferred backend goes here
+    -- the rest of plug.nvim configurations can go here
   },
   function (use)
     -- a simple installation of a plugin
@@ -238,7 +259,8 @@ plug.install(
 
 -- then at the very last step, call `plug.setup`
 plug.setup {
-  -- plug.nvim configurations go here
+  backend = '...',  -- your preferred backend goes here
+  -- the rest of plug.nvim configurations can go here
 }
 ```
 
@@ -252,7 +274,8 @@ However, the power of this plugin will reside in the extensions its included.
 --   table to the setup / begin call
 {
   -- a plugin manager backend, see the supported backends above
-  backend = 'vim-plug',
+    -- by default plug.nvim will not pick any
+  backend = '...',
   -- options to be passed to the plugin manager backend
     -- for vim-plug, it will be use for `plug#begin()`
     -- for packer.nvim, it will be use for `packer.init()`
