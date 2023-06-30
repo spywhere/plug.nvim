@@ -52,12 +52,9 @@ B['packer.nvim'] = function (ctx)
     return true
   end
 
-  -- M.lazy = {
-  --   setup = function (_, options)
-  --     options.on = {}
-  --   end,
-  --   load = plug'load'
-  -- }
+  M.lazy = {
+    key = 'opt'
+  }
 
   M.pre_setup = function ()
     vim.cmd('packadd packer.nvim')
