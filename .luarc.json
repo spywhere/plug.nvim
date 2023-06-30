@@ -1,0 +1,9 @@
+{
+  "runtime": {
+    "version": "LuaJIT"
+  },
+  "diagnostics": {
+    "globals": ["vim", "i", "B", "M", "X", "P"]
+  },
+  "workspace.checkThirdParty": false
+}
