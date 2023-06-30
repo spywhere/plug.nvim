@@ -59,6 +59,7 @@ the backend[^1], making plugin manager migration much less painful.
 
 - [vim-plug](https://github.com/junegunn/vim-plug)
 - [packer.nvim](https://github.com/wbthomason/packer.nvim)
+- [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 [^1]: Any plugin `options` that are set will required a manual migration
 

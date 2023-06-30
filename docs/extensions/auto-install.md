@@ -7,6 +7,7 @@ plugins during neovim start up
 
 - vim-plug: Polyfilled
 - packer.nvim: Polyfilled
+- lazy.nvim: Polyfilled. Only `manager` is supported as `missing` has a built-in support
 
 ## Configurations
 

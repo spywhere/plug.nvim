@@ -2,7 +2,7 @@ vim.opt.runtimepath:append(vim.fn.getcwd())
 local plug = require('plug')
 
 plug.setup {
-  options = vim.fn.getcwd() .. '/plugged',
+  backend = 'lazy.nvim',
   extensions = {
     plug.extension.auto_install {},
     plug.extension.config {}

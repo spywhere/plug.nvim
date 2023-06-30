@@ -82,6 +82,10 @@ end
 P.load = function (plugin)
   local options = plugin.options or {}
 
+  if B.lazy and B.lazy.key then
+    options[B.lazy.key] = plugin.lazy
+  end
+
   if plugin.lazy and B.lazy then
     if B.lazy.setup then
       B.lazy.setup(plugin, options)
@@ -215,6 +219,10 @@ P.to_plugin = function (plugin, options)
       else
         name = v
       end
+    end
+
+    if type(name) ~= 'string' then
+      name = definition.name or definition.url or definition.dir
     end
   end
 

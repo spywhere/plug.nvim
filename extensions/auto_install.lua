@@ -1,7 +1,7 @@
 P.run_install_plugins = function(install_context, first_install)
   local command = install_context.install_command
   if not command then
-    return
+    return function () end
   end
   if type(command) == 'string' then
     return function ()
