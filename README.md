@@ -38,17 +38,17 @@ So with some built-in configurations, you could achieve...
 
 ### 2023-07-01
 
-- (requirement) `backend`: backend is no longer an optional nor  
+- (requirement) `backend`: backend is no longer an optional nor
 opinionated by default
-- (deprecated) `plugin_dir`: backend specific configurations are now named  
-as `options`. For `vim-plug` backend, simply rename `plugin_dir` to  
+- (deprecated) `plugin_dir`: backend specific configurations are now named
+as `options`. For `vim-plug` backend, simply rename `plugin_dir` to
 `options` should set a plugin directory correctly.
 
 ### Prior updates
 
-- Latest version before supporting multiple backend, check out  
+- Latest version before supporting multiple backend, check out
 [vim-plug](https://github.com/spywhere/plug.nvim/tree/vim-plug)
-- Latest version supporting neovim v0.5.1, check out  
+- Latest version supporting neovim v0.5.1, check out
 [nvim-0.5.1](https://github.com/spywhere/plug.nvim/tree/nvim-0.5.1)
 
 ## Supported Backends
