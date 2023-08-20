@@ -28,7 +28,7 @@ X.skip = function ()
     elseif ctx.backend == 'packer.nvim' then
       hook('plugin_options', proxy_to_options('disable', false))
     elseif ctx.backend == 'lazy.nvim' then
-      hook('plugin_options', proxy_to_options('enabled', true))
+      hook('plugin_options', proxy_to_options('enabled'))
     end
   end
 end
