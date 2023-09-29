@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build plug.nvim
+    name: Release plug.nvim
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
