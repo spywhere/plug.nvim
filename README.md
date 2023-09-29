@@ -36,6 +36,11 @@ So with some built-in configurations, you could achieve...
 
 ## Breaking Changes
 
+### 2023-09-29
+
+- (deprecated) `backend`: backend is no longer accepts string. Suggests to use
+one of the backend available through `require('plug').backend` instead.
+
 ### 2023-07-01
 
 - (requirement) `backend`: backend is no longer an optional nor
@@ -62,9 +67,40 @@ With plug.nvim flexible design, you can switch your plugin manager backend to
 your liking. You can even adopt a new fancy plugin manager by simply switch
 the backend[^1], making plugin manager migration much less painful.
 
-- [vim-plug](https://github.com/junegunn/vim-plug)
-- [packer.nvim](https://github.com/wbthomason/packer.nvim)
-- [lazy.nvim](https://github.com/folke/lazy.nvim)
+- [vim-plug](https://github.com/junegunn/vim-plug): `require('plug').backend.vim_plug`
+- [packer.nvim](https://github.com/wbthomason/packer.nvim): `require('plug').backend.packer`
+- [lazy.nvim](https://github.com/folke/lazy.nvim): `require('plug').backend.lazy`
+
+Alternatively, its full name can also be used through it is more verbose.
+
+### Configure backend configurations
+
+To configure your backend configurations, simply pass it through its function.
+
+```lua
+local plug = require('plug')
+plug.setup {
+  backend = plug.backend.your_preferred_backend {  -- your preferred backend goes here
+    -- your backend configurations can go here
+  },
+  -- the rest of plug.nvim configurations can go here
+}
+```
+
+Here are examples on various to configure your backend configurations
+
+```lua
+plug.setup {
+  backend = plug.backend.plug(),  -- use default vim-plug config
+  backend = plug.backend.packer(),  -- use default packer.nvim config
+  backend = plug.backend.packer {  -- use a custom packer.nvim config
+    auto_clean = false  -- don't clean unused plugins
+  },
+  backend = plug.backend.lazy {  -- use a custom lazy.nvim config
+    root = '/tmp/nvim-plugins'  -- set plugin installation path
+  },
+}
+```
 
 [^1]: Any plugin `options` that are set will required a manual migration
 
@@ -102,8 +138,11 @@ you can choose the one that suit your workflow best.
 -- required if you have plug.nvim configured as 'opt'
 -- vim.cmd('packadd! plug.nvim')
 
-require('plug').setup {
-  backend = '...',  -- your preferred backend goes here
+local plug = require('plug')
+plug.setup {
+  backend = plug.backend.your_preferred_backend {  -- your preferred backend goes here
+    -- your backend configurations can go here
+  },
   -- the rest of plug.nvim configurations can go here
 }
 
@@ -141,7 +180,9 @@ local plug = require('plug')
 local Plug = plug.install
 
 plug.begin {
-  backend = '...',  -- your preferred backend goes here
+  backend = plug.backend.your_preferred_backend {  -- your preferred backend goes here
+    -- your backend configurations can go here
+  },
   -- the rest of plug.nvim configurations can go here
 }
 
@@ -192,7 +233,9 @@ local plug = require('plug')
 --   end)
 plug.setup(
   {
-    backend = '...',  -- your preferred backend goes here
+    backend = plug.backend.your_preferred_backend {  -- your preferred backend goes here
+      -- your backend configurations can go here
+    },
     -- the rest of plug.nvim configurations can go here
   },
   function (use)
@@ -265,7 +308,9 @@ plug.install(
 
 -- then at the very last step, call `plug.setup`
 plug.setup {
-  backend = '...',  -- your preferred backend goes here
+  backend = plug.backend.your_preferred_backend {  -- your preferred backend goes here
+    -- your backend configurations can go here
+  },
   -- the rest of plug.nvim configurations can go here
 }
 ```
@@ -281,11 +326,7 @@ However, the power of this plugin will reside in the extensions its included.
 {
   -- a plugin manager backend, see the supported backends above
     -- by default plug.nvim will not pick any
-  backend = '...',
-  -- options to be passed to the plugin manager backend
-    -- for vim-plug, it will be use for `plug#begin()`
-    -- for packer.nvim, it will be use for `packer.init()`
-  options = nil,
+  backend = nil,
   -- a delay in milliseconds before loading a lazy loaded plugins
   lazy_delay = 100,
   -- a delay in milliseconds between each lazy loaded plugin
