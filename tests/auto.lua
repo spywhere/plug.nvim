@@ -1,5 +1,5 @@
 local pack_site = vim.fn.stdpath('data') .. '/site/pack'
-local plug_path = pack_site .. '/plug/start/plug.nvim/lua/plug.lua'
+local plug_path = pack_site .. '/plug/opt/plug.nvim/lua/plug.lua'
 local plug_url = 'https://raw.githubusercontent.com/spywhere/plug.nvim/main/plug.lua'
 
 if vim.fn.filereadable(vim.fn.expand(plug_path)) == 0 then
@@ -11,9 +11,9 @@ if vim.fn.filereadable(vim.fn.expand(plug_path)) == 0 then
   vim.cmd(
     'silent !curl -fLo ' .. plug_path .. ' --create-dirs ' .. plug_url
   )
-
-  vim.cmd('packadd! plug.nvim')
 end
+
+vim.cmd('packadd! plug.nvim')
 
 local plug = require('plug')
 
