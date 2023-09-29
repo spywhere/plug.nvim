@@ -15,7 +15,7 @@ M.begin = function (options)
     local backends = vim.tbl_keys(B)
     table.sort(backends)
     P.print(
-      'plug.nvim: Backend is required. Supported backends: %s',
+      'Backend is required. Supported backends: %s',
       table.concat(backends, ', ')
     )
     return
@@ -26,21 +26,21 @@ M.begin = function (options)
     local backendfn = B[opts.backend]
 
     if not backendfn then
-      P.print('plug.nvim: Unsupported backend: %s', opts.backend)
+      P.print('Unsupported backend: %s', opts.backend)
       return
     end
 
     local is_ok, backend = pcall(backendfn, opts.options)
     if not is_ok then
       P.print(
-        'plug.nvim: Unable to use a backend \'%s\':\n%s',
+        'Unable to use a backend \'%s\':\n%s',
         opts.backend, vim.inspect(error)
       )
       return
     else
       P.backend = backend
       P.print(
-        'plug.nvim: Backend setting through string is now deprecated'
+        '[Deprecated] Backend setting through string is now deprecated'
       )
     end
   end
@@ -50,7 +50,7 @@ M.begin = function (options)
     type(P.backend.name) ~= 'string' or
     type(P.backend.setup) ~= 'function'
   then
-    P.print('plug.nvim: Backend \'%s\' is not a valid backend', opts.backend)
+    P.print('Backend \'%s\' is not a valid backend', opts.backend)
     return
   end
 
@@ -105,10 +105,10 @@ M.ended = function ()
   if not P.backend then
     return
   elseif vim.fn.has('nvim') == 0 then
-    P.print('plug.nvim only supported in neovim')
+    P.rawprint('plug.nvim only supported in neovim')
     return
   elseif vim.fn.has('nvim-0.7.0') == 0 then
-    P.print('plug.nvim requires neovim v0.7.0 or later')
+    P.rawprint('plug.nvim requires neovim v0.7.0 or later')
     return
   end
 

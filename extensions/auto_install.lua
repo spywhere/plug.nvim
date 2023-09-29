@@ -152,10 +152,11 @@ X.auto_install = function (options)
         end
       else
         -- installation skipped or failed
-        P.print(
-          'plug.nvim: Unable to automatically install backend \'%s\'',
+        vim.notify(string.format(
+          '[%s] Unable to automatically install backend \'%s\'',
+          'plug.nvim',
           P.backend.name
-        )
+        ), vim.log.levels.ERROR)
         return false
       end
     end
