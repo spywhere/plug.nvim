@@ -1,5 +1,4 @@
 local config_home = vim.fn.stdpath('config')
-local pack_site = vim.fn.stdpath('data') .. '/site/pack'
 local i = {} -- internal
 local B = {} -- backends
 local M = {} -- public
@@ -7,7 +6,6 @@ local X = {} -- extensions
 local P = { -- private
   plug_nvim_url = 'https://github.com/spywhere/plug.nvim.git',
   old_plug_nvim_path = config_home .. '/lua/plug.lua',
-  plug_nvim_path = pack_site .. '/plug/start/plug.nvim/lua/plug.lua',
   plugs_container = {},
   plugs = {},
   lazy = {},

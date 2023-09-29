@@ -138,7 +138,11 @@ end
 
 P.functions = {
   PlugUpgrade = function ()
-    if vim.fn.filereadable(vim.fn.expand(P.plug_nvim_path)) == 0 then
+    local plug_nvim_path = vim.fn.fnamemodify(
+      debug.getinfo(1, 'S').source:sub(2), ':p'
+    )
+
+    if vim.fn.filereadable(vim.fn.expand(plug_nvim_path)) == 0 then
       -- plug.nvim is loaded but not found, assumming it's on development
       --   environment
       P.rawprint(
@@ -184,11 +188,11 @@ P.functions = {
       return vim.fn.sha256(table.concat(vim.fn.readfile(path), '\n'))
     end
 
-    if sha256(P.plug_nvim_path) == sha256(new_file) then
+    if sha256(plug_nvim_path) == sha256(new_file) then
       P.rawprint('plug.nvim is already up-to-date')
     else
-      vim.fn.rename(P.plug_nvim_path, P.plug_nvim_path .. '.old')
-      vim.fn.rename(new_file, P.plug_nvim_path)
+      vim.fn.rename(plug_nvim_path, plug_nvim_path .. '.old')
+      vim.fn.rename(new_file, plug_nvim_path)
       P.rawprint('plug.nvim has been upgraded')
     end
   end
