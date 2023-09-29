@@ -40,6 +40,11 @@ So with some built-in configurations, you could achieve...
 
 - (requirement) `backend`: backend is no longer an optional nor
 opinionated by default
+- (removed) `plugin_dir`: backend specific configurations are now named
+as `options`.
+
+### 2023-01-23
+
 - (deprecated) `plugin_dir`: backend specific configurations are now named
 as `options`. For `vim-plug` backend, simply rename `plugin_dir` to
 `options` should set a plugin directory correctly.
