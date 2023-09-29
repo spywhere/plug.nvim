@@ -1,0 +1,25 @@
+name: Build
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build plug.nvim
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Generate plug.lua
+        run: |
+          make --no-print-directory compile
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          extra_plugins: |
+            @semantic-release/release-notes-generator
+            conventional-changelog-conventionalcommits
+            @semantic-release/changelog
+            @semantic-release/git
