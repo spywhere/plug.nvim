@@ -82,13 +82,13 @@ end
 P.load = function (plugin)
   local options = plugin.options or {}
 
-  if B.lazy and B.lazy.key then
-    options[B.lazy.key] = plugin.lazy
+  if P.backend.lazy and P.backend.lazy.key then
+    options[P.backend.lazy.key] = plugin.lazy
   end
 
-  if plugin.lazy and B.lazy then
-    if B.lazy.setup then
-      B.lazy.setup(plugin, options)
+  if plugin.lazy and P.backend.lazy then
+    if P.backend.lazy.setup then
+      P.backend.lazy.setup(plugin, options)
     end
     options.lazy = nil
     table.insert(P.lazy, plugin)
@@ -101,7 +101,7 @@ P.load = function (plugin)
   end
   options = P.dispatch('plugin_options', options, perform_post, plugin)
 
-  B.setup(plugin.name, options)
+  P.backend.setup(plugin.name, options)
 end
 
 P.post = function (plugin, is_lazy)
@@ -115,11 +115,11 @@ end
 P.schedule_lazy = function ()
   local delay = 0
 
-  if B.lazy then
+  if P.backend.lazy then
     for _, plugin in ipairs(P.lazy) do
       vim.defer_fn(function ()
-        if B.lazy.load then
-          B.lazy.load(plugin.identifier)
+        if P.backend.lazy.load then
+          P.backend.lazy.load(plugin.identifier)
         end
 
         vim.defer_fn(function ()

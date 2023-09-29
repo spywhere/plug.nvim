@@ -1,24 +1,7 @@
 local config_home = vim.fn.stdpath('config')
 local pack_site = vim.fn.stdpath('data') .. '/site/pack'
 local i = {} -- internal
-local B = setmetatable({}, { -- backends
-  __call = function (self, name, context)
-    local backend = rawget(self, name)
-
-    if not backend then
-      return backend
-    end
-
-    return backend(context)
-  end,
-  __newindex = function (self, name, value)
-    rawset(self, name, function (...)
-      local backend = value(...)
-      backend.name = name
-      return backend
-    end)
-  end
-})
+local B = {} -- backends
 local M = {} -- public
 local X = {} -- extensions
 local P = { -- private

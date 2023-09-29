@@ -1,5 +1,6 @@
-B['lazy.nvim'] = function (ctx)
+B.lazy = function (ctx)
   local M = {
+    name = 'lazy.nvim',
     plugins = {},
     lazy_path = vim.fn.stdpath('data') .. '/lazy/lazy.nvim',
     lazy_url = 'https://github.com/folke/lazy.nvim.git'
@@ -41,3 +42,4 @@ B['lazy.nvim'] = function (ctx)
 
   return M
 end
+B['lazy.nvim'] = B.lazy

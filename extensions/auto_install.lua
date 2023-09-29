@@ -132,7 +132,7 @@ X.auto_install = function (options)
 
   local function installation(install_context)
     return function (ctx)
-      ctx.is_installed = B.is_installed()
+      ctx.is_installed = P.backend.is_installed and P.backend.is_installed()
 
       if ctx.is_installed then
         -- already installed, do nothing
@@ -140,7 +140,10 @@ X.auto_install = function (options)
       end
 
       -- attempt to install plugin manager automatically,
-      local install_status = (opts.manager or opts.plug) and B.install()
+      local install_status = (
+        (opts.manager or opts.plug) and
+        P.backend.install and P.backend.install()
+      )
 
       if install_status then
         -- install plugins for first installation
@@ -149,7 +152,10 @@ X.auto_install = function (options)
         end
       else
         -- installation skipped or failed
-        -- TODO: report error
+        P.print(
+          'plug.nvim: Unable to automatically install backend \'%s\'',
+          P.backend.name
+        )
         return false
       end
     end

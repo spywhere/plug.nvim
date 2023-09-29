@@ -1,6 +1,7 @@
-B['packer.nvim'] = function (ctx)
+B.packer = function (ctx)
   local handlers = {}
   local M = {
+    name = 'packer.nvim',
     packer_path = vim.fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim',
     packer_url = 'https://github.com/wbthomason/packer.nvim',
     context = {
@@ -77,3 +78,4 @@ B['packer.nvim'] = function (ctx)
 
   return M
 end
+B['packer.nvim'] = B.packer

@@ -2,9 +2,7 @@ M.begin = function (options)
   local opts = options or {}
 
   vim.validate {
-    -- current version will fail the validation for unsupported backend
-    --   upcoming version should explicitly required backend name
-    backend = { opts.backend, 's', true },
+    backend = { opts.backend, { 's', 't' }, true },
     lazy_delay = { opts.lazy_delay, 'n', true },
     lazy_interval = { opts.lazy_interval, 'n', true },
     delay_post = { opts.delay_post, 'n', true },
@@ -13,10 +11,46 @@ M.begin = function (options)
     update_branch = { opts.update_branch, 's', true }
   }
 
-  B = B(opts.backend, opts.options)
+  if not opts.backend then
+    local backends = vim.tbl_keys(B)
+    table.sort(backends)
+    P.print(
+      'plug.nvim: Backend is required. Supported backends: %s',
+      table.concat(backends, ', ')
+    )
+    return
+  elseif type(opts.backend) == 'table' then
+    P.backend = opts.backend
+  else
+    -- deprecated
+    local backendfn = B[opts.backend]
 
-  if not B then
-    P.print('plug.nvim: Unsupported backend: %s', opts.backend)
+    if not backendfn then
+      P.print('plug.nvim: Unsupported backend: %s', opts.backend)
+      return
+    end
+
+    local is_ok, backend = pcall(backendfn, opts.options)
+    if not is_ok then
+      P.print(
+        'plug.nvim: Unable to use a backend \'%s\':\n%s',
+        opts.backend, vim.inspect(error)
+      )
+      return
+    else
+      P.backend = backend
+      P.print(
+        'plug.nvim: Backend setting through string is now deprecated'
+      )
+    end
+  end
+
+  if
+    type(P.backend) ~= 'table' or
+    type(P.backend.name) ~= 'string' or
+    type(P.backend.setup) ~= 'function'
+  then
+    P.print('plug.nvim: Backend \'%s\' is not a valid backend', opts.backend)
     return
   end
 
@@ -31,8 +65,8 @@ M.begin = function (options)
   end
 
   if opts.extensions then
-    local context = B.context or {}
-    context.backend = B.name
+    local context = P.backend.context or {}
+    context.backend = P.backend.name
     for _, extension in ipairs(opts.extensions) do
       if type(extension) == 'function' then
         extension(P.hook, context)
@@ -68,7 +102,7 @@ M.install = function (...)
 end
 
 M.ended = function ()
-  if not B then
+  if not P.backend then
     return
   elseif vim.fn.has('nvim') == 0 then
     P.print('plug.nvim only supported in neovim')
@@ -95,12 +129,12 @@ M.ended = function ()
     return
   end
 
-  if B.pre_setup then
-    B.pre_setup()
+  if P.backend.pre_setup then
+    P.backend.pre_setup()
   end
   P.for_each(P.load, true)
-  if B.post_setup then
-    B.post_setup()
+  if P.backend.post_setup then
+    P.backend.post_setup()
   end
 
   if P.raw_dispatch('post_setup', true, P.plugs) == false then
