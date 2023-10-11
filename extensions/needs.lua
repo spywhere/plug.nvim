@@ -32,6 +32,10 @@ X.needs = function (options)
   end
 
   return function (hook)
+    P.print(
+      '[Deprecated] Needs extension is no longer maintained and will be ' ..
+      'removed in the future release'
+    )
     hook('plugin_post', ensure_needs)
   end
 end

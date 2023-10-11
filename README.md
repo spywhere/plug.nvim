@@ -38,6 +38,11 @@ So with some built-in configurations, you could achieve...
 
 Check out [change log](CHANGELOG.md) for extensive list of changes.
 
+### 2023-10-11
+
+- (deprecated) `needs`: Due to its niche usages and how easy it could be
+implemented, `needs` extension will be removed in the future release.
+
 ### 2023-09-29
 
 - (deprecated) `backend`: backend is no longer accepts string. Suggests to use
