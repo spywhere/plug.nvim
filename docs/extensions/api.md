@@ -35,7 +35,7 @@ require('plug').setup {
 
 ## Extension Type and Ability
 
-An extension can be setup in 2 different ways depends on how your extension
+An extension can be setup in 2 different ways depends on how your extension is
 going to behave
 
 ### Extension that handle events
@@ -52,8 +52,8 @@ local my_extension = function (options)
 end
 ```
 
-Be sure to take a look into [Hook Setup](#hook-setup) section below for
-more details
+Be sure to take a look into [Hook Setup](#hook-setup) and
+[Backend Context](#backend-context) section below for more details
 
 ### Extension that dispatch events
 
@@ -78,8 +78,9 @@ end
 If there are more than one extension being setup that have the same name,
 only the first extension will get loaded.
 
-Be sure to take a look into [Hook Setup](#hook-setup) and
-[Event Dispatch](#event-dispatch) section below for more details
+Be sure to take a look into [Hook Setup](#hook-setup),
+[Backend Context](#backend-context) and [Event Dispatch](#event-dispatch)
+section below for more details
 
 ## Events
 
@@ -263,6 +264,24 @@ a best place to store any state you might need for later use
 
 With `dispatch` function available, your extension can notify another
 extension for certain events that might occurred by your extension.
+
+This function will takes an event name and event parameters as follows
+
+- `event`: An event name to be handled by the extension
+- _rest of arguments_: Event parameters
+
+```lua
+local my_extension = function (options)
+  return {
+    name = 'my_extension',
+    entry = function (hook, dispatch, context)
+      -- this call will dispatch an event name 'my_extension.my_event' with
+      --   2 event parameters
+      dispatch('my_event', 'additional', 'payload')
+    end
+  }
+end
+```
 
 Please note that event dispatched from your extension will always prefixed
 with an extension name. So if your extension named `my_extension` and dispatch
