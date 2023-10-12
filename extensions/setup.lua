@@ -51,6 +51,8 @@ X.setup = setmetatable({
         hook('plugin_options', handle_to_options(ctx))
       elseif ctx.backend == 'lazy.nvim' then
         hook('plugin_options', proxy_to_options('init'))
+      elseif ctx.backend == 'pckr.nvim' then
+        hook('plugin_options', proxy_to_options('config_pre'))
       end
     end
   end

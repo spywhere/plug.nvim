@@ -1,6 +1,6 @@
 -- extension for supporting pre-loading setup
 X.skip = function ()
-  local function skip_plugin(ctx, plugin)
+  local function skip_plugin(_, plugin)
     local skip = false
     if type(plugin.skip) == 'function' then
       skip = plugin.skip()
@@ -23,7 +23,7 @@ X.skip = function ()
   end
 
   return function (hook, ctx)
-    if ctx.backend == 'vim-plug' then
+    if ctx.backend == 'vim-plug' or ctx.backend == 'pckr.nvim' then
       hook('plugin', skip_plugin)
     elseif ctx.backend == 'packer.nvim' then
       hook('plugin_options', proxy_to_options('disable', false))

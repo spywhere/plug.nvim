@@ -10,7 +10,7 @@ X.requires = function ()
     return plugin
   end
 
-  local function require_plugins(ctx, plugin, install_plugin)
+  local function require_plugins(_, plugin, install_plugin)
     if plugin.optional then
       return false
     end
@@ -38,7 +38,7 @@ X.requires = function ()
   return function (hook, ctx)
     if ctx.backend == 'vim-plug' then
       hook('plugin', require_plugins)
-    elseif ctx.backend == 'packer.nvim' then
+    elseif ctx.backend == 'packer.nvim' or ctx.backend == 'pckr.nvim' then
       hook('plugin_options', proxy_to_options('requires'))
     elseif ctx.backend == 'lazy.nvim' then
       hook('plugin_options', proxy_to_options('dependencies'))
