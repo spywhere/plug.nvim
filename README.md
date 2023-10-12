@@ -42,6 +42,8 @@ Check out [change log](CHANGELOG.md) for extensive list of changes.
 
 - (deprecated) `needs`: Due to its niche usages and how easy it could be
 implemented, `needs` extension will be removed in the future release.
+- (deprecated) Due to a different variation of an upgrade command for each
+backend, upgrade command injection will be removed in the future release.
 
 ### 2023-09-29
 
@@ -358,7 +360,7 @@ To manually upgrade only plug.nvim, use `:lua PlugUpgrade()`.
 
 To manually upgrade only, refers to the plugin manager documentations.
 
-### vim-plug Injection
+### vim-plug Injection (Deprecated)
 
 plug.nvim can inject itself into vim-plug upgrade process, this is to allow
 plug.nvim to perform an upgrade to both plug.nvim and vim-plug in a single

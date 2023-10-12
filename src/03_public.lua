@@ -95,6 +95,9 @@ M.install = function (...)
   -- if plugin is this plugin, then inject upgrade function
   if definition.name == 'spywhere/plug.nvim' then
     P.inject_cmds = true
+    P.print(
+      '[Deprecated] Upgrade command injection is no longer support'
+    )
     return
   end
 
