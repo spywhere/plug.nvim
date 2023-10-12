@@ -37,14 +37,14 @@ backend.%:
 tests/%:
 	@cat $@.lua > $(TEMPDIR)/test.lua
 
-drytest-auto-%: tests/auto backend.%
+drytest-auto-%: tests/auto backend.% compile
 	@cat $(TEMPDIR)/init.lua
 
-drytest-%: tests/init backend.%
+drytest-%: tests/init backend.% compile
 	@cat $(TEMPDIR)/init.lua
 
-test-auto-%: tests/auto backend.%
+test-auto-%: tests/auto backend.% compile
 	nvim -u $(TEMPDIR)/init.lua
 
-test-%: tests/init backend.%
+test-%: tests/init backend.% compile
 	nvim -u $(TEMPDIR)/init.lua
