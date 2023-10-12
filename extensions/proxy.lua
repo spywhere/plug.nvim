@@ -10,7 +10,10 @@ X.proxy = function (opts)
           from = to
         end
 
-        if type(to) == 'string' then
+        if
+          type(to) == 'string' or
+          (type(to) == 'function' and type(from) == 'string')
+        then
           P.proxy_key(plugin, options, from, to)
         elseif not notify then
           notify = true
