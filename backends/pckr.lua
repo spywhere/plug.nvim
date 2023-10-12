@@ -38,8 +38,8 @@ B.pckr = function (ctx)
       end
     end,
     load = function (plugin)
-      if loaders[plugin.identifier] then
-        loaders[plugin.identifier]()
+      if loaders[plugin] then
+        loaders[plugin]()
       end
     end
   }
