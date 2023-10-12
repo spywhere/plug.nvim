@@ -50,4 +50,4 @@ This will automatically download plug.nvim to the correct location. And it
 will also performing a plugin installation for you as well.
 
 For more options on how plug.nvim install plugin manager and missing plugins,
-see [auto_install](extensions/auto-install.md) extension documentation.
+see [auto_install](/docs/extensions/auto-install.md) extension documentation.
