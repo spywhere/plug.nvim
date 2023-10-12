@@ -31,6 +31,10 @@ B.pckr = function (ctx)
 
   M.lazy = {
     setup = function (plugin, options)
+      if options.cond then
+        -- already have a custom loader, skip lazy loading
+        return
+      end
       options.cond = function (load_plugin)
         if not loaders[plugin.identifier] then
           loaders[plugin.identifier] = load_plugin
