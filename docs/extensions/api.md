@@ -231,8 +231,10 @@ A table containing a plugin definition
 
 A table containing a plugin options to be passed to plugin manager, see
 
-- [vim-plug `Plug` options](https://github.com/junegunn/vim-plug#plug-options)
+- [lazy.nvim plugin options](https://github.com/folke/lazy.nvim#-plugin-spec)
 - [packer.nvim `use` options](https://github.com/wbthomason/packer.nvim#specifying-plugins)
+- [pckr.nvim `add` options](https://github.com/lewis6991/pckr.nvim#specifying-plugins)
+- [vim-plug `Plug` options](https://github.com/junegunn/vim-plug#plug-options)
 
 ## Hook Setup
 
