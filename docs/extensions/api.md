@@ -246,6 +246,20 @@ This function will takes 2 parameters as follows
 [Event Context](#event-context) below) as a first argument and the rest are
 event parameters
 
+```lua
+local my_extension = function (options)
+  local my_event_handler = function (event_context, ...)
+    local event_parameters = { ... }
+
+    -- your event handling code here
+  end
+
+  return function (hook, backend_context)
+    hook('event_name', my_event_handler)
+  end
+end
+```
+
 Please see a note on event handling with multiple extensions in
 [Events](#events) section above
 
