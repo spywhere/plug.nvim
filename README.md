@@ -424,13 +424,21 @@ During the development, you can use the following command to automatically
 setup a working configurations to test the plugin...
 
 ```sh
-make testrun
+make test-<backend to test>
+
+# or to preview the test setup
+
+make drytest-<backend to test>
 ```
 
 To test automatic installation, use
 
 ```sh
-make testrun-auto
+make test-auto-<backend to test>
+
+# or to preview the test setup
+
+make drytest-auto-<backend to test>
 ```
 
 To preview the code generation, use

@@ -18,7 +18,7 @@ vim.cmd('packadd! plug.nvim')
 local plug = require('plug')
 
 plug.setup {
-  backend = plug.backend.lazy {
+  backend = plug.backend {
     root = vim.fn.getcwd() .. '/lazy'
   },
   extensions = {

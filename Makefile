@@ -2,6 +2,7 @@ SOURCES:=$(sort $(wildcard src/*.lua))
 BACKENDS:=$(sort $(wildcard backends/*.lua))
 EXTENSIONS:=$(sort $(wildcard extensions/*.lua))
 OUTPUT:=plug.lua
+TEMPDIR:=$(shell mktemp -d)
 
 .PHONY: %.lua plug.lua src/00_header.lua src/99_footer.lua
 
@@ -30,8 +31,20 @@ preview: header $(SOURCES) $(BACKENDS) $(EXTENSIONS) footer
 compile:
 	@$(MAKE) preview > $(OUTPUT)
 
-testrun: compile
-	@nvim -u tests/init.lua
+backend.%:
+	@sed 's/plug\.backend/plug.$@/g' $(TEMPDIR)/test.lua > $(TEMPDIR)/init.lua
 
-testrun-auto:
-	@nvim -u tests/auto.lua
+tests/%:
+	@cat $@.lua > $(TEMPDIR)/test.lua
+
+drytest-auto-%: tests/auto backend.%
+	@cat $(TEMPDIR)/init.lua
+
+drytest-%: tests/init backend.%
+	@cat $(TEMPDIR)/init.lua
+
+test-auto-%: tests/auto backend.%
+	nvim -u $(TEMPDIR)/init.lua
+
+test-%: tests/init backend.%
+	nvim -u $(TEMPDIR)/init.lua
