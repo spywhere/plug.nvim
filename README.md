@@ -38,6 +38,8 @@ So with some built-in configurations, you could achieve...
 
 Check out [change log](CHANGELOG.md) for extensive list of changes.
 
+<details>
+
 ### 2023-10-11
 
 - (deprecated) `needs`: Due to its niche usages and how easy it could be
@@ -70,6 +72,8 @@ as `options`. For `vim-plug` backend, simply rename `plugin_dir` to
 - Latest version supporting neovim v0.5.1, check out
 [nvim-0.5.1](https://github.com/spywhere/plug.nvim/tree/nvim-0.5.1)
 
+</details>
+
 ## Supported Backends
 
 With plug.nvim flexible design, you can switch your plugin manager backend to
@@ -83,7 +87,15 @@ the backend[^1], making plugin manager migration much less painful.
 
 Alternatively, its full name can also be used through it is more verbose.
 
+[^1]: Any plugin `options` that are set will required a manual migration
+
+<details>
+
+<summary>
+
 ### Configure backend configurations
+
+</summary>
 
 To configure your backend configurations, simply pass it through its function.
 
@@ -112,7 +124,7 @@ plug.setup {
 }
 ```
 
-[^1]: Any plugin `options` that are set will required a manual migration
+</details>
 
 ## Installation
 
