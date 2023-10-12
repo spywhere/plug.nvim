@@ -5,9 +5,10 @@ plugin sequencing
 
 ## Compatibility
 
-- vim-plug: Polyfilled
-- packer.nvim: Polyfilled
 - lazy.nvim: Polyfilled
+- packer.nvim: Polyfilled
+- pckr.nvim: Polyfilled
+- vim-plug: Polyfilled
 
 ## Configurations
 

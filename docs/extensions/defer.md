@@ -4,9 +4,10 @@ This extension will allow you to configure your plugin using a closure
 
 ## Compatibility
 
-- vim-plug: Polyfilled
-- packer.nvim: Polyfilled
 - lazy.nvim: Polyfilled
+- packer.nvim: Polyfilled with a custom handler for a compiled snapshot
+- pckr.nvim: Polyfilled
+- vim-plug: Polyfilled
 
 ## Configurations
 

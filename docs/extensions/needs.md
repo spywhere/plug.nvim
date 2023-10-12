@@ -12,9 +12,10 @@ extensions to load a plugin
 
 ## Compatibility
 
-- vim-plug: Polyfilled
-- packer.nvim: Polyfilled, Untested
 - lazy.nvim: Polyfilled, Untested
+- packer.nvim: Polyfilled, Untested
+- pckr.nvim: Polyfilled, Untested
+- vim-plug: Polyfilled
 
 ## Configurations
 

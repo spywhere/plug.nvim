@@ -74,9 +74,10 @@ With plug.nvim flexible design, you can switch your plugin manager backend to
 your liking. You can even adopt a new fancy plugin manager by simply switch
 the backend[^1], making plugin manager migration much less painful.
 
-- [vim-plug](https://github.com/junegunn/vim-plug): `require('plug').backend.vim_plug`
-- [packer.nvim](https://github.com/wbthomason/packer.nvim): `require('plug').backend.packer`
 - [lazy.nvim](https://github.com/folke/lazy.nvim): `require('plug').backend.lazy`
+- [packer.nvim](https://github.com/wbthomason/packer.nvim): `require('plug').backend.packer`
+- [pckr.nvim](https://github.com/lewis6991/pckr.nvim): `require('plug').backend.pckr`
+- [vim-plug](https://github.com/junegunn/vim-plug): `require('plug').backend.vim_plug`
 
 Alternatively, its full name can also be used through it is more verbose.
 

@@ -5,9 +5,10 @@ loaded using a closure
 
 ## Compatibility
 
-- vim-plug: Polyfilled
-- packer.nvim: Proxy to `setup`
 - lazy.nvim: Proxy to `init`
+- packer.nvim: Polyfilled with a custom handler for a compiled snapshot
+- pckr.nvim: Proxy to `config_pre`
+- vim-plug: Polyfilled
 
 ## Configurations
 

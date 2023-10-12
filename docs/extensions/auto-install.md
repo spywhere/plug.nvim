@@ -5,9 +5,10 @@ plugins during neovim start up
 
 ## Compatibility
 
-- vim-plug: Polyfilled
-- packer.nvim: Polyfilled
 - lazy.nvim: Polyfilled. Only `manager` is supported as `missing` has a built-in support
+- packer.nvim: Polyfilled
+- pckr.nvim: Polyfilled
+- vim-plug: Polyfilled
 
 ## Configurations
 
