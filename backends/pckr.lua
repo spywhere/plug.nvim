@@ -45,7 +45,7 @@ B.pckr = function (ctx)
   }
 
   M.pre_setup = function ()
-    vim.opt.rpt:prepend(M.pckr_path)
+    vim.opt.rtp:prepend(M.pckr_path)
 
     return require('pckr').setup(ctx)
   end
