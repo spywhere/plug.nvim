@@ -25,23 +25,13 @@ X.requires = function ()
     end
   end
 
-  local function proxy_to_options(name)
-    return function (_, options, _, plugin)
-      if not plugin.requires then
-        return
-      end
-
-      options[name] = plugin.requires
-    end
-  end
-
   return function (hook, ctx)
     if ctx.backend == 'vim-plug' then
       hook('plugin', require_plugins)
     elseif ctx.backend == 'packer.nvim' or ctx.backend == 'pckr.nvim' then
-      hook('plugin_options', proxy_to_options('requires'))
+      hook('plugin_options', P.proxy_to_options('requires'))
     elseif ctx.backend == 'lazy.nvim' then
-      hook('plugin_options', proxy_to_options('dependencies'))
+      hook('plugin_options', P.proxy_to_options('requires', 'dependencies'))
     end
   end
 end

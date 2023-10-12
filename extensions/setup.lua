@@ -34,25 +34,15 @@ X.setup = setmetatable({
       end
     end
 
-    local function proxy_to_options(name)
-      return function (_, options, _, plugin)
-        if not plugin.setup then
-          return
-        end
-
-        options[name] = plugin.setup
-      end
-    end
-
     return function (hook, ctx)
       if ctx.backend == 'vim-plug' then
         hook('pre_setup', setup)
       elseif ctx.backend == 'packer.nvim' then
         hook('plugin_options', handle_to_options(ctx))
       elseif ctx.backend == 'lazy.nvim' then
-        hook('plugin_options', proxy_to_options('init'))
+        hook('plugin_options', P.proxy_to_options('setup', 'init'))
       elseif ctx.backend == 'pckr.nvim' then
-        hook('plugin_options', proxy_to_options('config_pre'))
+        hook('plugin_options', P.proxy_to_options('setup', 'config_pre'))
       end
     end
   end

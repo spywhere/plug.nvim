@@ -310,3 +310,22 @@ P.hold_plugin = function (mutator, ...)
     }
   end
 end
+
+P.proxy_key = function (plugin, options, from, to)
+  if not plugin[from] then
+    return
+  end
+
+  local value = plugin[from]
+  local to_key = to or from
+  if type(to_key) == 'function' then
+    to_key = to_key(value)
+  end
+  options[to_key] = value
+end
+
+P.proxy_to_options = function (from, to)
+  return function (_, options, _, plugin)
+    return P.proxy_key(plugin, options, from, to)
+  end
+end
