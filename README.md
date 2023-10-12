@@ -13,10 +13,6 @@ installed.
 * [Configurations and Upgrade](/docs/configurations.md)
 * [Backends](/docs/backends)
 * [Extensions](/docs/extensions)
----
-* [Features](#features)
-* [Contributes](#contributes)
-* [License](#license)
 
 ## Features
 
@@ -34,7 +30,13 @@ So with some built-in configurations, you could achieve...
 - Conditionally install a plugin
 - [And more...](/docs/extensions)
 
+<details>
+
+<summary>
+
 ## Contributes
+
+</summary>
 
 During the development, you can use the following command to automatically
 setup a working configurations to test the plugin...
@@ -68,6 +70,8 @@ To manually generate the output code, use
 ```sh
 make compile
 ```
+
+</details>
 
 ## License
 
