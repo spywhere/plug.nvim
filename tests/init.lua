@@ -3,7 +3,8 @@ local plug = require('plug')
 
 plug.setup {
   backend = plug.backend {
-    root = vim.fn.getcwd() .. '/lazy'
+    root = vim.fn.getcwd() .. '/plugged',
+    package_root = vim.fn.getcwd() .. '/plugged'
   },
   extensions = {
     plug.extension.auto_install {},
