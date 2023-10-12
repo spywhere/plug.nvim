@@ -321,6 +321,9 @@ P.proxy_key = function (plugin, options, from, to)
   if type(to_key) == 'function' then
     to_key = to_key(value)
   end
+  if to_key == nil then
+    return
+  end
   options[to_key] = value
 end
 

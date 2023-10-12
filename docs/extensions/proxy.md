@@ -22,7 +22,23 @@ require('plug').extension.proxy {
   'key',
 
   -- proxy 'from' as 'to' to 'options'
-  from = 'to'
+  from = 'to',
+
+  -- proxy 'tag' as 'version' for lazy.nvim if value have '*' in it
+  --       'tag' as 'tag'     for lazy.nvim if value does not have '*' in it
+  --       'tag' as 'tag'     for pckr.nvim
+  -- but don't proxy for any other backend
+  tag = function ()
+    if backend == 'lazy.nvim' then
+      if string.match(value, '*') then
+        return 'version'
+      else
+        return 'tag'
+      end
+    elseif backend == 'pckr.nvim' then
+      return 'tag'
+    end
+  end
 }
 
 -- or pass it as a function that accepts backend name and returns an option
@@ -36,6 +52,22 @@ require('plug').extension.proxy(function (backend)
 
     -- proxy 'from' as 'to' to 'options'
     from = 'to'
+
+    -- proxy 'tag' as 'version' for lazy.nvim if value have '*' in it
+    --       'tag' as 'tag'     for lazy.nvim if value does not have '*' in it
+    --       'tag' as 'tag'     for pckr.nvim
+    -- but don't proxy for any other backend
+    from = function ()
+      if backend == 'lazy.nvim' then
+        if string.match(value, '*') then
+          return 'version'
+        else
+          return 'tag'
+        end
+      elseif backend == 'pckr.nvim' then
+        return 'tag'
+      end
+    end
   }
 end)
 ```
