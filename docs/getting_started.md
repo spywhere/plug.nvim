@@ -38,6 +38,12 @@ plug.setup {
     -- your backend configurations can go here
   },
   -- the rest of plug.nvim configurations can go here
+
+  -- recommended extensions
+  extensions = {
+      -- perform automatic installation of plugin manager and any missing plugins
+      plug.extension.auto_install {}
+  },
 }
 
 -- a simple installation of a plugin
@@ -78,6 +84,12 @@ plug.begin {
     -- your backend configurations can go here
   },
   -- the rest of plug.nvim configurations can go here
+
+  -- recommended extensions
+  extensions = {
+      -- perform automatic installation of plugin manager and any missing plugins
+      plug.extension.auto_install {}
+  },
 }
 
 -- a simple installation of a plugin
@@ -127,6 +139,12 @@ plug.setup(
       -- your backend configurations can go here
     },
     -- the rest of plug.nvim configurations can go here
+
+    -- recommended extensions
+    extensions = {
+        -- perform automatic installation of plugin manager and any missing plugins
+        plug.extension.auto_install {}
+    },
   },
   function (use)
     -- a simple installation of a plugin
@@ -202,6 +220,12 @@ plug.setup {
     -- your backend configurations can go here
   },
   -- the rest of plug.nvim configurations can go here
+
+  -- recommended extensions
+  extensions = {
+      -- perform automatic installation of plugin manager and any missing plugins
+      plug.extension.auto_install {}
+  },
 }
 ```
 
