@@ -24,7 +24,7 @@ For even more automatic, check out
 # Getting Started
 
 plug.nvim gives you an ability to configure the plugin in 4 different ways so
-you can choose the one that suit your workflow best.
+you can choose the one that suit your workflow best (and ease the migration).
 
 ## Setup 1 - Recommended Way
 
@@ -121,10 +121,6 @@ plug.ended()
 
 local plug = require('plug')
 
--- use the following if you want to use the default configurations
---   plug.setup(function (use)
---     ... plugins go here ...
---   end)
 plug.setup(
   {
     backend = plug.backend.your_preferred_backend {  -- your preferred backend goes here
