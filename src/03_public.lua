@@ -11,7 +11,9 @@ M.begin = function (options)
     update_branch = { opts.update_branch, 's', true }
   }
 
-  if not opts.backend then
+  if type(opts.backend) == 'table' then
+    P.backend = opts.backend
+  elseif not opts.backend then
     local backends = vim.tbl_keys(B)
     table.sort(backends)
     P.print(
@@ -19,8 +21,6 @@ M.begin = function (options)
       table.concat(backends, ', ')
     )
     return
-  elseif type(opts.backend) == 'table' then
-    P.backend = opts.backend
   else
     -- deprecated
     local backendfn = B[opts.backend]
