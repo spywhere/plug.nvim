@@ -1,5 +1,7 @@
 # plug.nvim
 
+[![GitHub Tag](https://img.shields.io/github/v/tag/spywhere/plug.nvim?logo=github)](/CHANGELOG.md)
+
 An extensible layer for plugin management in pure lua.
 
 Thus this plugin is not a plugin manager, so a plugin manager backend will
