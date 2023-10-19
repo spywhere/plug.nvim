@@ -31,7 +31,7 @@ preview: header $(SOURCES) $(BACKENDS) $(EXTENSIONS) footer
 
 compile:
 	@$(MAKE) preview > $(TEMPDIR)/$(OUTPUT)
-	@CHECKSUM="$$(sha512sum $(TEMPDIR)/$(OUTPUT) | cut -d' ' -f1)" && \
+	@CHECKSUM="$$(b2sum -l 256 $(TEMPDIR)/$(OUTPUT) | cut -d' ' -f1)" && \
 	sed "s/\"$(PLACEHOLDER)\"/\"$$CHECKSUM\"/g" $(TEMPDIR)/$(OUTPUT) > $(OUTPUT)
 
 backend.%:
