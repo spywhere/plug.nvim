@@ -50,7 +50,17 @@ M.begin = function (options)
     type(P.backend.name) ~= 'string' or
     type(P.backend.setup) ~= 'function'
   then
-    P.print('Backend \'%s\' is not a valid backend', opts.backend)
+    P.backend = nil
+    if type(opts.backend) == 'table' then
+      P.print(
+        'Backend %s is not a valid backend',
+        opts.backend.name and string.format(
+          '\'%s\'', opts.backend.name
+        ) or 'given'
+      )
+    else
+      P.print('Backend \'%s\' is not a valid backend', opts.backend)
+    end
     return
   end
 
