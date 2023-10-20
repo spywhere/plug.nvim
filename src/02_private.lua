@@ -2,8 +2,9 @@ P.rawprint = function (format, ...)
   vim.cmd('redraw')
   vim.notify(string.format(format, ...), vim.log.levels.INFO)
 end
+
 P.print = function (format, ...)
-  return P.rawprint('plug.nvim: %s', format, ...)
+  return P.rawprint(string.format('plug.nvim: %s', format), ...)
 end
 
 P.for_each = function (fn, mutable)
