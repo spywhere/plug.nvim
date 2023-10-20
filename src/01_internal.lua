@@ -9,3 +9,15 @@ i.generator = function (fn, default)
     end
   end)(default)
 end
+
+i.soft_table = function (fn)
+  return setmetatable({}, {
+    __index = function(self, k)
+      local value = rawget(self, k)
+      if not value then
+        return fn(k)
+      end
+      return value
+    end
+  })
+end
