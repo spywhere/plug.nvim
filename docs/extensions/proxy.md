@@ -1,4 +1,4 @@
-# Skip Extension
+# Proxy Extension
 
 This extension will allow you to proxy a specific key in plugin configurations
 as one of the `options`, plugin manager options for the plugin
