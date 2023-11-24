@@ -32,7 +32,9 @@ B.lazy = function (ctx)
   end
 
   M.setup = function (name, options)
-    options[1] = name
+    if name then
+      options[1] = name
+    end
     table.insert(M.plugins, options)
   end
 

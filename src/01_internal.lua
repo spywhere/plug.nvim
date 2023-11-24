@@ -1,3 +1,13 @@
+i.uuid = function ()
+  local template = 'xxxx-yyyy-xxxx-yyyy'
+  return string.gsub(template, '[xy]', function (c)
+    return string.format(
+      '%x',
+      c == 'x' and math.random(0, 0xf) or math.random(8, 0xb)
+    )
+  end)
+end
+
 i.recurse = function (fn)
   return (function (next) return next(next) end)(fn)
 end

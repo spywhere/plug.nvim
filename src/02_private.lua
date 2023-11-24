@@ -106,7 +106,7 @@ P.schedule_lazy = function ()
     for _, plugin in ipairs(P.lazy) do
       vim.defer_fn(function ()
         if P.backend.lazy.load then
-          P.backend.lazy.load(plugin.name)
+          P.backend.lazy.load(plugin)
         end
 
         vim.defer_fn(function ()
@@ -199,22 +199,27 @@ P.to_plugin = function (plugin, options)
     for k, v in pairs(name) do
       if type(k) == 'string' then
         definition[k] = v
-      else
+      elseif type(v) == 'string' then
         name = v
       end
     end
+  end
 
-    if type(name) ~= 'string' then
-      name = definition.name or definition.url or definition.dir
-    end
+  local identifier = name
+  if type(identifier) ~= 'string' then
+    identifier = (
+      definition.id or definition.name or definition.url or definition.dir or
+      i.uuid()
+    )
   end
 
   definition.name = name
+  definition.id = identifier
   return definition
 end
 
 P.plugin_mutator = function (plugin)
-  P.plugs_container[plugin.name] = {
+  P.plugs_container[plugin.id] = {
     plugin = plugin
   }
 
@@ -228,7 +233,7 @@ P.plugin_mutator = function (plugin)
 end
 
 P.add_plugin = function (plugin, mutator)
-  local containment = P.plugs_container[plugin.name]
+  local containment = P.plugs_container[plugin.id]
 
   local new_plugin = plugin
   if mutator then
@@ -258,7 +263,7 @@ P.add_plugin = function (plugin, mutator)
     return
   end
 
-  P.plugs_container[plugin.name] = {
+  P.plugs_container[plugin.id] = {
     plugin = new_plugin
   }
 end
@@ -272,13 +277,13 @@ P.hold_plugin = function (mutator, ...)
     mutator = function (v) return v end
   end
 
-  local containment = P.plugs_container[plugin.name]
+  local containment = P.plugs_container[plugin.id]
   if containment then
-    P.plugs_container[plugin.name].mutator = mutator
+    P.plugs_container[plugin.id].mutator = mutator
   end
   P.add_plugin(plugin)
   if not containment then
-    P.plugs_container[plugin.name] = {
+    P.plugs_container[plugin.id] = {
       plugin = plugin,
       index = #(P.plugs),
       mutator = mutator

@@ -27,8 +27,8 @@ X.config = setmetatable({
         end
 
         local configs = rawget(self, 'configs')
-        configs[plugin.name] = plugin.config
-        options['conf'] = plugin.name
+        configs[plugin.id] = plugin.config
+        options['conf'] = plugin.id
       end
     end
 

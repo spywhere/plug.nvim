@@ -226,7 +226,7 @@ X.auto_install = function (options)
               vim.notify(string.format(
                 '[%s] Plugin "%s" has an error during post installation:\n%s',
                 'plug.nvim',
-                plugin.name,
+                plugin.id,
                 ctx.stderr
               ), vim.log.levels.ERROR)
             end
@@ -234,7 +234,7 @@ X.auto_install = function (options)
               vim.notify(string.format(
                 '[%s] Plugin "%s" has an output during post installation:\n%s',
                 'plug.nvim',
-                plugin.name,
+                plugin.id,
                 ctx.stdout
               ), vim.log.levels.INFO)
             end

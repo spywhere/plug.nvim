@@ -72,7 +72,9 @@ B.packer = function (ctx)
   end
 
   M.setup = function (name, options)
-    options[1] = name
+    if name then
+      options[1] = name
+    end
     require('packer').use(options)
   end
 

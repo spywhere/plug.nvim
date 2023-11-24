@@ -46,8 +46,8 @@ B.vim_plug = function (ctx)
     setup = function (_, options)
       options.on = {}
     end,
-    load = function (name)
-      return plug'load'(vim.fn.fnamemodify(name, ':t:s?\\.git$??'))
+    load = function (plugin)
+      return plug'load'(vim.fn.fnamemodify(plugin.name, ':t:s?\\.git$??'))
     end
   }
 

@@ -29,8 +29,8 @@ X.setup = setmetatable({
         end
 
         local setups = rawget(self, 'setups')
-        setups[plugin.name] = plugin.setup
-        options['preconfigure'] = plugin.name
+        setups[plugin.id] = plugin.setup
+        options['preconfigure'] = plugin.id
       end
     end
 

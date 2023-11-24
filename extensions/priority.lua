@@ -18,7 +18,7 @@ P.reorder_sequence = function (key, plugins)
     end
   end
   local insert = function (plugin)
-    local containment = container[plugin.name]
+    local containment = container[plugin.id]
 
     if containment == nil then
       table.insert(output, plugin)
@@ -26,7 +26,7 @@ P.reorder_sequence = function (key, plugins)
       table.insert(output, containment, plugin)
     end
 
-    container[plugin.name] = true
+    container[plugin.id] = true
   end
 
   for _, plugin in ipairs(plugins) do

@@ -219,6 +219,8 @@ A table containing a plugin definition
 {
   -- a name of plugin passed from the `setup`, `plug.install` or `use` function
   name = '',
+  -- a plugin identifier, useful for using as a key to indicate a plugin
+  id = '',
   -- a boolean value to indicated if this plugin will be lazy loaded
   lazy = false,
   -- a table of plugin options that will be passed to plugin manager

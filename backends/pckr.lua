@@ -36,14 +36,14 @@ B.pckr = function (ctx)
         return
       end
       options.cond = function (load_plugin)
-        if not loaders[plugin.name] then
-          loaders[plugin.name] = load_plugin
+        if not loaders[plugin.id] then
+          loaders[plugin.id] = load_plugin
         end
       end
     end,
     load = function (plugin)
-      if loaders[plugin] then
-        loaders[plugin]()
+      if loaders[plugin.id] then
+        loaders[plugin.id]()
       end
     end
   }
@@ -55,7 +55,9 @@ B.pckr = function (ctx)
   end
 
   M.setup = function (name, options)
-    options[1] = name
+    if name then
+      options[1] = name
+    end
     require('pckr').add(options)
   end
 

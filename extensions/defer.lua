@@ -41,14 +41,14 @@ X.defer = setmetatable({
 
         if type(plugin.defer) == 'function' then
           local defers = rawget(self, 'defers')
-          defers[plugin.name] = plugin.defer
-          options['defer'] = plugin.name
+          defers[plugin.id] = plugin.defer
+          options['defer'] = plugin.id
         end
 
         if type(plugin.delay) == 'function' then
           local delays = rawget(self, 'delays')
-          delays[plugin.name] = plugin.delay
-          options['delay'] = plugin.name
+          delays[plugin.id] = plugin.delay
+          options['delay'] = plugin.id
         end
       end
     end
