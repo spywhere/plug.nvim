@@ -27,6 +27,11 @@ However, the power of this plugin will reside in the extensions its included.
 }
 ```
 
+For backend and extension configurations, check out one of these
+
+- [Backends](/docs/backends)
+- [Extensions](/docs/extensions)
+
 # Upgrade
 
 To manually upgrade only plug.nvim, use `:lua PlugUpgrade()`.
