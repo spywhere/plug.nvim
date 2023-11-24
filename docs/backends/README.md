@@ -1,8 +1,9 @@
 # Backends
 
-With plug.nvim flexible design, you can switch your plugin manager backend to
-your liking. You can even adopt a new fancy plugin manager by simply switch
-the backend[^1], making plugin manager migration much less painful.
+With plug.nvim [flexible design](/docs/design-principles.md), you can switch
+your plugin manager backend to your liking. You can even adopt a new fancy
+plugin manager by simply switch the backend[^1], making plugin manager
+migration much less painful.
 
 [^1]: Any plugin `options` that are set will required a manual migration
 

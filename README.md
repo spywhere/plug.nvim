@@ -15,6 +15,7 @@ installed.
 * [Configurations and Upgrade](/docs/configurations.md)
 * [Backends](/docs/backends)
 * [Extensions](/docs/extensions)
+* [Design Principles](/docs/design-principles.md)
 
 ## Features
 
