@@ -106,7 +106,7 @@ P.schedule_lazy = function ()
     for _, plugin in ipairs(P.lazy) do
       vim.defer_fn(function ()
         if P.backend.lazy.load then
-          P.backend.lazy.load(plugin.identifier)
+          P.backend.lazy.load(plugin.name)
         end
 
         vim.defer_fn(function ()
@@ -210,7 +210,6 @@ P.to_plugin = function (plugin, options)
   end
 
   definition.name = name
-  definition.identifier = vim.fn.fnamemodify(name, ':t:s?\\.git$??')
   return definition
 end
 

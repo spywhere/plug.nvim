@@ -36,8 +36,8 @@ B.pckr = function (ctx)
         return
       end
       options.cond = function (load_plugin)
-        if not loaders[plugin.identifier] then
-          loaders[plugin.identifier] = load_plugin
+        if not loaders[plugin.name] then
+          loaders[plugin.name] = load_plugin
         end
       end
     end,

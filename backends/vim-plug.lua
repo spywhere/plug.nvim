@@ -46,7 +46,9 @@ B.vim_plug = function (ctx)
     setup = function (_, options)
       options.on = {}
     end,
-    load = plug'load'
+    load = function (name)
+      return plug'load'(vim.fn.fnamemodify(name, ':t:s?\\.git$??'))
+    end
   }
 
   M.pre_setup = function ()
