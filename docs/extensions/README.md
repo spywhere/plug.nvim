@@ -6,7 +6,6 @@ plug.nvim comes bundled with some set of extensions
 installation and auto installation for missing plugins
 - [`config`](/docs/extensions/config.md): Add a support for per-plugin configuration closure
 - [`defer`](/docs/extensions/defer.md): Add a support for per-plugin deferred configurations
-- [`needs`](/docs/extensions/needs.md): Add a support for global variable requirements for plugin
 - [`priority`](/docs/extensions/priority.md): Add a support for plugin loading priority and sequencing
 - [`proxy`](/docs/extensions/proxy.md): Add a support for proxy plugin configurations to backend's plugin options
 - [`requires`](/docs/extensions/requires.md): Add a support for plugin requirements
