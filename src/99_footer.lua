@@ -1,4 +1,8 @@
 M.extension = X
 M.backend = B
 
-return M
+return setmetatable(M, {
+  __call = function (_, ...)
+    return M.install(...)
+  end
+})

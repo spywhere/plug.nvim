@@ -75,9 +75,6 @@ plug.setup {
 -- vim.cmd('packadd! plug.nvim')
 
 local plug = require('plug')
--- pass a reference to a variable so it resemble more
---   like a vim-plug
-local Plug = plug.install
 
 plug.begin {
   backend = plug.backend.your_preferred_backend {  -- your preferred backend goes here
@@ -94,14 +91,14 @@ plug.begin {
 
 -- a simple installation of a plugin
 --   the format is exact to that in its plugin manager backend
-Plug 'user/repo'
+plug 'user/repo'
 
 -- or can use plug.install() directly without a helper
 --   function needed
-Plug 'https://github.com/user/repo.git'
+plug.install 'https://github.com/user/repo.git'
 
 -- to install a plugin with options, use table instead
-Plug {
+plug {
   'user/repo',
   options = {
     -- plugin manager options for the plugin go here
@@ -110,7 +107,7 @@ Plug {
 }
 
 -- or use a regular function call with 2 arguments
-Plug(
+plug(
   'user/repo', {
     -- set to `true`, to lazily load this plugin
     lazy = true,
