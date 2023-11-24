@@ -34,31 +34,6 @@ For backend and extension configurations, check out one of these
 
 # Upgrade
 
-To manually upgrade only plug.nvim, use `:lua PlugUpgrade()`.
+To upgrade plug.nvim, use `:lua PlugUpgrade()`.
 
-To manually upgrade only, refers to the plugin manager documentations.
-
-## vim-plug Injection (Deprecated)
-
-plug.nvim can inject itself into vim-plug upgrade process, this is to allow
-plug.nvim to perform an upgrade to both plug.nvim and vim-plug in a single
-step.
-
-To let plug.nvim inject the upgrade, you need to setup plug.nvim as one of
-your plugin list.
-
-```lua
-require('plug').setup {}
-
--- name must be exact, but could be in any position
---   any plugin option will be ignored
-'spywhere/plug.nvim'
-
-''
-```
-
-Once you have the plugin setup, plug.nvim will create a command abbreviation
-for `:PlugUpgrade`. So when you run `:PlugUpgrade`, it will perform both
-plug.nvim and vim-plug upgrade automatically.
-
-To manually upgrade only vim-plug in this case, use `: PlugUpgrade`.
+To upgrade plugin manager backend, refers to the plugin manager documentations.

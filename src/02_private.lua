@@ -24,23 +24,6 @@ P.auto = function (event, func)
   })
 end
 
-P.inject_command = function (cmd, expr)
-  local expression = {
-    'cnoreabbrev',
-    cmd,
-    '<c-r>=(getcmdtype()==\':\'',
-    '&&',
-    'getcmdpos()==1',
-    '?',
-    string.format('\'%s \\| %s\'', expr, cmd),
-    ':',
-    string.format('\'%s\'', cmd),
-    ')<cr>'
-  }
-
-  vim.api.nvim_exec(table.concat(expression, ' '), false)
-end
-
 P.has_hook = function (event)
   return P.hooks[event] and next(P.hooks[event])
 end
@@ -202,14 +185,6 @@ P.functions = {
 P.setup_functions = function ()
   for name, fn in pairs(P.functions) do
     _G[name] = fn
-  end
-end
-
-P.setup_injections = function ()
-  if P.inject_cmds then
-    for name, _ in pairs(P.functions) do
-      P.inject_command(name, string.format('lua %s()', name))
-    end
   end
 end
 

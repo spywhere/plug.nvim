@@ -13,7 +13,6 @@ local P = { -- private
   extensions = {},
   ext_context = {},
   use_api = true,
-  inject_cmds = false,
   lazy_delay = 100,
   lazy_interval = 10,
   delay_post = 5

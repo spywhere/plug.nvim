@@ -102,11 +102,10 @@ end
 M.install = function (...)
   local definition = P.to_plugin(...)
 
-  -- if plugin is this plugin, then inject upgrade function
+  -- if plugin is this plugin, do nothing and explain how to upgrade instead
   if definition.name == 'spywhere/plug.nvim' then
-    P.inject_cmds = true
     P.print(
-      '[Deprecated] Upgrade command injection is no longer support'
+      'use \':lua PlugUpgrade()\' to upgrade plug.nvim'
     )
     return
   end
@@ -115,9 +114,7 @@ M.install = function (...)
 end
 
 M.ended = function ()
-  if not P.backend then
-    return
-  elseif vim.fn.has('nvim') == 0 then
+  if vim.fn.has('nvim') == 0 then
     P.rawprint('plug.nvim only supported in neovim')
     return
   elseif vim.fn.has('nvim-0.7.0') == 0 then
@@ -126,6 +123,10 @@ M.ended = function ()
   end
 
   P.setup_functions()
+
+  if not P.backend then
+    return
+  end
 
   if P.use_api then
     P.plugs_container = {}
@@ -159,8 +160,6 @@ M.ended = function ()
   if next(P.lazy) then
     vim.defer_fn(P.schedule_lazy, P.lazy_delay)
   end
-
-  P.setup_injections()
 
   P.dispatch('done')
 
