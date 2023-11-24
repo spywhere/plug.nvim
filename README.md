@@ -10,8 +10,8 @@ installed.
 
 ## Shortcuts
 
-* [Getting Started](/docs/getting_started.md)
-* [Breaking Changes](/docs/breaking_changes.md)
+* [Getting Started](/docs/getting-started.md)
+* [Breaking Changes](/docs/breaking-changes.md) / [Change Log](/CHANGELOG.md)
 * [Configurations and Upgrade](/docs/configurations.md)
 * [Backends](/docs/backends)
 * [Extensions](/docs/extensions)
