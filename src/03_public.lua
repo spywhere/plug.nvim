@@ -22,45 +22,21 @@ M.begin = function (options)
     )
     return
   else
-    -- deprecated
-    local backendfn = B[opts.backend]
-
-    if not backendfn then
-      P.print('Unsupported backend: %s', opts.backend)
-      return
-    end
-
-    local is_ok, backend = pcall(backendfn, opts.options)
-    if not is_ok then
-      P.print(
-        'Unable to use a backend \'%s\':\n%s',
-        opts.backend, vim.inspect(error)
-      )
-      return
-    else
-      P.backend = backend
-      P.print(
-        '[Deprecated] Backend setting through string is now deprecated'
-      )
-    end
+    P.print('Expected a valid backend, got %s instead', type(opts.backend))
+    return
   end
 
   if
-    type(P.backend) ~= 'table' or
     type(P.backend.name) ~= 'string' or
     type(P.backend.setup) ~= 'function'
   then
     P.backend = nil
-    if type(opts.backend) == 'table' then
-      P.print(
-        'Backend %s is not a valid backend',
-        opts.backend.name and string.format(
-          '\'%s\'', opts.backend.name
-        ) or 'given'
-      )
-    else
-      P.print('Backend \'%s\' is not a valid backend', opts.backend)
-    end
+    P.print(
+      'Backend %s is not a valid backend',
+      opts.backend.name and string.format(
+        '\'%s\'', opts.backend.name
+      ) or 'given'
+    )
     return
   end
 
