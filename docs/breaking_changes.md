@@ -2,6 +2,18 @@
 
 Check out [change log](/CHANGELOG.md) for extensive list of changes.
 
+## Important Notice
+
+Until v1.0.0 is release, please do expected a breaking change to happen
+occationally. When such change is to be expected, a deprecation notice will
+be release one MINOR version before.
+
+## 2023-11-25
+
+- (removed) `needs`: Extension is no longer available.
+- (removed) Upgrade command injections are no longer available.
+- (removed) `backend`: backend is no longer accepts string.
+
 ## 2023-10-11
 
 - (deprecated) `needs`: Due to its niche usages and how easy it could be
@@ -17,7 +29,7 @@ one of the backend available through `require('plug').backend` instead.
 ## 2023-07-01
 
 - (requirement) `backend`: backend is no longer an optional nor
-opinionated by default
+opinionated by default.
 - (removed) `plugin_dir`: backend specific configurations are now named
 as `options`.
 
