@@ -41,7 +41,7 @@ compil%:
 backend.%:
 	@sed 's/plug\.backend/plug.$@/g' $(TEMPDIR)/test.lua > $(TEMPDIR)/init.lua
 
-init-%:
+init:
 	$(eval OUTPUTPATH="$(DATAPATH)/$(TESTNAME)/site/pack/plug/opt/plug.nvim/lua/")
 	@mkdir -p "$(OUTPUTPATH)"
 
@@ -63,6 +63,6 @@ drytest-%: tests/init backend.% compile
 run-%:
 	@NVIM_APPNAME="$(TESTNAME)" nvim
 
-test-auto-%: tests/auto backend.% compile init-data run-test clean-data;
+test-auto-%: tests/auto backend.% compile init run-test clean-data;
 
-test-%: init-data tests/init backend.% compile run-test clean-data;
+test-%: init tests/init backend.% compile run-test clean-data;
