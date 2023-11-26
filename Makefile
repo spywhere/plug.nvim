@@ -1,11 +1,15 @@
 SOURCES:=$(sort $(wildcard src/*.lua))
 BACKENDS:=$(sort $(wildcard backends/*.lua))
 EXTENSIONS:=$(sort $(wildcard extensions/*.lua))
+OUTPUTPATH:=
 OUTPUT:=plug.lua
 TEMPDIR:=$(shell mktemp -d)
 PLACEHOLDER=to be calculated at compile time
+CONFIGPATH=$$$$HOME/.config
+DATAPATH=$$$$HOME/.local/share
+TESTNAME=plug.nvim
 
-.PHONY: %.lua plug.lua src/00_header.lua src/99_footer.lua
+.PHONY: %.lua plug.lua src/00_header.lua src/99_footer.lua test-auto-% test-%
 
 $(SOURCES): %.lua
 $(BACKENDS): %.lua
@@ -29,16 +33,26 @@ footer:
 
 preview: header $(SOURCES) $(BACKENDS) $(EXTENSIONS) footer
 
-compile:
+compil%:
 	@$(MAKE) preview > $(TEMPDIR)/$(OUTPUT)
 	@CHECKSUM="$$(b2sum -l 256 $(TEMPDIR)/$(OUTPUT) | cut -d' ' -f1)" && \
-	sed "s/\"$(PLACEHOLDER)\"/\"$$CHECKSUM\"/g" $(TEMPDIR)/$(OUTPUT) > $(OUTPUT)
+	sed "s/\"$(PLACEHOLDER)\"/\"$$CHECKSUM\"/g" $(TEMPDIR)/$(OUTPUT) > $(OUTPUTPATH)$(OUTPUT)
 
 backend.%:
 	@sed 's/plug\.backend/plug.$@/g' $(TEMPDIR)/test.lua > $(TEMPDIR)/init.lua
 
+init-%:
+	$(eval OUTPUTPATH="$(DATAPATH)/$(TESTNAME)/site/pack/plug/opt/plug.nvim/lua/")
+	@mkdir -p "$(OUTPUTPATH)"
+
 tests/%:
-	@cat $@.lua > $(TEMPDIR)/test.lua
+	$(eval TEMPDIR="$(CONFIGPATH)/$(TESTNAME)")
+	@mkdir -p "$(TEMPDIR)"
+	@cat "$@.lua" > "$(TEMPDIR)/test.lua"
+
+clean-%:
+	@rm -rf "$(TEMPDIR)"
+	@rm -rf "$(OUTPUTPATH)"
 
 drytest-auto-%: tests/auto backend.% compile
 	@cat $(TEMPDIR)/init.lua
@@ -46,8 +60,9 @@ drytest-auto-%: tests/auto backend.% compile
 drytest-%: tests/init backend.% compile
 	@cat $(TEMPDIR)/init.lua
 
-test-auto-%: tests/auto backend.% compile
-	nvim -u $(TEMPDIR)/init.lua
+run-%:
+	@NVIM_APPNAME="$(TESTNAME)" nvim
 
-test-%: tests/init backend.% compile
-	nvim -u $(TEMPDIR)/init.lua
+test-auto-%: tests/auto backend.% compile init-data run-test clean-data;
+
+test-%: init-data tests/init backend.% compile run-test clean-data;
