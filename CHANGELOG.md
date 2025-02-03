@@ -1,3 +1,14 @@
+## [0.4.0](https://github.com/spywhere/plug.nvim/compare/v0.3.0...v0.4.0) (2025-02-03)
+
+
+### Features
+
+* **needs:** remove needs extension ([ca4a8ec](https://github.com/spywhere/plug.nvim/commit/ca4a8ec271de6fba046ed6d0ebaf858052b3bb64))
+* **plug:** a neater way to install plugin in vim-plug like fashion ([06d6fc6](https://github.com/spywhere/plug.nvim/commit/06d6fc671d566870a42750426e3c04cdd462324f))
+* **plug:** remove string backend support ([119ac04](https://github.com/spywhere/plug.nvim/commit/119ac0428cd5242d2d57a7c875f287d3d32c1330))
+* **plug:** remove upgrade injection ([d7c7eb9](https://github.com/spywhere/plug.nvim/commit/d7c7eb927fb861b21ea6f6d6433b0f6464468b3b))
+* **plug:** use plugin identifier instead of name where possible ([03901a7](https://github.com/spywhere/plug.nvim/commit/03901a704c6a4e369161d35a67f8840e4a708851))
+
 ## [0.3.0](https://github.com/spywhere/plug.nvim/compare/v0.2.1...v0.3.0) (2023-11-24)
 
 
