@@ -8,7 +8,16 @@ X.skip = function (options)
         local behaviors = {
           'disable', 'remove'
         }
-        return type(v) == 'string' and vim.list_contains(behaviors, v)
+
+        if type(v) ~= 'string' then
+          return false, string.format('expected a string, got %s instead', type(v))
+        end
+
+        if not vim.list_contains(behaviors, v) then
+          return false, string.format('expected value to be one of these: %s', table.concat(behaviors, ', '))
+        end
+
+        return true
       end,
       true
     }
