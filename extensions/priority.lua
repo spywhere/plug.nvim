@@ -60,7 +60,7 @@ X.priority = function (options)
     after = 'after'
   })
 
-  local function sort_priority(ctx, plugs)
+  local function sort_priority(_, plugs)
     if opts.priority and opts.priority ~= '' then
       table.sort(plugs, P.priority_sorter(opts.priority))
     end
