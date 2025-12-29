@@ -6,7 +6,6 @@ module.exports = {
     'scope-empty': [2, 'never'],
     'scope-enum': [2, 'always', [
       'backend',
-      'breaking-changes',
       'commitlint',
       'env',
       'extension',
@@ -16,6 +15,22 @@ module.exports = {
       'public',
       'readme',
       'release',
+
+      // backends
+      'lazy',
+      'packer',
+      'pckr',
+      'vim-plug',
+
+      // extensions
+      'auto-install',
+      'config',
+      'defer',
+      'priority',
+      'proxy',
+      'requires',
+      'setup',
+      'skip',
     ]],
   }
 };

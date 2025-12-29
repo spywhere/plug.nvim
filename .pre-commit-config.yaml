@@ -3,7 +3,7 @@
 default_stages: [pre-commit, pre-push]
 repos:
 - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-  rev: v9.20.0
+  rev: v9.23.0
   hooks:
   - id: commitlint
     stages: [commit-msg]
@@ -12,7 +12,7 @@ repos:
     - conventional-changelog-conventionalcommits
 
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v5.0.0
+  rev: v6.0.0
   hooks:
   - id: check-executables-have-shebangs
   - id: check-json
