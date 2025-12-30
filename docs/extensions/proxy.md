@@ -1,15 +1,15 @@
 # Proxy Extension
 
 This extension will allow you to proxy a specific key in plugin configurations
-as one of the `options`, plugin manager options for the plugin
+as one of the `options`, plugin manager options for the plugin.
 
 **Note** that this extension does not verify the options supported by the
-backend. It simply proxy plugin configurations to `options`
+backend. It simply proxy plugin configurations to `options`.
 
 ## Compatibility
 
 This plugin does not depends on any specific backend, so it works with any
-backend
+backend.
 
 ## Configurations
 
@@ -97,8 +97,8 @@ require('plug').setup {}
 
 ## Event Handling
 
-The extension will use the following events for its functionality
+The extension will use the following events for its functionality.
 
 ### `plugin_options`
 
-Perform proxy for option keys
+Perform proxy for option keys.

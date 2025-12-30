@@ -1,6 +1,6 @@
 # Config Extension
 
-This extension will allow you to configure your plugin using a closure
+This extension will allow you to configure your plugin using a closure.
 
 ## Compatibility
 
@@ -33,8 +33,8 @@ require('plug').setup {}
 
 ## Event Handling
 
-The extension will use the following events for its functionality
+The extension will use the following events for its functionality.
 
 ### `plugin_post`
 
-Check and perform a plugin configuration closure
+Check and perform a plugin configuration closure.

@@ -1,7 +1,7 @@
 # Setup Extension
 
 This extension will allow you to configure your plugin before it going to be
-loaded using a closure
+loaded using a closure.
 
 ## Compatibility
 
@@ -34,8 +34,8 @@ require('plug').setup {}
 
 ## Event Handling
 
-The extension will use the following events for its functionality
+The extension will use the following events for its functionality.
 
 ### `pre_setup`
 
-Check and perform a plugin setup closure
+Check and perform a plugin setup closure.

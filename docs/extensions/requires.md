@@ -1,8 +1,8 @@
 # Requires Extension
 
-This extension will allow you to specified plugin requirements for a plugin
+This extension will allow you to specified plugin requirements for a plugin.
 
-**Note** that nested requirements are not yet supported
+**Note** that nested requirements are not yet supported.
 
 ## Compatibility
 
@@ -70,9 +70,9 @@ require('plug').setup {}
 
 ## Event Handling
 
-The extension will use the following events for its functionality
+The extension will use the following events for its functionality.
 
 ### `plugin`
 
 Check if the plugin is optional, if so prevent the plugin from loading. If
-required or not specified, it will load other required plugins if needed
+required or not specified, it will load other required plugins if needed.

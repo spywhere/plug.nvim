@@ -1,7 +1,7 @@
 # Auto Install Extension
 
 This extension will automatically install plugin manager and any missing
-plugins during neovim start up
+plugins during neovim start up.
 
 ## Compatibility
 
@@ -27,7 +27,7 @@ require('plug').extension.auto_install {
 
 ## Event Handling
 
-The extension will use the following events for its functionality
+The extension will use the following events for its functionality.
 
 ### `setup`
 

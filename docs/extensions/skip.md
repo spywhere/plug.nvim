@@ -1,10 +1,10 @@
 # Skip Extension
 
 This extension will allow you to skip a plugin loading according to the
-condition specified
+condition specified.
 
 **Note** that this extension should go first in order to prevent other
-extensions to load a plugin
+extensions to load a plugin.
 
 ## Compatibility
 
@@ -27,7 +27,7 @@ require('plug').extension.skip {
 **Note** When plugins are disabled instead of removed, some callback extensions
 (such as 'setup' or 'defer') might still active for those plugins. If you wish
 to also disable those callbacks, setting the behavior to `remove` might give
-a desired effect
+a desired effect.
 
 ## Usage
 
@@ -47,12 +47,12 @@ require('plug').setup {}
 
 ## Event Handling
 
-The extension will use the following events for its functionality
+The extension will use the following events for its functionality.
 
 ### `plugin`
 
-Check if the plugin is being skipped, if so prevent the plugin from loading
+Check if the plugin is being skipped, if so prevent the plugin from loading.
 
 ### `plugin_options`
 
-Perform proxy for plugin disable options
+Perform proxy for plugin disable options.

@@ -1,12 +1,12 @@
 # Priority Extension
 
 This extension will allow you to configure a plugin loading priority and
-plugin sequencing
+plugin sequencing.
 
 ## Compatibility
 
 This plugin does not depends on any specific backend, so it works with any
-backend
+backend.
 
 ## Configurations
 
@@ -22,7 +22,7 @@ require('plug').extension.priority {
 ```
 
 **Tips:** Setting to an empty string might improve plugin processing
-performance when it is not necessary
+performance when it is not necessary.
 
 ## Usage
 
@@ -104,8 +104,8 @@ require('plug').setup {}
 
 ## Event Handling
 
-The extension will use the following events for its functionality
+The extension will use the following events for its functionality.
 
 ### `plugin_collected`
 
-Perform a plugin prioritization to make sure it being loaded in order
+Perform a plugin prioritization to make sure it being loaded in order.

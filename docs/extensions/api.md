@@ -1,14 +1,14 @@
 # Extension Authoring
 
-This document will guide you through various section of how extension works
+This document will guide you through various section of how extension works.
 
 Be sure to check out [built-in extensions](../../extensions) for some example
-usages
+usages.
 
 ## Basic Extension Structure
 
 An extension is simply a function that takes options from the user, then
-perform a hook on various life cycle of the plugin and its manager
+perform a hook on various life cycle of the plugin and its manager.
 
 ```lua
 local my_extension = function (options)
@@ -36,13 +36,13 @@ require('plug').setup {
 ## Extension Type and Ability
 
 An extension can be setup in 2 different ways depends on how your extension is
-going to behave
+going to behave.
 
 ### Extension that handle events
 
 If your extension only handle on specific events, your extension function
 could simply return a function that takes a 'hook' function and a backend
-'context'
+'context'.
 
 ```lua
 local my_extension = function (options)
@@ -53,13 +53,13 @@ end
 ```
 
 Be sure to take a look into [Hook Setup](#hook-setup) and
-[Backend Context](#backend-context) section below for more details
+[Backend Context](#backend-context) section below for more details.
 
 ### Extension that dispatch events
 
 If your extension expected to not only handle on specific events but also to
 dispatch a new event, your extension function should return a table with 2
-keys, 'name' and 'entry' respectively
+keys, 'name' and 'entry' respectively.
 
 ```lua
 local my_extension = function (options)
@@ -80,7 +80,7 @@ only the first extension will get loaded.
 
 Be sure to take a look into [Hook Setup](#hook-setup),
 [Backend Context](#backend-context) and [Event Dispatch](#event-dispatch)
-section below for more details
+section below for more details.
 
 ## Events
 
@@ -94,7 +94,7 @@ extension from handling the event.
 ### `plugin`
 
 Produced for each of the plugin user is setting up (either through `setup`
-call, `plug.install` or `use` function)
+call, `plug.install` or `use` function).
 
 **Parameters**:
 
@@ -117,12 +117,12 @@ type below)
 **Returns**:
 
 New plugin definitions, returns `nil` to keep the current plugin definitions
-or returns `false` to prevent the plugin from loading
+or returns `false` to prevent the plugin from loading.
 
 ### `plugin_collected`
 
 Produced when all plugin definitions has been collected, typically immediately
-after call `plug.ended` function
+after call `plug.ended` function.
 
 **Parameters**:
 
@@ -131,11 +131,11 @@ after call `plug.ended` function
 
 **Returns**:
 
-A new list of plugins, or returns `nil` to keep the current list
+A new list of plugins, or returns `nil` to keep the current list.
 
 ### `pre_setup`
 
-Produced right after `plugin_collected` event
+Produced right after `plugin_collected` event.
 
 **Parameters**:
 
@@ -146,7 +146,7 @@ Produced right after `plugin_collected` event
 
 ### `setup`
 
-Produced right after `pre_setup` event
+Produced right after `pre_setup` event.
 
 **Parameters**:
 
@@ -156,11 +156,11 @@ Produced right after `pre_setup` event
 **Returns**:
 
 Any value will be discarded, or returns `false` to prevent plug.nvim to
-proceed with the installation of all plugins
+proceed with the installation of all plugins.
 
 ### `plugin_options`
 
-Produced when plug.nvim try to setup a plugin through plugin manager
+Produced when plug.nvim try to setup a plugin through plugin manager.
 
 **Parameters**:
 
@@ -172,11 +172,11 @@ type below)
 
 **Returns**:
 
-New plugin options, or returns `nil` to keep the current plugin options
+New plugin options, or returns `nil` to keep the current plugin options.
 
 ### `post_setup`
 
-Produced when plug.nvim has setup all plugins
+Produced when plug.nvim has setup all plugins.
 
 **Parameters**:
 
@@ -187,11 +187,11 @@ Produced when plug.nvim has setup all plugins
 
 Any value will be discarded, or returns `false` to prevent plug.nvim to
 proceed with plugin configurations (note that plugins are still loaded but
-not get configured in this step)
+not get configured in this step).
 
 ### `plugin_post`
 
-Produced when a plugin has been loaded or lazy loaded
+Produced when a plugin has been loaded or lazy loaded.
 
 **Parameters**:
 
@@ -205,7 +205,7 @@ installation setup
 
 ### `done`
 
-Produced when plug.nvim has complete its plugin setups and configurations
+Produced when plug.nvim has complete its plugin setups and configurations.
 
 **Parameters**: _none_
 
@@ -213,7 +213,7 @@ Produced when plug.nvim has complete its plugin setups and configurations
 
 ### Plugin Definition
 
-A table containing a plugin definition
+A table containing a plugin definition.
 
 ```lua
 {
@@ -243,7 +243,7 @@ A table containing a plugin options to be passed to plugin manager, see
 Upon setup your extension, you should already have access to a `hook`
 function.
 
-This function will takes 2 parameters as follows
+This function will takes 2 parameters as follows.
 
 - `event`: An event name to be handled by the extension
 - `handler`: An event handler, which takes 'event context' (see
@@ -265,25 +265,25 @@ end
 ```
 
 Please see a note on event handling with multiple extensions in
-[Events](#events) section above
+[Events](#events) section above.
 
 ## Backend Context
 
 Backend context is simply an object set by the backend itself. All backend
-will have `backend` key to indicate which backend currently being used
+will have `backend` key to indicate which backend currently being used.
 
 ## Event Context
 
 Event context is simply a shared object to be used by the extension. This
 context object will be persist across life cycle of the extension, so it is
-a best place to store any state you might need for later use
+a best place to store any state you might need for later use.
 
 ## Event Dispatch
 
 With `dispatch` function available, your extension can notify another
 extension for certain events that might occurred by your extension.
 
-This function will takes an event name and event parameters as follows
+This function will takes an event name and event parameters as follows.
 
 - `event`: An event name to be handled by the extension
 - _rest of arguments_: Event parameters
