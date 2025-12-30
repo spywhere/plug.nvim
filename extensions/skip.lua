@@ -54,7 +54,7 @@ X.skip = function (options)
       return
     end
 
-    if ctx.backend == 'vim-plug' or ctx.backend == 'pckr.nvim' then
+    if ctx.backend == 'vim-plug' or ctx.backend == 'pckr.nvim' or ctx.backend == 'mini.deps' then
       hook('plugin', skip_plugin)
     elseif ctx.backend == 'packer.nvim' then
       hook('plugin_options', proxy_to_options('disable', false))

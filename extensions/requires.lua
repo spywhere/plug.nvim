@@ -32,6 +32,8 @@ X.requires = function ()
       hook('plugin_options', P.proxy_to_options('requires'))
     elseif ctx.backend == 'lazy.nvim' then
       hook('plugin_options', P.proxy_to_options('requires', 'dependencies'))
+    elseif ctx.backend == 'mini.deps' then
+      hook('plugin_options', P.proxy_to_options('requires', 'depends'))
     end
   end
 end

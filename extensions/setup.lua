@@ -35,7 +35,7 @@ X.setup = setmetatable({
     end
 
     return function (hook, ctx)
-      if ctx.backend == 'vim-plug' then
+      if ctx.backend == 'vim-plug' or ctx.backend == 'mini.deps' then
         hook('pre_setup', setup)
       elseif ctx.backend == 'packer.nvim' then
         hook('plugin_options', handle_to_options(ctx))

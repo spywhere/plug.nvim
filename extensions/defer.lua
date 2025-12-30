@@ -54,14 +54,10 @@ X.defer = setmetatable({
     end
 
     return function (hook, ctx)
-      if
-        ctx.backend == 'vim-plug' or
-        ctx.backend == 'lazy.nvim' or
-        ctx.backend == 'pckr.nvim'
-      then
-        hook('plugin_post', defer_plugin)
-      elseif ctx.backend == 'packer.nvim' then
+      if ctx.backend == 'packer.nvim' then
         hook('plugin_options', to_options(ctx))
+      else
+        hook('plugin_post', defer_plugin)
       end
     end
   end
