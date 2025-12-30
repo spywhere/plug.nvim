@@ -291,6 +291,27 @@ P.hold_plugin = function (mutator, ...)
   end
 end
 
+P.map_value = function (target, value, map)
+  if type(map) ~= 'table' then
+    return
+  end
+
+  for key, to in pairs(map) do
+    if (type(to) == 'function') then
+      to = to(value)
+    end
+
+    if type(to) == 'string' then
+      target[to] = value
+    elseif type(to) == 'table' then
+      if type(target[key]) ~= 'table' then
+        target[key] = {}
+      end
+      P.map_value(target[key], value, map[key])
+    end
+  end
+end
+
 P.proxy_key = function (plugin, options, from, to)
   if not plugin[from] then
     return
@@ -301,10 +322,11 @@ P.proxy_key = function (plugin, options, from, to)
   if type(to_key) == 'function' then
     to_key = to_key(value)
   end
-  if to_key == nil then
-    return
+  if type(to_key) == 'string' then
+    to_key = { to_key }
   end
-  options[to_key] = value
+
+  P.map_value(options, value, to_key)
 end
 
 P.proxy_to_options = function (from, to)
