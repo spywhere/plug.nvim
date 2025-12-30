@@ -14,7 +14,7 @@ migration much less painful.
 
 Alternatively, its full name can also be used, though it is more verbose.
 
-## Configure backend configurations
+## Configure Backend Configurations
 
 To configure your backend configurations, simply pass it through its function.
 
@@ -42,3 +42,9 @@ plug.setup {
   },
 }
 ```
+
+## Backend Authoring
+
+If you wish to implement your own backend, feel free to check out
+[how to build your own backend](/docs/backends/api.md). This should give
+you an overview of how backend works as well as what is available to you.
